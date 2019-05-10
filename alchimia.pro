@@ -26,16 +26,26 @@ CONFIG += c++11
 
 SOURCES += \
         arrow.cpp \
+        converter/example.cpp \
+        converter/graphModel.cpp \
+        converter/kerasConverter.cpp \
+        converter/pythonConverter.cpp \
         diagramitem.cpp \
         diagramscene.cpp \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        project/project.cpp
 
 HEADERS += \
         arrow.h \
+        converter/converter.h \
+        converter/exceptions.h \
+        converter/graphmodel.h \
+        converter/graphmodel_name.h \
         diagramitem.h \
         diagramscene.h \
-        mainwindow.h
+        mainwindow.h \
+        project/project.h
 
 FORMS += \
         mainwindow.ui
@@ -44,3 +54,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    converter/main
