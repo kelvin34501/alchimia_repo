@@ -2,14 +2,19 @@
 
 using namespace project;
 
+#include <QDebug>
+
 project_object::project_object(QString p, QString bkd)
 {
     if (p.isEmpty()) {
         // p is empty, then generate a random name
         for (int i=0; i<4000; i++) {
-            QString s = QString("%1.project").arg(i);
-            QDir tmp_dir(s);
-            if (!tmp_dir.exists()) {
+            QString cur_path = QDir::currentPath();
+            QString s = cur_path + QString("/%1.project").arg(i);
+            QFileInfo tmp_file_info(s);
+            qDebug() << tmp_file_info;
+            qDebug() << tmp_file_info.exists();
+            if (!tmp_file_info.exists()) {
                 p = s;
                 break;
             }
@@ -29,6 +34,9 @@ project_object::project_object(QString p, QString bkd)
         for (int j=0; j<100; j++)
             a.push_back(j);
         archive(cereal::make_nvp("aaa",a));
+
+        string sss = "fjkasfjkadsjf;adsj";
+        archive(cereal::make_nvp("ssss",sss));
     }
 }
 

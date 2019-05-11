@@ -6,11 +6,15 @@
 #include <vector>
 using std::string;
 using std::vector;
+using std::shared_ptr;
+using std::unique_ptr;
+using std::make_shared;
 
 #include <QString>
 #include <QDir>
 #include <cereal/cereal.hpp>
 #include <cereal/types/vector.hpp>
+#include <cereal/types/string.hpp>
 
 namespace converter {
 // temp workaround and breaks system
