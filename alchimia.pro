@@ -34,7 +34,8 @@ SOURCES += \
         diagramscene.cpp \
         main.cpp \
         mainwindow.cpp \
-        project/project.cpp
+        project/project_object.cpp \
+        project/sereialize.cpp
 
 HEADERS += \
         arrow.h \
@@ -45,15 +46,17 @@ HEADERS += \
         diagramitem.h \
         diagramscene.h \
         mainwindow.h \
-        project/project.h
+        project/project_object.h \
+        project/sereialize.h
 
 FORMS += \
         mainwindow.ui
+
+INCLUDEPATH += \
+        ../cereal/include
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    converter/main

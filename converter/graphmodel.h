@@ -25,10 +25,10 @@ public:
         is_output = io;
         shape = s;
         connection = nullptr;
-    };
+    }
     ~Port(){
         cout << "port deleted" << endl;
-    };
+    }
 };
 
 /* Connection declaration */
@@ -43,10 +43,10 @@ public:
         to_port = tp;
         // ports[0] = fp;
         // ports[1] = tp;
-    };
+    }
     ~Connection(){
         cout << "connection deleted" << endl;
-    };
+    }
 };
 
 /* Part declaration */
@@ -65,12 +65,12 @@ public:
         position_x = px;
         position_y = py;
         set_default_params();
-    };
+    }
     ~Part(){
         for(int j=0; j<2; j++)
         for(int i=0; i<ports[j].size(); i++) delete ports[j][i];
         cout << "part deleted" << endl;
-    };
+    }
     /* Add ports */
     void AddInputPort(string sh){
         Port *po = new Port(this, 0, sh);
