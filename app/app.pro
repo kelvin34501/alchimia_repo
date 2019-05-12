@@ -29,12 +29,10 @@ SOURCES += \
     converter/pythonConverter.cpp \
     diagramitem.cpp \
     diagramscene.cpp \
-    graphmodel/example.cpp \
     graphmodel/graphModel.cpp \
     main.cpp \
     mainwindow.cpp \
-    project/project_object.cpp \
-    project/sereialize.cpp
+    project/project_object.cpp
 
 HEADERS += \
     arrow.h \
@@ -45,7 +43,7 @@ HEADERS += \
     graphmodel/graphmodel_name.h \
     mainwindow.h \
     project/project_object.h \
-    project/sereialize.h \
+    project/sereialize.hpp \
     utils/configurations.h \
     utils/enum_cast.hpp \
     utils/exceptions.h \
