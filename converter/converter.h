@@ -5,7 +5,8 @@
 #include <string>
 #include <map>
 
-#include "graphmodel_name.h"
+#include "../graphmodel/graphmodel_name.h"
+#include "../utils/configurations.h"
 // #include "namedef.h"
 
 using namespace std;
@@ -20,9 +21,9 @@ enum Backend{
 /* Support basic python statement template */
 class PythonConverter{
 public:
-    virtual string getPythonFileModel(const GraphModel &gm, string archi_path="./model.json") = 0;
-    virtual string getPythonFileTrain(const GraphModel &gm) = 0;
-    virtual string getPythonFileTest(const GraphModel &gm) = 0;
+    virtual string getPythonFileModel(const GraphModel &gm, CompileCFG cfg) = 0;
+    virtual string getPythonFileTrain(const GraphModel &gm, TrainCFG cfg) = 0;
+    virtual string getPythonFileTest(const GraphModel &gm, TestCFG cfg) = 0;
     virtual ~PythonConverter() {};
     string test_base_converter();
 protected:
@@ -49,9 +50,9 @@ private:
 /* Converter supporting Keras backend */
 class KerasConverter : public PythonConverter{
 public:
-    string getPythonFileModel(const GraphModel &gm, string archi_path="./model.json");
-    string getPythonFileTrain(const GraphModel &gm);
-    string getPythonFileTest(const GraphModel &gm);
+    string getPythonFileModel(const GraphModel &gm, CompileCFG cfg);
+    string getPythonFileTrain(const GraphModel &gm, TrainCFG cfg);
+    string getPythonFileTest(const GraphModel &gm, TestCFG cfg);
     ~KerasConverter() {};
 protected:
     void group_import();

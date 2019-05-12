@@ -5,7 +5,7 @@
 #include <cmath>
 
 #include "graphmodel.h"
-#include "string_utils.h"  // TODO: this cause reinlcusion of the file?
+#include "../utils/string_utils.h"  // TODO: this cause reinlcusion of the file?
 
 using namespace std;
 

@@ -3,14 +3,15 @@
 #include <vector>
 #include <map>
 
-#include "graphmodel.h"
+#include "../graphmodel/graphmodel.h"
+#include "../utils/configurations.h"
 #include "converter.h"
 
 using namespace std;
 
 #pragma region GetFileFuncs
 
-string KerasConverter::getPythonFileModel(const GraphModel &gm, string archi_path){
+string KerasConverter::getPythonFileModel(const GraphModel &gm, CompileCFG cfg){
     vector<int> input_parts_idx = gm.get_input_parts_idx();  // use input parts to determine the start point
     Part *pap;
     string tstr;
@@ -44,15 +45,15 @@ string KerasConverter::getPythonFileModel(const GraphModel &gm, string archi_pat
     addline(2);
     if_main_state();
     addline("m = generate_model()");
-    if(archi_path.find(".json") != string::npos){
+    if(cfg.archi_path.find(".json") != string::npos){
         addline("json_str = m.to_json()");
-        with_state("codecs.open('" + archi_path + "', 'w', encoding='utf-8')", "outfile");
+        with_state("codecs.open('" + cfg.archi_path + "', 'w', encoding='utf-8')", "outfile");
         addline("outfile.write(json_str)");
         unindent();
     }
-    else if(archi_path.find(".yaml") != string::npos){
+    else if(cfg.archi_path.find(".yaml") != string::npos){
         addline("yaml_str = m.to_yaml()");
-        with_state("codecs.open('" + archi_path + "', 'w', encoding='utf-8')", "outfile");
+        with_state("codecs.open('" + cfg.archi_path + "', 'w', encoding='utf-8')", "outfile");
         addline("outfile.write(yaml_str)");
         unindent();
     }
@@ -64,15 +65,17 @@ string KerasConverter::getPythonFileModel(const GraphModel &gm, string archi_pat
 }
 
 /* TODO: get python file for training */
-string KerasConverter::getPythonFileTrain(const GraphModel &gm){
+string KerasConverter::getPythonFileTrain(const GraphModel &gm, TrainCFG cfg){
     newfile();
     group_import();
+
+    def_state("train_model");
 
     return "if __name__ == '__main__':\n\tprint('Default Train File')";
 }
 
 /* TODO: get python file for testing */
-string KerasConverter::getPythonFileTest(const GraphModel &gm){
+string KerasConverter::getPythonFileTest(const GraphModel &gm, TestCFG cfg){
     newfile();
     group_import();
 
@@ -85,6 +88,7 @@ string KerasConverter::getPythonFileTest(const GraphModel &gm){
 
 void KerasConverter::group_import(){
     import_state("numpy", "np");
+    import_state("keras");
     import_state("keras.backend", "K");
     import_state("Sequential", "", "keras.models");
     import_state("keras.layers", "L");
@@ -102,4 +106,4 @@ void KerasConverter::add_layer(PartType parttype, map<string, string> params, st
 
 #pragma region Utils
 
-#pragma endregion
+#pragma endregion Utils

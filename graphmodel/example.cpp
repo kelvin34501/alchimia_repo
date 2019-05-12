@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "converter.h"
+#include "../converter/converter.h"
 #include "graphmodel.h"
 
 using namespace std;
@@ -90,18 +90,21 @@ void test_model_gen(){
 
     ofstream outfile("model_gen.gen");
 
-    PythonConverter *py_cvt = new KerasConverter();
-    cout << py_cvt->getPythonFileModel(gm) << endl;
+    CompileCFG cfg;
+    cfg.archi_path = "./model.json";
+    // PythonConverter *py_cvt = new KerasConverter();
+    // cout << py_cvt->getPythonFileModel(gm) << endl;
+    cout << gm.getPythonFileModel(cfg) << endl;
 
     if(!outfile.is_open()){
         cout << "error saving files" << endl;
     }
     else{
-        outfile << py_cvt->getPythonFileModel(gm);
+        outfile << gm.getPythonFileModel(cfg);
     }
 
     outfile.close();
-    delete py_cvt;
+    // delete py_cvt;
 }
 
 

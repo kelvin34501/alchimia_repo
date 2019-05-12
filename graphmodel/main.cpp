@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "converter.h"
+#include "../converter/converter.h"
 #include "graphmodel.h"
 // #include "string_utils.h"
 
@@ -96,18 +96,21 @@ void test_model_gen(){
 
     ofstream outfile("model_gen.gen");
 
-    PythonConverter *py_cvt = new KerasConverter();
-    cout << py_cvt->getPythonFileModel(gm) << endl;
+    // PythonConverter *py_cvt = new KerasConverter();
+    CompileCFG cfg;
+    cfg.archi_path = "./model.json";
+    // cout << py_cvt->getPythonFileModel(gm) << endl;
+    cout << gm.getPythonFileModel(cfg) << endl;
 
     if(!outfile.is_open()){
         cout << "error saving files" << endl;
     }
     else{
-        outfile << py_cvt->getPythonFileModel(gm);
+        outfile << gm.getPythonFileModel(cfg);
     }
 
     outfile.close();
-    delete py_cvt;
+    // delete py_cvt;
 }
 
 /* TODO: unit test for part/connection deletion and part info manipulation */

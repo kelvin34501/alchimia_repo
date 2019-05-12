@@ -7,7 +7,8 @@
 #include <string>
 
 #include "graphmodel_name.h"
-#include "converter.h"
+#include "../converter/converter.h"
+#include "../utils/configurations.h"
 
 using namespace std;
 
@@ -198,16 +199,17 @@ public:
     #pragma region ModelConverter
 
     /* getPythonFileModel: returns the python file string for model generation */
-    string getPythonFileModel() const{
-        return py_cvt->getPythonFileModel(*this);
+    string getPythonFileModel(CompileCFG cfg) const{
+        return py_cvt->getPythonFileModel(*this, cfg);
     }
     /* getPythonFileTrain: returns the python file string for model training */
-    string getPythonFileTrain() const{
-        return py_cvt->getPythonFileTrain(*this);
+    string getPythonFileTrain(TrainCFG cfg) const{
+        return py_cvt->getPythonFileTrain(*this, cfg);
     }
     /* getPythonFileTest: returns the python file string for model testing */
-    string getPythonFileTest() const{
-        return py_cvt->getPythonFileTest(*this);
+    string getPythonFileTest(TestCFG cfg) const{
+        map<string, string> test_cfg;
+        return py_cvt->getPythonFileTest(*this, cfg);
     }
 
     #pragma endregion ModelConverter
