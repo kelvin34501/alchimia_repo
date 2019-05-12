@@ -52,3 +52,10 @@ compile_commands.json
 # Custom
 *.gen
 *.project
+
+# vscode
+.vscode
+
+# excutatble
+*.exe
+

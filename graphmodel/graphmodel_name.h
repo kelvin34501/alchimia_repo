@@ -5,7 +5,7 @@
 #include <map>
 #include <string>
 
-#include "exceptions.h"
+#include "../utils/exceptions.h"
 
 using namespace std;
 
@@ -31,19 +31,6 @@ static const char* PartTypeString[] = {
     "Flatten",
     "Reshape",
 };
-
-typedef map<string, string> DataCFG;
-// string train_X_file;
-// string train_X_folder;
-// string train_y_file;
-// string validate_X_file;
-// string validate_X_folder;
-// string validate_y_file;
-// string test_X_file;
-// string test_X_folder;
-// int X_columns[];
-// int y_columns[];
-// string data_format;
 
 class Port;
 

@@ -69,6 +69,11 @@ void PythonConverter::if_main_state(){
     if_state("__name__ == '__main__'");
 }
 
+void PythonConverter::with_state(string state, string alias){
+    addline("with " + state + " as " + alias + ":");
+    indent();
+}
+
 string PythonConverter::to_param_list(map<string, string> params){
     string res = "";
     for(map<string, string>::iterator iter=params.begin(); iter!=params.end(); iter++){
