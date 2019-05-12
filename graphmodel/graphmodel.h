@@ -112,8 +112,7 @@ class GraphModel{
 public:
     vector<Part*> parts;
     vector<Connection*> connections;
-    string archi_path;
-    string weight_path;
+    ModelCFG model_cfg;
     DataCFG data_cfg;
     GraphModel(enum Backend be){
         switch (be)
@@ -218,10 +217,10 @@ public:
 
     void setArchiPath(string path){
         if(path.find(".json") != string::npos){
-            archi_path = path;
+            model_cfg.archi_path = path;
         }
         else if(path.find(".yaml") != string::npos){
-            archi_path = path;
+            model_cfg.archi_path = path;
         }
         else{
             throw InvalidPathException("Architecture can only be json file or yaml file!");   
@@ -230,7 +229,7 @@ public:
 
     void setWeightPath(string path){
         if(path.find(".h5") != string::npos){
-            weight_path = path;
+            model_cfg.weight_path = path;
         }
         else{
             throw InvalidPathException("Model weights can only be HDF5 file!");
