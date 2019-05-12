@@ -16,12 +16,11 @@ using std::make_shared;
 #include <cereal/types/vector.hpp>
 #include <cereal/types/string.hpp>
 
-namespace converter {
 // temp workaround and breaks system
 // need to tell Wang Zhongye to move his code into namespaces
-    #include <converter/graphmodel.h>
+    #include <graphmodel/graphmodel.h>
     #include <converter/converter.h>
-}
+
 
 #include <project/sereialize.h>
 
@@ -35,8 +34,8 @@ private:
     QString mdl_desc_path; // model json file
     QString mdl_py_code; // model python code
 
-    enum converter::Backend backend; // backend information
-    const converter::GraphModel *p_graph_mdl; // graph model
+    enum Backend backend; // backend information
+    const GraphModel *p_graph_mdl; // graph model
 public:
     explicit project_object(QString p, QString b); // create/open project
     project_object(const project_object &o); // copy con

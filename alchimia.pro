@@ -25,29 +25,33 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-        arrow.cpp \
-        converter/example.cpp \
-        converter/graphModel.cpp \
-        converter/kerasConverter.cpp \
-        converter/pythonConverter.cpp \
-        diagramitem.cpp \
-        diagramscene.cpp \
-        main.cpp \
-        mainwindow.cpp \
-        project/project_object.cpp \
-        project/sereialize.cpp
+    arrow.cpp \
+    converter/kerasConverter.cpp \
+    converter/pythonConverter.cpp \
+    diagramitem.cpp \
+    diagramscene.cpp \
+    graphmodel/example.cpp \
+    graphmodel/graphModel.cpp \
+    main.cpp \
+    mainwindow.cpp \
+    project/project_object.cpp \
+    project/sereialize.cpp
+
 
 HEADERS += \
-        arrow.h \
-        converter/converter.h \
-        converter/exceptions.h \
-        converter/graphmodel.h \
-        converter/graphmodel_name.h \
-        diagramitem.h \
-        diagramscene.h \
-        mainwindow.h \
-        project/project_object.h \
-        project/sereialize.h
+    arrow.h \
+    converter/converter.h \
+    diagramitem.h \
+    diagramscene.h \
+    graphmodel/graphmodel.h \
+    graphmodel/graphmodel_name.h \
+    mainwindow.h \
+    project/project_object.h \
+    project/sereialize.h \
+    utils/configurations.h \
+    utils/exceptions.h \
+    utils/string_utils.h
+
 
 FORMS += \
         mainwindow.ui
