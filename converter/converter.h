@@ -56,8 +56,11 @@ public:
     ~KerasConverter() {};
 protected:
     void group_import();
-    void add_layer(PartType parttype, map<string, string> params, string model="model");
 private:
+    void add_layer(PartType parttype, map<string, string> params, string model="model");
+    string parse_compile_param(TrainCFG train_cfg) const;
+    string parse_fit_param(DataCFG data_cfg, TrainCFG train_cfg) const;
+    string parse_tb_param(TBCFG tb_cfg) const;
 };
 
 # endif // CONVERTER_H_INCLUDED

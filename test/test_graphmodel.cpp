@@ -25,7 +25,8 @@ int main()
     // test_model_basic();
     // test_base_converter();
     getchar();
-    test_model_gen();
+    // test_model_gen();
+    test_model_train();
 
     cout << "all test pass" << endl;
     getchar();
@@ -111,6 +112,32 @@ void test_model_gen(){
 
     outfile.close();
     // delete py_cvt;
+}
+
+void test_model_train(){
+    cout << "test_model_train" << endl;
+
+    GraphModel gm(Keras);
+    set_basic_model(gm);
+    cout << "basic model set" << endl;
+
+    getchar();
+
+    ofstream outfile("model_train.gen");
+
+    TrainCFG cfg;
+    cfg.save_weight_path = "./weight.h5";
+    gm.model_cfg.archi_path = "./model.json";
+    cout << gm.getPythonFileTrain(cfg) << endl;
+
+    if(!outfile.is_open()){
+        cout << "error saving files" << endl;
+    }
+    else{
+        outfile << gm.getPythonFileTrain(cfg);
+    }
+
+    outfile.close();
 }
 
 /* TODO: unit test for part/connection deletion and part info manipulation */

@@ -57,3 +57,6 @@ compile_commands.json
 
 # excutatble
 *.exe
+
+# model
+*.h5

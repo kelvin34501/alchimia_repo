@@ -52,6 +52,8 @@ public:
     float position_x;
     float position_y;
     vector<Port*> ports[2];  // 0 input port, 1 output port
+    // if the value of one parameter is a STRING in PYTHON code,
+    // you MUST ADD '' TO THE VALUE, e.g. "'same'" (padding)
     map<string, string> params;
     int id;
     Part(PartType pt=None, float px=0, float py=0){
@@ -180,6 +182,10 @@ public:
         id: id of the part
         key: parameter name, should be the parameter that belongs to the part type (throw exceptions)
         value: parameter value, should be valid value of the parameter (throw exceptions)
+       
+       WARNING:
+        if the value of one parameter is a STRING in PYTHON code,
+        you MUST ADD '' TO THE VALUE, e.g. "'same'" (padding)
     */
     map<string, string> editPart(int id, string key, string value);
     /* deletePart: delete part, auto delete connections to it */
@@ -223,7 +229,7 @@ public:
             model_cfg.archi_path = path;
         }
         else{
-            throw InvalidPathException("Architecture can only be json file or yaml file!");   
+            throw InvalidPathException("Architecture can only be json file or yaml file!");
         }
     };
 

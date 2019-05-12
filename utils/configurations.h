@@ -44,6 +44,17 @@ struct ModelCFG{
     }
 };
 
+struct TBCFG{
+    string log_dir;
+    string histogram_freq;
+    string update_freq;
+    TBCFG(){
+        log_dir = "";
+        histogram_freq = "1";
+        update_freq = "1000";
+    }
+};
+
 struct CompileCFG{
     string archi_path;
     CompileCFG(){
@@ -52,7 +63,26 @@ struct CompileCFG{
 };
 
 struct TrainCFG{
-    
+    string optimizer;
+    string loss;
+    vector<string> metrics;
+    string batch_size;
+    string epochs;
+    string validation_split;
+    string shuffle;
+    string save_weight_path;
+    bool reuse_weight;
+    TBCFG tb_cfg;
+    TrainCFG(){
+        optimizer = "";
+        loss = "";
+        batch_size = "32";
+        epochs = "1";
+        validation_split = "0.0";
+        shuffle = "True";
+        reuse_weight = false;
+        save_weight_path = "";
+    }
 };
 
 struct TestCFG{
