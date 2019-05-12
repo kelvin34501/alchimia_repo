@@ -51,3 +51,9 @@ compile_commands.json
 # ======
 # Custom
 *.gen
+
+# vscode
+.vscode
+
+# excutatble
+*.exe
