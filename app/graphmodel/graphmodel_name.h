@@ -9,7 +9,7 @@
 
 using namespace std;
 
-enum PartType{
+enum class PartType{
     None,
     InputLayer,  // this is a dummy part type, which does not have a counterpart in Keras
     Dense,

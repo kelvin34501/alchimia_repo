@@ -26,18 +26,16 @@ int example()
     return 0;
 }
 
-#pragma region TestFuncs
-
 void test_model_basic(){
     cout << "test_model_basic" << endl;
 
     GraphModel gm(Keras);
-    Part *pa;
-    Connection *cn;
+    shared_ptr<Part> pa;
+    shared_ptr<Connection> cn;
 
-    cn = new Connection();
+    cn = make_shared<Connection>();
 
-    pa = new Part();
+    pa = make_shared<Part>();
     pa->AddOutputPort("-1,256,256,3");
     cout << pa->position_x << ", " << pa->position_y << endl;
     // cout << pa->input_ports.size() << ", " << pa->output_ports.size() << endl;
@@ -47,7 +45,7 @@ void test_model_basic(){
     // pa->ConnectOutputPort(cn);
     pa->ConnectPort(cn, 1);
 
-    pa = new Part();
+    pa = make_shared<Part>();
     pa->AddInputPort("-1,256,256,3");
     cout << pa->position_x << ", " << pa->position_y << endl;
     // cout << pa->input_ports.size() << ", " << pa->output_ports.size() << endl;
@@ -107,16 +105,15 @@ void test_model_gen(){
     // delete py_cvt;
 }
 
-
 void set_basic_model(GraphModel &gm){
     // GraphModel gm(Keras);
-    Part *pa;
-    Connection *cn;
+    shared_ptr<Part> pa;
+    shared_ptr<Connection> cn;
     int s1, s2;
 
     // cn = new Connection();
 
-    pa = new Part(PartType::InputLayer);
+    pa = make_shared<Part>(PartType::InputLayer);
     pa->AddOutputPort("-1,256,256,3");
     // cout << PartTypeString[pa->parttype] << endl;
     // gm.parts.push_back(pa);
@@ -125,7 +122,7 @@ void set_basic_model(GraphModel &gm){
     // pa->ConnectPort(cn, 1);
     s1 = pa->id;
 
-    pa = new Part(PartType::Activation);
+    pa = make_shared<Part>(PartType::Activation);
     pa->AddInputPort("-1,256,256,3");
     // cout << PartTypeString[pa->parttype] << endl;
     // gm.parts.push_back(pa);
@@ -138,5 +135,3 @@ void set_basic_model(GraphModel &gm){
     gm.addConnection(s1, s2, 1, 0);
     // cout << gm.getPythonFileModel() << endl;
 }
-
-#pragma endregion TestFuncs

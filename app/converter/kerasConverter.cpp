@@ -13,7 +13,7 @@ using namespace std;
 
 string KerasConverter::getPythonFileModel(const GraphModel &gm, CompileCFG cfg){
     vector<int> input_parts_idx = gm.get_input_parts_idx();  // use input parts to determine the start point
-    Part *pap;
+    shared_ptr<Part> pap;
     string tstr;
     map<string, string> tmap;
 
@@ -21,7 +21,7 @@ string KerasConverter::getPythonFileModel(const GraphModel &gm, CompileCFG cfg){
         cout << "NoInput"; getchar();
         throw NoInputException();
     }
-    
+
     newfile();
     group_import();
     addline(2);
@@ -30,13 +30,17 @@ string KerasConverter::getPythonFileModel(const GraphModel &gm, CompileCFG cfg){
     addline("model = Sequential()");
     pap = gm.parts[input_parts_idx[0]];
     tstr = pap->params["input_shape"];
-    if(pap->ports[1].size() > 0 && pap->ports[1][0]->connection != nullptr){
-        pap = pap->ports[1][0]->connection->ports[1]->part;
+    if(pap->ports[1].size() > 0 && pap->ports[1][0]->connection.lock() != nullptr){
+        if(shared_ptr<Port> tmp_port = pap->ports[1][0]->connection.lock()->ports[1].lock()) {
+            pap = tmp_port->part.lock();
+        }
         tmap = pap->params;  // Is inplace?
         tmap.insert(pair<string, string>("input_shape", tstr));
         add_layer(pap->parttype, tmap);
-        while(pap->ports[1].size() > 0 && pap->ports[1][0]->connection != nullptr){
-            pap = pap->ports[1][0]->connection->ports[1]->part;
+        while(pap->ports[1].size() > 0 && pap->ports[1][0]->connection.lock() != nullptr){
+            if(shared_ptr<Port> tmp_port = pap->ports[1][0]->connection.lock()->ports[1].lock()) {
+                pap = tmp_port->part.lock();
+            }
             add_layer(pap->parttype, pap->params);
         }
     }
@@ -79,7 +83,7 @@ string KerasConverter::getPythonFileTest(const GraphModel &gm, TestCFG cfg){
     newfile();
     group_import();
 
-    return "if __name__ == '__main__':\n\tprint('Default Test File')";    
+    return "if __name__ == '__main__':\n\tprint('Default Test File')";
 }
 
 #pragma endregion GetFileFuncs
@@ -99,7 +103,7 @@ void KerasConverter::group_import(){
 }
 
 void KerasConverter::add_layer(PartType parttype, map<string, string> params, string model){
-    addline(model + ".add(L." + string(PartTypeString[parttype]) + "(" + to_param_list(params) + "))");
+    addline(model + ".add(L." + string(PartTypeString[as_integer(parttype)]) + "(" + to_param_list(params) + "))");
 }
 
 #pragma endregion SupportFuncs

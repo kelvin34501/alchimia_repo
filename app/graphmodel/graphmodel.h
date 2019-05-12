@@ -5,28 +5,28 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <memory>
 
 #include "graphmodel_name.h"
 #include "../converter/converter.h"
 #include "../utils/configurations.h"
+#include "../utils/enum_cast.hpp"
 
 using namespace std;
-
-#pragma region Components
 
 /* Port declaration */
 class Port{
 public:
-    Part *part;
-    Connection *connection;
+    weak_ptr<Part> part;
+    weak_ptr<Connection> connection;
     bool is_output;  // 0 input, 1 output
     string shape;
-    Port(Part *pa, bool io, string s){
+    Port(shared_ptr<Part> pa, bool io, string s){
         part = pa;
         is_output = io;
         shape = s;
-        connection = nullptr;
-    };
+        connection = shared_ptr<Connection>(nullptr);
+    }
     // ~Port();
     void update_shape(string nsh);
 };
@@ -34,59 +34,58 @@ public:
 /* Connection declaration */
 class Connection{
 public:
-    Port *ports[2];  // 0 input end (output port), 1 output end (input port)
+    weak_ptr<Port> ports[2];  // 0 input end (output port), 1 output end (input port)
     int id;
-    Connection(Port *fp=nullptr, Port *tp=nullptr){
+    Connection(shared_ptr<Port> fp=nullptr, shared_ptr<Port> tp=nullptr) {
         ports[0] = fp;
         ports[1] = tp;
-    };
+    }
     ~Connection();
     void update_shape(string nsh);
 };
 
 /* Part declaration */
 /* And some basic operations */
-class Part{
+class Part: public enable_shared_from_this<Part> {
 public:
     PartType parttype;
     float position_x;
     float position_y;
-    vector<Port*> ports[2];  // 0 input port, 1 output port
+    vector<shared_ptr<Port>> ports[2];  // 0 input port, 1 output port
     map<string, string> params;
     int id;
-    Part(PartType pt=None, float px=0, float py=0){
+    Part(PartType pt=PartType::None, float px=0, float py=0){
         parttype = pt;
         position_x = px;
         position_y = py;
-        default_init();
-    };
+    }
     ~Part(){
         // id = -1;
         cout << ports[0].size() << endl;
         cout << ports[1].size() << endl;
-        for(int j=0; j<2; j++)
+        /*for(int j=0; j<2; j++)
             for(int i=0; i<ports[j].size(); i++)
                 if(ports[j][i] != nullptr){
                     // if(ports[j][i]->connection != nullptr){
                     //     ports[j][i]->connection->ports[!ports[j][i]->is_output] = nullptr;
                     // }
                     delete ports[j][i];
-                }
+                }*/
         // TODO: notify the front-end to deletePartUI
         cout << "part deleted: " << id << endl;
-    };
+    }
     /* Add ports */
     void AddInputPort(string sh=""){
-        Port *po = new Port(this, 0, sh);
+        shared_ptr<Port> po = make_shared<Port>(shared_from_this(), 0, sh);
         ports[0].push_back(po);
     }
     void AddOutputPort(string sh=""){
-        Port *po = new Port(this, 1, sh);
+        shared_ptr<Port> po = make_shared<Port>(shared_from_this(), 1, sh);
         ports[1].push_back(po);
     }
     /* Connect ports */
     /* Does not check whether shapes of two ports matches here */
-    void ConnectPort(Connection *cn, bool io, int idx=0){
+    void ConnectPort(shared_ptr<Connection> cn, bool io, int idx=0){
         if(idx >= ports[io].size()){
             throw range_error("Input port index out of range!");
         }
@@ -100,25 +99,23 @@ public:
     void update_shape(string nsh="-");  // update the input and output shape of connected parts recursively, this is used when connecting parts and modifying parts parameters
     map<string, string> getPartInfo() const;  // get part info
     map<string, string> editPart(string key, string value);  // edit part
-private:
+
     void default_init();
 };
-
-#pragma endregion Components
 
 /* GraphModel declaration */
 /* And converter interfaces */
 class GraphModel{
 public:
-    vector<Part*> parts;
-    vector<Connection*> connections;
+    vector<shared_ptr<Part>> parts;
+    vector<shared_ptr<Connection>> connections;
     ModelCFG model_cfg;
     DataCFG data_cfg;
     GraphModel(enum Backend be){
         switch (be)
         {
         case Backend::Keras:
-            py_cvt = new KerasConverter();
+            py_cvt = unique_ptr<PythonConverter>(new KerasConverter());
             break;
         
         default:
@@ -140,18 +137,17 @@ public:
             if(connections[i] != nullptr){
                 deleteConnection(i);
             }
-        delete py_cvt;
+        //delete py_cvt;
     }
     vector<int> get_input_parts_idx() const;  // index of all potential input parts
-    void add(Part *pa);  // add part
-    void add(Connection *cn);  // add part
+    void add(shared_ptr<Part> pa);  // add part
+    void add(shared_ptr<Connection> cn);  // add part
     
     /* Following are the methods that can be called by the controls */
     /* I.E. they are the ones to be tested in the test cases        */
     /*                                                              */
     /* THE REGION IS NOT NAMED AFTER CONTROLS                       */
 
-    #pragma region ModelEditor
 
     /* addPart: add a part to the model, auto set default parameters */
     /* param:
@@ -159,7 +155,7 @@ public:
         px: x position of the part
         py: y position of the part
     */
-    void addPart(PartType pt=None, float px=0, float py=0);
+    void addPart(PartType pt=PartType::None, float px=0, float py=0);
     /* addConnection: add a connection to the model, auto update io shape */
     /* param:
         id1: id of the first part
@@ -193,10 +189,6 @@ public:
     */
     void deleteConnection(int id);
 
-    #pragma endregion ModelEditor
-
-    #pragma region ModelConverter
-
     /* getPythonFileModel: returns the python file string for model generation */
     string getPythonFileModel(CompileCFG cfg) const{
         return py_cvt->getPythonFileModel(*this, cfg);
@@ -210,10 +202,6 @@ public:
         map<string, string> test_cfg;
         return py_cvt->getPythonFileTest(*this, cfg);
     }
-
-    #pragma endregion ModelConverter
-
-    #pragma region ModelManager
 
     void setArchiPath(string path){
         if(path.find(".json") != string::npos){
@@ -236,10 +224,8 @@ public:
         }
     }
 
-    #pragma endregion ModelManager
-
 private:
-    PythonConverter *py_cvt;
+    unique_ptr<PythonConverter> py_cvt;
 };
 
 #endif // GRAPHMODEL_H_INCLUDED
