@@ -5,10 +5,12 @@
 #include "partitem.h"
 
 
-void EditorControl::add(PartType partType, QPointF pos) const
+void EditorControl::add(PartType partType, const QPointF &pos) const
 {
     // TODO: Add the part to the GraphModel
-    mModelScene->addItem(new PartItem(pos));
+    QPointF topleft(pos.x() - PartItem::itemSize.width() / 2,
+                    pos.y() - PartItem::itemSize.height() / 2);
+    mModelScene->addItem(new PartItem(topleft));
     mToolboxButtonGroup->checkedButton()->setChecked(false);    // uncheck the button
     mModelScene->setClickMode(ModelScene::Idle);
 }

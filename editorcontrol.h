@@ -18,7 +18,7 @@ public:
         mToolboxButtonGroup = toolboxButtonGroup;
     }
 
-    void add(PartType partType, QPointF pos) const;
+    void add(PartType partType, const QPointF &pos) const;
 
     EditorControl(ModelScene *modelScene, QObject *parent = nullptr)
         : QObject(parent), mModelScene(modelScene) {}

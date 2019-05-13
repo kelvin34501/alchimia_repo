@@ -6,9 +6,9 @@
 
 class PartItem : public QGraphicsRectItem
 {
-private:
-    static const QSizeF itemSize;  // all PartItems have the same size
 public:
+    static const QSizeF itemSize;  // all PartItems have the same size
+
     /**
      * Assume that the point topleft is chosen so that the constructed
      * PartItem won't overlap with the boundary of the ModelScene
