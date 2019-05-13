@@ -20,7 +20,8 @@ public:
     /* configureCompilation: starts compilation after configured in        */
     /*      CompileConfigurationWindow                                     */
     /* param:
-        compile_cfg: CompileCFG, the configuration passed from CompileConfigurationWindow
+        compile_cfg: CompileCFG, the configuration passed from CompileConfigurationWindow.
+                Details of CompileCFG are in configurations.h.
     */
     void configureCompilation(CompileCFG compile_cfg);
     /* setPython: set or update python adapter */
