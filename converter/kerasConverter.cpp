@@ -54,13 +54,13 @@ string KerasConverter::getPythonFileModel(const GraphModel &gm, CompileCFG cfg){
     // save model
     if(cfg.archi_path.find(".json") != string::npos){
         addline("json_str = m.to_json()");
-        with_state("codecs.open('" + cfg.archi_path + "', 'w', encoding='utf-8')", "outfile");
+        with_state("codecs.open(r'" + cfg.archi_path + "', 'w', encoding='utf-8')", "outfile");
         addline("outfile.write(json_str)");
         unindent();
     }
     else if(cfg.archi_path.find(".yaml") != string::npos){
         addline("yaml_str = m.to_yaml()");
-        with_state("codecs.open('" + cfg.archi_path + "', 'w', encoding='utf-8')", "outfile");
+        with_state("codecs.open(r'" + cfg.archi_path + "', 'w', encoding='utf-8')", "outfile");
         addline("outfile.write(yaml_str)");
         unindent();
     }
@@ -84,13 +84,13 @@ string KerasConverter::getPythonFileTrain(const GraphModel &gm, TrainCFG cfg){
     def_state("load_model");
     // load architecture
     if(gm.model_cfg.archi_path.find(".json") != string::npos){
-        with_state("codecs.open('" + gm.model_cfg.archi_path + "', 'r', encoding='utf-8')", "infile");
+        with_state("codecs.open(r'" + gm.model_cfg.archi_path + "', 'r', encoding='utf-8')", "infile");
         addline("json_str = infile.read()");
         addline("model = model_from_json(json_str)");
         unindent();
     }
     else if(gm.model_cfg.archi_path.find(".yaml") != string::npos){
-        with_state("codecs.open('" + gm.model_cfg.archi_path + "', 'r', encoding='utf-8')", "infile");
+        with_state("codecs.open(r'" + gm.model_cfg.archi_path + "', 'r', encoding='utf-8')", "infile");
         addline("yaml_str = infile.read()");
         addline("model = model_from_yaml(yaml_str)");
         unindent();
@@ -110,7 +110,7 @@ string KerasConverter::getPythonFileTrain(const GraphModel &gm, TrainCFG cfg){
     if(cfg.reuse_weight){
         if(gm.model_cfg.weight_path.find(".h5") != string::npos){
             // TODO: possible assertions
-            addline("model.load_weights('" + gm.model_cfg.weight_path + "')");
+            addline("model.load_weights(r'" + gm.model_cfg.weight_path + "')");
         }
         else{
             throw InvalidPathException("Model weights can only be HDF5 file!");
@@ -122,7 +122,7 @@ string KerasConverter::getPythonFileTrain(const GraphModel &gm, TrainCFG cfg){
     addline("history = model.fit(" + parse_fit_param(gm.data_cfg, cfg) + ")");
     // save weights
     if(cfg.save_weight_path.find(".h5") != string::npos){
-        addline("model.save_weights('" + cfg.save_weight_path + "')");
+        addline("model.save_weights(r'" + cfg.save_weight_path + "')");
     }
     else{
         throw InvalidPathException("Model weights can only be HDF5 file!");
