@@ -26,25 +26,26 @@ CONFIG += c++11
 
 SOURCES += \
         arrow.cpp \
-        converter/example.cpp \
-        converter/graphModel.cpp \
         converter/kerasConverter.cpp \
         converter/pythonConverter.cpp \
-        diagramitem.cpp \
-        diagramscene.cpp \
+        editorcontrol.cpp \
+        graphmodel/graphModel.cpp \
         main.cpp \
         mainwindow.cpp \
+        modelscene.cpp \
+        partitem.cpp \
         project/project.cpp
 
 HEADERS += \
         arrow.h \
         converter/converter.h \
         converter/exceptions.h \
-        converter/graphmodel.h \
-        converter/graphmodel_name.h \
-        diagramitem.h \
-        diagramscene.h \
+        editorcontrol.h \
+        graphmodel/graphmodel.h \
+        graphmodel/graphmodel_name.h \
         mainwindow.h \
+        modelscene.h \
+        partitem.h \
         project/project.h
 
 FORMS += \

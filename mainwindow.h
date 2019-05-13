@@ -2,8 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QGraphicsScene>
-#include "diagramitem.h"
+
+#include "modelscene.h"
+#include "editorcontrol.h"
 
 
 namespace Ui {
@@ -20,7 +21,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QGraphicsScene myScene;
+    ModelScene mModelScene;
+    EditorControl mEditorControl;
 };
 
 #endif // MAINWINDOW_H
