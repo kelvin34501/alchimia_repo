@@ -57,8 +57,10 @@ struct TBCFG{
 
 struct CompileCFG{
     string archi_path;
-    CompileCFG(){
-        archi_path = "";
+    string pyfile_path;
+    CompileCFG(string p1="", string p2=""){
+        archi_path = p1;
+        pyfile_path = p2;
     }
 };
 
