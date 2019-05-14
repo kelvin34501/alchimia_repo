@@ -16,8 +16,9 @@ public:
      * Assume that the point center is chosen so that the constructed
      * PartItem won't overlap with the boundary of the ModelScene
     */
-    PartItem(int id, const QPointF &center, QGraphicsItem *parent = nullptr)
-        : QGraphicsRectItem(itemRect, parent), mPartType(PartType::InputLayer),
+    PartItem(int id, PartType partType, const QPointF &center,
+             QGraphicsItem *parent = nullptr)
+        : QGraphicsRectItem(itemRect, parent), mPartType(partType),
           mId(id)
     {
         setPos(center);
