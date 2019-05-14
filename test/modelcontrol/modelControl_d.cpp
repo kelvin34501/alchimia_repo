@@ -11,6 +11,9 @@ void ModelControl::compileModel(){
 }
 
 void ModelControl::configureCompilation(CompileCFG compile_cfg){
+    // generate python file path based on architecture path set by user
+    compile_cfg.pyfile_path = compile_cfg.archi_path.substr(0, compile_cfg.archi_path.size()-4) + "gen";
+
     // TODO: save project and do other adjustment
 
     // launch compile

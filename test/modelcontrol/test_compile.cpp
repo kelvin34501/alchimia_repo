@@ -17,8 +17,7 @@ int main(){
 
     ModelControl model_ctr(&win_py, &gm);
     CompileCFG compile_cfg = {
-        "D:\\Bruce\\Courses\\Software Engineering\\alchimia_repo\\test\\model.json",
-        "D:\\Bruce\\Courses\\Software Engineering\\alchimia_repo\\test\\model_gen.gen"
+        "D:\\Bruce\\Courses\\Software Engineering\\alchimia_repo\\test\\test_model.json"
     };
 
     cout << "compile set"; getchar();
