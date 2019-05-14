@@ -2,9 +2,9 @@
 #define MODELCONTROL_D_H_INCLUDED
 
 #include <iostream>
-#include "../../pythonsupport/pythonadapter.h"
-#include "../../utils/configurations.h"
-#include "../../graphmodel/graphmodel.h"
+#include "../../app/pythonsupport/pythonadapter.h"
+#include "../../app/utils/configurations.h"
+#include "../../app/graphmodel/graphmodel.h"
 
 using namespace std;
 
