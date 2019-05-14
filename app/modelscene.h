@@ -1,12 +1,12 @@
 #ifndef MODELSCENE_H
 #define MODELSCENE_H
+
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 
 #include "graphmodel/graphmodel_name.h"
+#include "editorcontrol.h"
 
-
-class EditorControl;
 
 class ModelScene : public QGraphicsScene
 {
@@ -20,14 +20,11 @@ public:
     {
         mSelectedTemplateType = partType;
     }
-    void setEditorControl(EditorControl *editorControl) noexcept
-    {
-        mEditorControl = editorControl;
-    }
 
-    explicit ModelScene(EditorControl *editorControl = nullptr, QObject *parent = nullptr)
+    explicit ModelScene(QButtonGroup &toolboxButtonGroup,
+                        GraphModel &graphModel, QObject *parent = nullptr)
         : QGraphicsScene(sceneRect, parent), mClickMode(Idle),
-          mEditorControl(editorControl) {}
+          mEditorControl(*this, toolboxButtonGroup, graphModel) {}
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -35,7 +32,7 @@ protected:
 private:
     ClickMode mClickMode;
     PartType mSelectedTemplateType;
-    EditorControl *mEditorControl;
+    EditorControl mEditorControl;
 
     static const QRectF sceneRect;  // fixed-size graphics scene
 };
