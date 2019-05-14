@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "converter/converter.h"
-#include "graphmodel/graphmodel.h"
+#include "../../app/converter/converter.h"
+#include "../../app/graphmodel/graphmodel.h"
 // #include "string_utils.h"
 
 using namespace std;
