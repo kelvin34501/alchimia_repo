@@ -4,7 +4,6 @@
 #include <QMainWindow>
 
 #include "modelscene.h"
-#include "editorcontrol.h"
 
 
 namespace Ui {
@@ -21,8 +20,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    ModelScene mModelScene;
-    EditorControl mEditorControl;
+    ModelScene *mModelScene = nullptr;
 };
 
 #endif // MAINWINDOW_H

@@ -5,24 +5,20 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    mEditorControl(&mModelScene)
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->graphicsView->setScene(&mModelScene);
-
-    mModelScene.setEditorControl(&mEditorControl);
-    mEditorControl.setToolboxButtonGroup(ui->toolBoxButtonGroup);
+    mModelScene = new ModelScene(*ui->toolBoxButtonGroup);
+    ui->graphicsView->setScene(mModelScene);
 
     // set up the toolbox
     QButtonGroup *buttonGroup = ui->toolBoxButtonGroup;
     buttonGroup->setId(ui->toolButton, PartType::InputLayer);
     buttonGroup->setId(ui->toolButton_2, PartType::Dense);
-
-    connect(buttonGroup, SIGNAL(buttonClicked(int)), &mEditorControl, SLOT(selectTemplate(int)));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete mModelScene;
 }
