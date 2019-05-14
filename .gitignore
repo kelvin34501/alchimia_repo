@@ -49,14 +49,16 @@ compile_commands.json
 *creator.user*
 
 # ======
-# gerated
+# generated
 *.gen
 *.h5
 test/*.json
 test/*.yaml
+*.project
 
 # vscode
 .vscode
 
 # excutatble
 *.exe
+

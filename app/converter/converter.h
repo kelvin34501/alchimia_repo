@@ -7,6 +7,7 @@
 
 #include "../graphmodel/graphmodel_name.h"
 #include "../utils/configurations.h"
+#include "../utils/enum_cast.hpp"
 // #include "namedef.h"
 
 using namespace std;

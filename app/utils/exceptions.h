@@ -2,6 +2,7 @@
 #define EXCEPTIONS_H_INCLUDED
 
 #include <exception>
+#include <string>
 
 using namespace std;
 

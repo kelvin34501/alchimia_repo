@@ -26,31 +26,34 @@ vector<int> GraphModel::get_input_parts_idx() const{
     return idx;
 }
 
-int GraphModel::add(Part *pa){
+int GraphModel::add(shared_ptr<Part> pa){
     pa->id = parts.size();
     parts.push_back(pa);
     return parts.size() - 1;
 }
 
-int GraphModel::add(Connection *cn){
+int GraphModel::add(shared_ptr<Connection> cn){
     cn->id = connections.size();
     connections.push_back(cn);
     return connections.size() - 1;
 }
 
 int GraphModel::addPart(PartType pt, float px, float py){
-    Part *pa = new Part(pt, px, py);
+    shared_ptr<Part> pa = make_shared<Part>(pt, px, py);
+    pa->default_init();
     return add(pa);
 }
 
 int GraphModel::addConnection(int id1, int id2, bool io1, bool io2, int pidx1, int pidx2){
-    Connection *cn;
+    shared_ptr<Connection> cn;
 
     if(!(io1 ^ io2)){
         cout << "IOMismatch"; getchar();
         throw IOMismatchException();
     }
-    if(parts[id1]->ports[io1][pidx1]->shape != "" && parts[id2]->ports[io2][pidx2]->shape != "" && parts[id1]->ports[io1][pidx1]->shape != parts[id2]->ports[io2][pidx2]->shape){
+    if(parts[id1]->ports[io1][pidx1]->shape != ""
+            && parts[id2]->ports[io2][pidx2]->shape != ""
+            && parts[id1]->ports[io1][pidx1]->shape != parts[id2]->ports[io2][pidx2]->shape){
         cout << "ShapeMismatch"; getchar();
         throw ShapeMismatchException();
     }
@@ -64,20 +67,16 @@ int GraphModel::addConnection(int id1, int id2, bool io1, bool io2, int pidx1, i
         parts[id1]->ports[io1][pidx1]->shape = parts[id2]->ports[io2][pidx2]->shape;
     }
     if(io1){
-        cn = new Connection(parts[id2]->ports[io2][pidx2], parts[id1]->ports[io1][pidx1]);
+        cn = make_shared<Connection>(parts[id2]->ports[io2][pidx2], parts[id1]->ports[io1][pidx1]);
     }
     else{
-        cn = new Connection(parts[id1]->ports[io1][pidx1], parts[id2]->ports[io2][pidx2]);        
+        cn = make_shared<Connection>(parts[id1]->ports[io1][pidx1], parts[id2]->ports[io2][pidx2]);
     }
     parts[id1]->ConnectPort(cn, io1, pidx1);
     parts[id2]->ConnectPort(cn, io2, pidx2);
     
     return add(cn);
 }
-
-#pragma endregion GraphModel
-
-#pragma region Part
 
 void Part::default_init(){
     switch (parttype)
@@ -137,7 +136,9 @@ void Part::default_init(){
         break;
     }
 
-    params.insert(pair<string, string>("name", "'" + string(PartTypeString[parttype]) + "'"));
+    params.insert(pair<string, string>("name", "'" +
+                                       string(PartTypeString[as_integer(parttype)])
+                                       + "'"));
 }
 
 map<string, string> GraphModel::getPartInfo(int id) const{
@@ -160,13 +161,13 @@ void GraphModel::deletePart(int id){
     }
     for(int io=0; io<2; io++){
         for(int i=0; i<parts[id]->ports[io].size(); i++){
-            if(parts[id]->ports[io][i] != nullptr && parts[id]->ports[io][i]->connection != nullptr){
+            if(parts[id]->ports[io][i] != nullptr && parts[id]->ports[io][i]->connection.lock() != nullptr){
                 // connections[parts[id]->ports[io][i]->connection->id] = nullptr;
-                deleteConnection(parts[id]->ports[io][i]->connection->id);
+                deleteConnection(parts[id]->ports[io][i]->connection.lock()->id);
             }
         }
     }
-    delete parts[id];
+    // delete parts[id];
     parts[id] = nullptr;
 }
 
@@ -174,7 +175,7 @@ void GraphModel::deleteConnection(int id){
     if(id >= connections.size() || connections[id] == nullptr){
         throw out_of_range("The connection does not exist");
     }
-    delete connections[id];
+    // delete connections[id];
     connections[id] = nullptr;
 }
 
@@ -348,7 +349,7 @@ map<string, string> Part::editPart(string key, string value){
     int dif;
     bool io;
     string sh = "";
-    Port *po;
+    shared_ptr<Port> po;
 
     // add or remove ports
     if(key == "num_input_port" || key == "num_output_port"){
@@ -370,7 +371,7 @@ map<string, string> Part::editPart(string key, string value){
         else{
             while(0 > dif++){
                 po = ports[io].back();
-                delete po;
+                // delete po;
                 ports[io].pop_back();
             }
         }
@@ -403,8 +404,8 @@ void Port::update_shape(string nsh){
     shape = nsh;
     cout << "port shape update" << endl;
     // pass shape update down to next part
-    if(is_output && connection != nullptr){
-        connection->update_shape(nsh);
+    if(is_output && connection.lock() != nullptr){
+        connection.lock()->update_shape(nsh);
     }
 }
 
@@ -414,12 +415,17 @@ void Port::update_shape(string nsh){
 
 Connection::~Connection(){
     // make sure the deletion is not invoked by the part to update
-    if(ports[1] != nullptr){
-        ports[1]->part->update_shape("");  // clear shape
-        ports[1]->connection = nullptr;
+    if(std::shared_ptr<Port> tmp_port = ports[1].lock()) {
+        // acquire port
+        if(std::shared_ptr<Part> tmp_part = tmp_port->part.lock()) {
+            // acquire part
+            tmp_part->update_shape("");  // clear shape
+        }
+        tmp_port->connection.lock() = nullptr;
     }
-    if(ports[0] != nullptr){
-        ports[0]->connection = nullptr;
+    if(std::shared_ptr<Port> tmp_port = ports[0].lock()) {
+        // acquire port
+        tmp_port->connection.lock() = nullptr;
     }
     
     // TODO: notify front-end to deleteConnectionUI
@@ -428,9 +434,12 @@ Connection::~Connection(){
 
 void Connection::update_shape(string nsh){
     cout << "connection shape update" << endl;
-    if(ports[1] != nullptr){
-        ports[1]->update_shape(nsh);  // update shape of port
-        ports[1]->part->update_shape(nsh);  // pass down shape update
+    if(std::shared_ptr<Port> tmp_port = ports[1].lock()){
+        tmp_port->update_shape(nsh);  // update shape of port
+        if(std::shared_ptr<Part> tmp_part = tmp_port->part.lock()) {
+            // acquire part
+            tmp_part->update_shape(nsh);  // pass down shape update
+        }
     }
 }
 

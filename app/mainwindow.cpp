@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "graphmodel/graphmodel_name.h"
+#include "utils/enum_cast.hpp"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -16,8 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // set up the toolbox
     QButtonGroup *buttonGroup = ui->toolBoxButtonGroup;
-    buttonGroup->setId(ui->toolButton, PartType::InputLayer);
-    buttonGroup->setId(ui->toolButton_2, PartType::Dense);
+    buttonGroup->setId(ui->toolButton, as_integer(PartType::InputLayer));
+    buttonGroup->setId(ui->toolButton_2, as_integer(PartType::Dense));
 
     connect(buttonGroup, SIGNAL(buttonClicked(int)), &mEditorControl, SLOT(selectTemplate(int)));
 }
