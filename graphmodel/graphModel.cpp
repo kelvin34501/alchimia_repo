@@ -26,22 +26,24 @@ vector<int> GraphModel::get_input_parts_idx() const{
     return idx;
 }
 
-void GraphModel::add(Part *pa){
+int GraphModel::add(Part *pa){
     pa->id = parts.size();
     parts.push_back(pa);
+    return parts.size() - 1;
 }
 
-void GraphModel::add(Connection *cn){
+int GraphModel::add(Connection *cn){
     cn->id = connections.size();
     connections.push_back(cn);
+    return connections.size() - 1;
 }
 
-void GraphModel::addPart(PartType pt, float px, float py){
+int GraphModel::addPart(PartType pt, float px, float py){
     Part *pa = new Part(pt, px, py);
-    add(pa);
+    return add(pa);
 }
 
-void GraphModel::addConnection(int id1, int id2, bool io1, bool io2, int pidx1, int pidx2){
+int GraphModel::addConnection(int id1, int id2, bool io1, bool io2, int pidx1, int pidx2){
     Connection *cn;
 
     if(!(io1 ^ io2)){
@@ -69,8 +71,8 @@ void GraphModel::addConnection(int id1, int id2, bool io1, bool io2, int pidx1, 
     }
     parts[id1]->ConnectPort(cn, io1, pidx1);
     parts[id2]->ConnectPort(cn, io2, pidx2);
-    add(cn);
-    // cout << parts[id1]->ports[io1].size() << ' ' << parts[id2]->ports[io2].size() << endl;
+    
+    return add(cn);
 }
 
 #pragma endregion GraphModel

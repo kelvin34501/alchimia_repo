@@ -145,8 +145,8 @@ public:
         delete py_cvt;
     }
     vector<int> get_input_parts_idx() const;  // index of all potential input parts
-    void add(Part *pa);  // add part
-    void add(Connection *cn);  // add part
+    int add(Part *pa);  // add part
+    int add(Connection *cn);  // add part
     
     /* Following are the methods that can be called by the controls */
     /* I.E. they are the ones to be tested in the test cases        */
@@ -161,7 +161,7 @@ public:
         px: x position of the part
         py: y position of the part
     */
-    void addPart(PartType pt=None, float px=0, float py=0);
+    int addPart(PartType pt=None, float px=0, float py=0);
     /* addConnection: add a connection to the model, auto update io shape */
     /* param:
         id1: id of the first part
@@ -171,7 +171,7 @@ public:
         pidx1: index of port on the first part
         pidx2: index of port on the second part
     */
-    void addConnection(int id1, int id2, bool io1, bool io2, int pidx1=0, int pidx2=0);
+    int addConnection(int id1, int id2, bool io1, bool io2, int pidx1=0, int pidx2=0);
     /* getPartInfo: returns a map containing all information of the part */
     /* param:
         id: id of the part
