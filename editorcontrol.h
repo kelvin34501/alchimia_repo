@@ -18,6 +18,9 @@ public:
         mToolboxButtonGroup = toolboxButtonGroup;
     }
 
+    /**
+    * @param pos: the scene coordinate of the PartItem to add
+    */
     void add(PartType partType, const QPointF &pos) const;
 
     EditorControl(ModelScene *modelScene, QObject *parent = nullptr)

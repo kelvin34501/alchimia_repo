@@ -1,4 +1,4 @@
 #include "partitem.h"
 
-const QSizeF PartItem::itemSize(120, 60);
 
+const QRectF PartItem::itemRect(-60, -30, 120, 60);
