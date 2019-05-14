@@ -13,15 +13,18 @@ class EditorControl : public QObject
 {
     Q_OBJECT
 public:
-    void setToolboxButtonGroup(QButtonGroup *toolboxButtonGroup) noexcept
+    /**
+    * @param pos: the scene coordinate of the PartItem to add
+    */
+    void add(PartType partType, const QPointF &pos) const;
+
+    EditorControl(ModelScene &modelScene, QButtonGroup &toolboxButtonGroup,
+                  GraphModel &graphModel, QObject *parent = nullptr)
+        : QObject(parent), mModelScene(modelScene),
+          mToolboxButtonGroup(toolboxButtonGroup), mGraphModel(graphModel)
     {
-        mToolboxButtonGroup = toolboxButtonGroup;
+        connect(&toolboxButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(selectTemplate(int)));
     }
-
-    void add(PartType partType, QPointF pos) const;
-
-    EditorControl(ModelScene *modelScene, QObject *parent = nullptr)
-        : QObject(parent), mModelScene(modelScene) {}
 
 signals:
 
@@ -29,11 +32,13 @@ public slots:
     void selectTemplate(int partType) const noexcept;
 
 private:
-    ModelScene *mModelScene;
+    ModelScene &mModelScene;
     /**
-     * Must be set immediately after construction.
+    * @var The QButtonGroup that is associated with the EditorControl
     */
-    QButtonGroup *mToolboxButtonGroup;
+    QButtonGroup &mToolboxButtonGroup;
+
+    GraphModel &mGraphModel;
 };
 
 #endif // EDITORCONTROL_H

@@ -1,5 +1,4 @@
 #include "modelscene.h"
-#include "editorcontrol.h"
 
 
 const QRectF ModelScene::sceneRect(0, 0, 5000, 5000);
@@ -11,6 +10,6 @@ void ModelScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         case Idle:
             break;
         case TemplateSelcted:
-            mEditorControl->add(mSelectedTemplateType, event->scenePos());
+            mEditorControl.add(mSelectedTemplateType, event->scenePos());
         }
 }
