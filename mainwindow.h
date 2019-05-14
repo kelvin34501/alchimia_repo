@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "modelscene.h"
+#include "graphmodel/graphmodel.h"
 
 
 namespace Ui {
@@ -21,6 +22,11 @@ public:
 private:
     Ui::MainWindow *ui;
     ModelScene *mModelScene = nullptr;
+
+    /**
+    * @var A mock-up of the real GraphModel in a Project instance
+    */
+    GraphModel *mGraphModel;
 };
 
 #endif // MAINWINDOW_H

@@ -21,9 +21,10 @@ public:
         mSelectedTemplateType = partType;
     }
 
-    explicit ModelScene(QButtonGroup &toolboxButtonGroup, QObject *parent = nullptr)
+    explicit ModelScene(QButtonGroup &toolboxButtonGroup,
+                        GraphModel &graphModel, QObject *parent = nullptr)
         : QGraphicsScene(sceneRect, parent), mClickMode(Idle),
-          mEditorControl(*this, toolboxButtonGroup) {}
+          mEditorControl(*this, toolboxButtonGroup, graphModel) {}
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;

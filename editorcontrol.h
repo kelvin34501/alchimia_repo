@@ -19,9 +19,9 @@ public:
     void add(PartType partType, const QPointF &pos) const;
 
     EditorControl(ModelScene &modelScene, QButtonGroup &toolboxButtonGroup,
-                  QObject *parent = nullptr)
+                  GraphModel &graphModel, QObject *parent = nullptr)
         : QObject(parent), mModelScene(modelScene),
-          mToolboxButtonGroup(toolboxButtonGroup)
+          mToolboxButtonGroup(toolboxButtonGroup), mGraphModel(graphModel)
     {
         connect(&toolboxButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(selectTemplate(int)));
     }
@@ -37,6 +37,8 @@ private:
     * @var The QButtonGroup that is associated with the EditorControl
     */
     QButtonGroup &mToolboxButtonGroup;
+
+    GraphModel &mGraphModel;
 };
 
 #endif // EDITORCONTROL_H

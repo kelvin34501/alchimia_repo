@@ -6,8 +6,8 @@
 
 void EditorControl::add(PartType partType, const QPointF &pos) const
 {
-    // TODO: Add the part to the GraphModel
-    mModelScene.addItem(new PartItem(pos));
+    /* int id = */mGraphModel.addPart(partType, static_cast<float>(pos.x()), static_cast<float>(pos.y()));
+    mModelScene.addItem(new PartItem(0, pos));
     mToolboxButtonGroup.checkedButton()->setChecked(false);    // uncheck the button
     mModelScene.setClickMode(ModelScene::Idle);
 }
