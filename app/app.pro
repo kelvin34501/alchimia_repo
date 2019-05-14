@@ -24,11 +24,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-    arrow.cpp \
     converter/kerasConverter.cpp \
     converter/pythonConverter.cpp \
-    diagramitem.cpp \
-    diagramscene.cpp \
     editorcontrol.cpp \
     graphmodel/graphModel.cpp \
     main.cpp \
@@ -38,10 +35,7 @@ SOURCES += \
     project/project_object.cpp
 
 HEADERS += \
-    arrow.h \
     converter/converter.h \
-    diagramitem.h \
-    diagramscene.h \
     editorcontrol.h \
     graphmodel/graphmodel.h \
     graphmodel/graphmodel_name.h \
