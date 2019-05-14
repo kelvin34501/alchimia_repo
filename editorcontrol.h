@@ -19,7 +19,7 @@ public:
     }
 
     /**
-    * @param pos: the scene coordinate of the PartItem to add
+    * @param pos the scene coordinate of the PartItem to add
     */
     void add(PartType partType, const QPointF &pos) const;
 
