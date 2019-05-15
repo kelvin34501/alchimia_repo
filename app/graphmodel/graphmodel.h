@@ -28,6 +28,7 @@ public:
         connection = shared_ptr<Connection>(nullptr);
     }
     // ~Port();
+    Port() {}
     void update_shape(string nsh);
 };
 
@@ -113,6 +114,7 @@ public:
     vector<shared_ptr<Connection>> connections;
     ModelCFG model_cfg;
     DataCFG data_cfg;
+    GraphModel() {} // do nothing, only used for deserialization
     GraphModel(enum Backend be){
         switch (be)
         {
@@ -230,7 +232,6 @@ public:
         }
     }
 
-private:
     unique_ptr<PythonConverter> py_cvt;
 };
 

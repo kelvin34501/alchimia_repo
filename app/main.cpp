@@ -19,7 +19,7 @@ void set_basic_model(GraphModel &gm){
 }
 
 void test_model_gen(){
-    GraphModel gm(Keras);
+    GraphModel gm(Backend::Keras);
     set_basic_model(gm);
     ofstream outfile("model_gen.gen");
     CompileCFG cfg;
@@ -31,19 +31,11 @@ void test_model_gen(){
         outfile << gm.getPythonFileModel(cfg);
     }
     outfile.close();
-
-    ofstream serial("model.project");
-    cereal::JSONOutputArchive ar(serial);
-    ar(cereal::make_nvp("name",string("your name here.")),
-       cereal::make_nvp("model",gm));
-    serial.close();
 }
 
 
 int main(int argc, char *argv[])
 {
-    test_model_gen();
-
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

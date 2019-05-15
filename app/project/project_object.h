@@ -16,9 +16,11 @@ using std::make_shared;
 #include <cereal/types/vector.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/memory.hpp>
+#include <fstream>
 
 #include <graphmodel/graphmodel.h>
 #include <converter/converter.h>
+#include <utils/configurations.h>
 
 #include <project/sereialize.hpp>
 
@@ -32,21 +34,34 @@ private:
     QString project_name;
 
     QString pro_desc_path; // project file (stores graph structure)
-    QString mdl_py_path; // model python file
-    QString mdl_desc_path; // model json file
-    QString mdl_py_code; // model python code
-
+    CompileCFG compile_cfg;
+    TrainCFG train_cfg;
+    TestCFG test_cfg;
+public:
     Backend backend; // backend information
     unique_ptr<GraphModel> graph_mdl; // graph model
-public:
-    explicit project_object(QString name); // open project
-    explicit project_object(QString name, Backend back); // create project
-    project_object(const project_object &o); // copy con
-    project_object& operator=(const project_object &o); // override =
-    ~project_object(); // save, close project
 
-    void save();
-    void load();
+    explicit project_object() {}
+    explicit project_object(QString name, Backend back); // create project
+    project_object(const project_object &o) = delete; // copy con
+    project_object& operator=(const project_object &o) = delete; // override =
+    ~project_object() {}
+
+    template<class Archive>
+    void serialize(Archive &ar)
+    {
+        ar(cereal::make_nvp("name", project_name),
+           cereal::make_nvp("backend", backend),
+           cereal::make_nvp("model", graph_mdl),
+           cereal::make_nvp("pro_desc_path", pro_desc_path),
+           cereal::make_nvp("compile_cfg", compile_cfg),
+           cereal::make_nvp("train_cfg", train_cfg),
+           cereal::make_nvp("test_cfg", test_cfg));
+    }
+private:
+    void gen();
+    void gen_train();
+    void gen_test();
 };
 
 }
