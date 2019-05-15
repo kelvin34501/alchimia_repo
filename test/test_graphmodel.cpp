@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 
+#include "tst_case.h"
+#include <gtest/gtest.h>
+
 #include "converter/converter.h"
 #include "graphmodel/graphmodel.h"
 // #include "string_utils.h"
@@ -19,19 +22,28 @@ void test_model_test();
 void set_basic_model(GraphModel &gm);
 void print_map(map<string, string> m);
 
-int main()
+//int main()
+//{
+//    cout << "start testing" << endl;
+//    // test_model_basic();
+//    // test_base_converter();
+//    getchar();
+//    test_model_gen();
+//    // test_model_train();
+
+//    cout << "all test pass" << endl;
+//    getchar();
+//    return 0;
+//}
+
+int main(int argc, char *argv[])
 {
     cout << "start testing" << endl;
-    // test_model_basic();
-    // test_base_converter();
     getchar();
-    test_model_gen();
-    // test_model_train();
-
-    cout << "all test pass" << endl;
-    getchar();
-    return 0;
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
+
 
 #pragma region TestFuncs
 
