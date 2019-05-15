@@ -1,3 +1,5 @@
+include(gtest_dependency.pri)
+
 QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,7 +22,9 @@ HEADERS += \
     ../app/utils/configurations.h \
     ../app/utils/enum_cast.hpp \
     ../app/utils/exceptions.h \
-    ../app/utils/string_utils.h
+    ../app/utils/string_utils.h \
+    tst_case.h
 
 INCLUDEPATH += \
     ../app
+
