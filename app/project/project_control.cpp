@@ -32,10 +32,23 @@ int project_control::add_existing_project(QString path)
 
 void project_control::save_project(int id)
 {
-
+    ofstream out(p[id]->pro_desc_path.toStdString(), ios::trunc);
+    cereal::JSONOutputArchive ar(out);
+    ar(*p[id]);
 }
 
 void project_control::close_project(int id)
 {
+    save_project(id);
+    p[id] = nullptr;
+}
 
+shared_ptr<project_object> project_control::operator[](int id)
+{
+    return shared_ptr<project_object>(p[id]);
+}
+
+const shared_ptr<project_object> project_control::operator[](int id) const
+{
+    return shared_ptr<project_object>(p[id]);
 }

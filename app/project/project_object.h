@@ -30,14 +30,14 @@ static const int MAX_TRY = 4000;
 
 class project_object
 {
-private:
+public:
     QString project_name;
 
     QString pro_desc_path; // project file (stores graph structure)
     CompileCFG compile_cfg;
     TrainCFG train_cfg;
     TestCFG test_cfg;
-public:
+
     Backend backend; // backend information
     unique_ptr<GraphModel> graph_mdl; // graph model
 
