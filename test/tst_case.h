@@ -165,23 +165,23 @@ TEST(addConnection,set)
     compare_map(oracle,gm.getPartInfo(3));
     oracle.clear();
 
-//    gm.addConnection(4,5,1,0);
-//    oracle["num_input_port"] = "1";
-//    oracle["num_output_port"] = "1";
-//    oracle["shape_input_port_0"] = "None,254,254,32,";
-//    oracle["shape_output_port_0"] = "None,2064512,";
-
-//    //compare_map(oracle,gm.getPartInfo(4));
-//    oracle.clear();
-
-    gm.addConnection(3,5,1,0);
+    gm.addConnection(4,5,1,0);
     oracle["num_input_port"] = "1";
     oracle["num_output_port"] = "1";
     oracle["shape_input_port_0"] = "None,254,254,32,";
     oracle["shape_output_port_0"] = "None,2064512,";
 
-    compare_map(oracle,gm.getPartInfo(5));
+    compare_map(oracle,gm.getPartInfo(4));
     oracle.clear();
+
+//    gm.addConnection(3,5,1,0);
+//    oracle["num_input_port"] = "1";
+//    oracle["num_output_port"] = "1";
+//    oracle["shape_input_port_0"] = "None,254,254,32,";
+//    oracle["shape_output_port_0"] = "None,2064512,";
+
+//    compare_map(oracle,gm.getPartInfo(5));
+//    oracle.clear();
 
 
 
