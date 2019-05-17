@@ -19,19 +19,18 @@ using namespace testing;
 
 void compare_map(map<string,string> m1, map<string,string> m2);
 
-TEST(case, set)
-{
-    EXPECT_EQ(0, 0);
-    ASSERT_THAT(0, Eq(0));
-}
+//TEST(case, set)
+//{
+//    EXPECT_EQ(0, 0);
+//    ASSERT_THAT(0, Eq(0));
+//}
 
-TEST(test_model_gen, set)
+TEST(addPart, set)
 {
 
     GraphModel gm(Keras);
     Part *pa;
     Connection *cn;
-    int s1, s2;
 
     // pa = new Part(PartType::InputLayer);
     // pa->AddOutputPort("256,256,3");
@@ -41,22 +40,164 @@ TEST(test_model_gen, set)
     gm.addPart(PartType::InputLayer);
 
     map<string,string> oracle;
-    oracle["id"] = "0";
     oracle["input_shape"] = "(256,256,3)";
-    oracle["name"] = "'InputLayer'";
     oracle["num_input_port"] = "0";
     oracle["num_output_port"] = "1";
     oracle["shape_output_port_0"] = "None,256,256,3,";
 
-    map<string,string> m1,m2;
     compare_map(oracle,gm.getPartInfo(0));
+    oracle.clear();
+
+    gm.addPart(PartType::Dense);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "None,64,";
+    //Confirm it later.
+
+    compare_map(oracle,gm.getPartInfo(1));
+    oracle.clear();
+
+    gm.addPart(PartType::Conv2D);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "";
+
+    compare_map(oracle,gm.getPartInfo(2));
+    oracle.clear();
+
+    gm.addPart(PartType::MaxPooling2D);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "";
+
+    compare_map(oracle,gm.getPartInfo(3));
+    oracle.clear();
+
+    gm.addPart(PartType::Activation);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "";
+
+    compare_map(oracle,gm.getPartInfo(4));
+    oracle.clear();
+
+    gm.addPart(PartType::Dropout);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "";
+
+    compare_map(oracle,gm.getPartInfo(5));
+    oracle.clear();
+
+    gm.addPart(PartType::Flatten);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "";
+
+    compare_map(oracle,gm.getPartInfo(6));
+    oracle.clear();
+
+    gm.addPart(PartType::Reshape);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "";
+
+    compare_map(oracle,gm.getPartInfo(7));
+    oracle.clear();
+}
+
+TEST(addConnection,set)
+{
+    GraphModel gm(Keras);
+    Part *pa;
+    Connection *cn;
+    map<string,string> oracle;
+
+    gm.addPart(PartType::InputLayer);
+    gm.addPart(PartType::Conv2D);
+    gm.addPart(PartType::Activation);
+    gm.addPart(PartType::Dropout);
+    gm.addPart(PartType::Flatten);
+    gm.addPart(PartType::Reshape);
+    gm.addPart(PartType::Dense);
+    //Tested except Dense
+
+    gm.addConnection(0,1,1,0);
+    oracle["num_input_port"] = "0";
+    oracle["num_output_port"] = "1";
+    //oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "None,256,256,3,";
+
+    compare_map(oracle,gm.getPartInfo(0));
+    oracle.clear();
+
+    gm.addConnection(1,2,1,0);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "None,256,256,3,";
+    oracle["shape_output_port_0"] = "None,254,254,32,";
+
+    compare_map(oracle,gm.getPartInfo(1));
+    oracle.clear();
+
+    gm.addConnection(2,3,1,0);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "None,254,254,32,";
+    oracle["shape_output_port_0"] = "None,254,254,32,";
+
+    compare_map(oracle,gm.getPartInfo(2));
+    oracle.clear();
+
+    gm.addConnection(4,3,0,1);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "None,254,254,32,";
+    oracle["shape_output_port_0"] = "None,254,254,32,";
+
+    compare_map(oracle,gm.getPartInfo(3));
+    oracle.clear();
+
+//    gm.addConnection(4,5,1,0);
+//    oracle["num_input_port"] = "1";
+//    oracle["num_output_port"] = "1";
+//    oracle["shape_input_port_0"] = "None,254,254,32,";
+//    oracle["shape_output_port_0"] = "None,2064512,";
+
+//    //compare_map(oracle,gm.getPartInfo(4));
+//    oracle.clear();
+
+    gm.addConnection(3,5,1,0);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "None,254,254,32,";
+    oracle["shape_output_port_0"] = "None,2064512,";
+
+    compare_map(oracle,gm.getPartInfo(5));
+    oracle.clear();
+
+
+
 }
 
 void compare_map(map<string,string> m1, map<string,string> m2)
 {
-    for(map<string, string>::iterator iter=m1.begin(); iter!=m2.end(); iter++){
-        EXPECT_TRUE(m2[iter->first]==iter->second) << "Differ at  " << '<'+iter->first+','+iter->second+'>';
-    }
+    map<string, string>::iterator iter_m1;
+    for(map<string, string>::iterator iter=m2.begin(); iter!=m2.end(); iter++){
+        iter_m1 = m1.find(iter->first);
+        if (iter_m1 != m1.end())
+        {
+            //std::cout<<"here"<<endl;
+            EXPECT_TRUE(iter_m1->second==iter->second) << "Differ at  " <<m2["name"]<<": "<< '<'+iter->first+','+iter->second+'>';
+        }
+     }
 }
 
 
