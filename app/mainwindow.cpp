@@ -7,12 +7,9 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), mGraphModel(new GraphModel(Backend::Keras))
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    mModelScene = new ModelScene(*ui->toolBoxButtonGroup, *mGraphModel,
-                                 *ui->connectButton);
-    ui->graphicsView->setScene(mModelScene);
 
     // set up the toolbox
     QButtonGroup *buttonGroup = ui->toolBoxButtonGroup;
@@ -24,8 +21,6 @@ MainWindow::MainWindow(QWidget *parent) :
     buttonGroup->setId(ui->dropoutButton, static_cast<int>(PartType::Dropout));
     buttonGroup->setId(ui->flattenButton, static_cast<int>(PartType::Flatten));
     buttonGroup->setId(ui->reshapeButton, static_cast<int>(PartType::Reshape));
-    // set up the connect button
-    connect(ui->connectButton, SIGNAL(clicked(bool)), mModelScene, SLOT(startConnection(bool)));
 }
 
 MainWindow::~MainWindow()
