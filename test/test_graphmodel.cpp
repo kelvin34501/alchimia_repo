@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 void test_model_basic(){
     cout << "test_model_basic" << endl;
 
-    GraphModel gm(Keras);
+    GraphModel gm(Backend::Keras);
     shared_ptr<Part> pa;
     shared_ptr<Connection> cn;
 
@@ -101,7 +101,7 @@ void test_base_converter(){
 void test_model_gen(){
     cout << "test_model_gen" << endl;
 
-    GraphModel gm(Keras);
+    GraphModel gm(Backend::Keras);
     set_basic_model(gm);
     cout << "basic model set" << endl;
 
@@ -129,7 +129,7 @@ void test_model_gen(){
 void test_model_train(){
     cout << "test_model_train" << endl;
 
-    GraphModel gm(Keras);
+    GraphModel gm(Backend::Keras);
     set_basic_model(gm);
     cout << "basic model set" << endl;
 

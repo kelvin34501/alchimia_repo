@@ -7,12 +7,9 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), mGraphModel(new GraphModel(Backend::Keras))
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->setupUi(this);
-    mModelScene = new ModelScene(*ui->toolBoxButtonGroup, *mGraphModel);
-    ui->graphicsView->setScene(mModelScene);
 
     // set up the toolbox
     QButtonGroup *buttonGroup = ui->toolBoxButtonGroup;

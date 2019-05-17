@@ -9,6 +9,8 @@
 class PartItem : public QGraphicsRectItem
 {
 public:
+    int id() const noexcept { return mId; }
+
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget = nullptr) override;
 

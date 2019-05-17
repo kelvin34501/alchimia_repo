@@ -24,6 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    connectionitem.cpp \
     converter/kerasConverter.cpp \
     converter/pythonConverter.cpp \
     editorcontrol.cpp \
@@ -32,9 +33,11 @@ SOURCES += \
     mainwindow.cpp \
     modelscene.cpp \
     partitem.cpp \
+    project/project_control.cpp \
     project/project_object.cpp
 
 HEADERS += \
+    connectionitem.h \
     converter/converter.h \
     editorcontrol.h \
     graphmodel/graphmodel.h \
@@ -42,6 +45,7 @@ HEADERS += \
     mainwindow.h \
     modelscene.h \
     partitem.h \
+    project/project_control.h \
     project/project_object.h \
     project/sereialize.hpp \
     pythonsupport/pythonadapter.h \

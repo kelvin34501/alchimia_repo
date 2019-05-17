@@ -50,30 +50,17 @@
         <widget class="QWidget" name="gridLayoutWidget">
          <property name="geometry">
           <rect>
-           <x>10</x>
-           <y>0</y>
-           <width>233</width>
-           <height>611</height>
+           <x>1</x>
+           <y>1</y>
+           <width>231</width>
+           <height>361</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="3" column="1">
-           <widget class="QToolButton" name="reshapeButton">
+          <item row="0" column="1">
+           <widget class="QToolButton" name="denseButton">
             <property name="text">
-             <string>Reshape</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">toolBoxButtonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QToolButton" name="flattenButton">
-            <property name="text">
-             <string>Flatten</string>
+             <string>Dense</string>
             </property>
             <property name="checkable">
              <bool>true</bool>
@@ -98,11 +85,10 @@ Pooling
             </attribute>
            </widget>
           </item>
-          <item row="0" column="0">
-           <widget class="QToolButton" name="inputLayerButton">
+          <item row="3" column="0">
+           <widget class="QToolButton" name="flattenButton">
             <property name="text">
-             <string>Input
-Layer</string>
+             <string>Flatten</string>
             </property>
             <property name="checkable">
              <bool>true</bool>
@@ -112,10 +98,11 @@ Layer</string>
             </attribute>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QToolButton" name="conv2DButton">
+          <item row="0" column="0">
+           <widget class="QToolButton" name="inputLayerButton">
             <property name="text">
-             <string>Conv2D</string>
+             <string>Input
+Layer</string>
             </property>
             <property name="checkable">
              <bool>true</bool>
@@ -138,6 +125,19 @@ Layer</string>
             </attribute>
            </widget>
           </item>
+          <item row="3" column="1">
+           <widget class="QToolButton" name="reshapeButton">
+            <property name="text">
+             <string>Reshape</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">toolBoxButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
           <item row="2" column="0">
            <widget class="QToolButton" name="activationButton">
             <property name="text">
@@ -151,10 +151,10 @@ Layer</string>
             </attribute>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QToolButton" name="denseButton">
+          <item row="1" column="0">
+           <widget class="QToolButton" name="conv2DButton">
             <property name="text">
-             <string>Dense</string>
+             <string>Conv2D</string>
             </property>
             <property name="checkable">
              <bool>true</bool>
@@ -165,6 +165,41 @@ Layer</string>
            </widget>
           </item>
          </layout>
+        </widget>
+        <widget class="Line" name="line">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>350</y>
+           <width>239</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QToolButton" name="connectButton">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>370</y>
+           <width>71</width>
+           <height>34</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Connect</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
         </widget>
        </widget>
        <widget class="QWidget" name="page_2">
@@ -184,6 +219,9 @@ Layer</string>
      </item>
      <item>
       <widget class="QGraphicsView" name="graphicsView">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>4</horstretch>
@@ -204,21 +242,12 @@ Layer</string>
      <height>30</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionNew_Project"/>
-    <addaction name="actionOpen_Project"/>
-    <addaction name="actionSave_Project"/>
-   </widget>
    <widget class="QMenu" name="menuRun">
     <property name="title">
      <string>Run</string>
     </property>
     <addaction name="actionCompile"/>
    </widget>
-   <addaction name="menuFile"/>
    <addaction name="menuRun"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
