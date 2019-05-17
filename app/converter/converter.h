@@ -13,7 +13,7 @@
 using namespace std;
 
 /* Backend for converter to select */
-enum Backend{
+enum class Backend{
     Keras,
     Pytorch
 };
