@@ -1,8 +1,7 @@
-#include <cmath>
-#include <QVector>
-#include <QPainter>
-
 #include "connectionitem.h"
+
+#include <QPainter>
+#include <cmath>
 
 #ifdef M_PI
 #undef M_PI
@@ -39,14 +38,15 @@ void ConnectionItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
     using std::cos;
     painter->setBrush(Qt::black);
 
+    // use the scene coordinate throughout computation
     QLineF centerLine(mStart.pos(), mEnd.pos());
     // find the intersection between the connection and the edges of the
     // PartItem at the end of the connection
-    // the top left vertex in the scene coordinate
+    // v1 is the top left vertex in the scene coordinate
     QPointF v1 = mEnd.rect().topLeft() + mEnd.pos();
     QVector<QPointF> vertices = {
         mEnd.rect().topRight(), mEnd.rect().bottomRight(),
-        mEnd.rect().bottomLeft()
+        mEnd.rect().bottomLeft(), mEnd.rect().topLeft()
     };
     QPointF intersection;
     for (QVector<QPointF>::size_type i = 0; i < vertices.size(); ++i) {
@@ -57,8 +57,7 @@ void ConnectionItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
             break;
         v1 = v2;
     }
-    intersection = mapFromScene(intersection);
-    setLine(QLineF(intersection, QPointF(0, 0)));
+    setLine(QLineF(mapFromScene(intersection), QPointF(0, 0)));
 
     // draw the arrow head
     double angle = std::atan2(-line().dy(), line().dx());
