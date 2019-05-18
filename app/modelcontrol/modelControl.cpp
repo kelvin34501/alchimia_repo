@@ -28,7 +28,6 @@ void ModelControl::launchCompile(CompileCFG compile_cfg){
     }
     else{
         outfile << project->graph_mdl->getPythonFileModel(compile_cfg);
-        outfile << "get gm and get python file for compilation";
     }
     outfile.close();
 
