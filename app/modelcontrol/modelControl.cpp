@@ -1,13 +1,12 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "modelcontrol_d.h"
+#include "modelcontrol.h"
 
 using namespace std;
 
-// TODO: compileModel, invoke the front-end UI
 void ModelControl::compileModel(){
-
+    configureCompilation(project->compile_cfg);
 }
 
 void ModelControl::configureCompilation(CompileCFG compile_cfg){
@@ -28,13 +27,13 @@ void ModelControl::launchCompile(CompileCFG compile_cfg){
         return;
     }
     else{
-        // outfile << gm->getPythonFileModel(compile_cfg);
-        outfile << "get gm and get python file for compilation";  // TODO: get graphModel from project_control and save python file
+        outfile << project->graph_mdl->getPythonFileModel(compile_cfg);
+        outfile << "get gm and get python file for compilation";
     }
     outfile.close();
 
     // run python file
     if(python->runPython(compile_cfg.pyfile_path.c_str())){
-        gm->model_cfg.archi_path = compile_cfg.archi_path;
+        project->graph_mdl->model_cfg.archi_path = compile_cfg.archi_path;
     }
 }

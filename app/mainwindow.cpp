@@ -28,4 +28,5 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete mModelScene;
+    delete mModelControl;
 }

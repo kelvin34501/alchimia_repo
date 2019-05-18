@@ -1,22 +1,24 @@
-#ifndef MODELCONTROL_D_H_INCLUDED
-#define MODELCONTROL_D_H_INCLUDED
+#ifndef MODELCONTROL_H_INCLUDED
+#define MODELCONTROL_H_INCLUDED
 
 #include <iostream>
+#include <QObject>
 #include "../pythonsupport/pythonadapter.h"
 #include "../utils/configurations.h"
 #include "../graphmodel/graphmodel.h"
+#include "project/project_object.h"
 
 using namespace std;
+using namespace project;
 
-class ModelControl{
+class ModelControl : public QObject {
+    Q_OBJECT
+
 public:
-    ModelControl(PythonAdapter* python=nullptr){
+    ModelControl(shared_ptr<project_object> p, PythonAdapter* python=nullptr)
+        : project(p) {
         this->python = python;
-        // this->gm = gm;
     };
-    /* compileModel: initiate use case, create CompileConfigurationWindow. */
-    /*      SHOULD CHECK whether python adapter and graph model are set.   */
-    void compileModel();
     /* configureCompilation: starts compilation after configured in        */
     /*      CompileConfigurationWindow                                     */
     /* param:
@@ -28,12 +30,19 @@ public:
     void setPython(PythonAdapter* python) { this->python = python; }
     // /* setGraphModel: set or update graph model */
     // void setGraphModel(GraphModel* gm) { this->gm = gm; }
+private slots:
+    /**
+    * Initiate use case,  create CompileConfigurationWindow.
+    * SHOULD CHECK whether python adapter and graph model are set.
+    * Connected to actionCompile's triggered().
+    */
+    void compileModel();
 private:
     /* launchCompile: start the real compilation, including python */
     /*      generation and running python file                     */
     void launchCompile(CompileCFG compile_cfg);
     PythonAdapter* python;
-    // GraphModel* gm;
+    shared_ptr<project_object> project;
 };
 
-#endif // MODELCONTROL_D_H_INCLUDED
+#endif // MODELCONTROL_H_INCLUDED

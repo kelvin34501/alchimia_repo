@@ -31,6 +31,7 @@ SOURCES += \
     graphmodel/graphModel.cpp \
     main.cpp \
     mainwindow.cpp \
+    modelcontrol/modelControl.cpp \
     modelscene.cpp \
     partitem.cpp \
     project/project_control.cpp \
@@ -44,6 +45,7 @@ HEADERS += \
     graphmodel/graphmodel.h \
     graphmodel/graphmodel_name.h \
     mainwindow.h \
+    modelcontrol/modelcontrol.h \
     modelscene.h \
     partitem.h \
     project/project_control.h \

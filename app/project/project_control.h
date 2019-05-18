@@ -55,11 +55,6 @@ public slots:
     * Connected to the "New Project" button's clicked() signal
     */
     void create_new_project();
-
-    /**
-    * Connected to the "Compile" menu button's clicked() signal
-    */
-    void compile();
 };
 
 }

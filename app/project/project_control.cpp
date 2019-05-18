@@ -60,18 +60,20 @@ void project_control::create_new_project()
     active_project_id = add_new_project(project_setting_dialog.projecName(),
                                         project_setting_dialog.backend(),
                                         project_setting_dialog.projectPath());
+
     QDir d(project_setting_dialog.projectPath());
     d.mkdir(project_setting_dialog.projecName());
+
     shared_ptr<project_object> p = (*this)[active_project_id];
+
+    ModelControl *modelControl = new ModelControl(p);
+    main_window.setModelControl(modelControl);
+    connect(main_window_ui.actionCompile, SIGNAL(triggered()),
+            modelControl, SLOT(compileModel()));
+
     ModelScene *modelScene = new ModelScene(*main_window_ui.toolBoxButtonGroup,
                                             *p, *main_window_ui.connectButton);
     main_window.setModelScene(modelScene);
     main_window_ui.graphicsView->setScene(modelScene);
     main_window_ui.graphicsView->setEnabled(true);
-}
-
-void project_control::compile()
-{
-    shared_ptr<project_object> p = (*this)[active()];
-    p->gen();
 }

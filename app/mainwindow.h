@@ -3,6 +3,7 @@
 
 #include "modelscene.h"
 #include "project/project_control.h"
+#include "modelcontrol/modelcontrol.h"
 
 #include <QMainWindow>
 
@@ -17,6 +18,7 @@ class MainWindow : public QMainWindow
 
 public:
     void setModelScene(ModelScene * modelScene) noexcept { mModelScene = modelScene; }
+    void setModelControl(ModelControl *modelControl) noexcept { mModelControl = modelControl; }
 
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -25,6 +27,7 @@ private:
     Ui::MainWindow *ui;
     ModelScene *mModelScene = nullptr;
     project_control mProjectControl;
+    ModelControl *mModelControl = nullptr;
 };
 
 #endif // MAINWINDOW_H
