@@ -1,15 +1,15 @@
-#include <QGraphicsView>
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "graphmodel/graphmodel_name.h"
+#include "projectsettingdialog.h"
 
+
+using namespace project;
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    QMainWindow(parent), ui(new Ui::MainWindow), mProjectControl(*this, *ui)
 {
     ui->setupUi(this);
+    connect(ui->actionNew_Project, SIGNAL(triggered()), &mProjectControl, SLOT(create_new_project()));
 
     // set up the toolbox
     QButtonGroup *buttonGroup = ui->toolBoxButtonGroup;
