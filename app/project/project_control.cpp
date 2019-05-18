@@ -66,8 +66,9 @@ void project_control::create_new_project()
 
     shared_ptr<project_object> p = (*this)[active_project_id];
 
-    PythonAdapter *pyad = new WindowsPython ();     // TODO: dummy python adapter, should be chosen based on situations
-    ModelControl *modelControl = new ModelControl(p, pyad, "D:\\Anaconda3\\python.exe");  // TODO: correct python.exe path and tensorboard.exe path sould be added
+//    PythonAdapter *pyad = new WindowsPython ();     // TODO: dummy python adapter, should be chosen based on situations
+    PythonAdapter *pyad = new QTPython ();     // TODO: dummy python adapter, should be chosen based on situations
+    ModelControl *modelControl = new ModelControl(p, pyad, "D:/Anaconda3/python.exe");  // TODO: correct python.exe path and tensorboard.exe path sould be added
     main_window.setModelControl(modelControl);
     connect(main_window_ui.actionCompile, SIGNAL(triggered()),
             modelControl, SLOT(compileModel()));

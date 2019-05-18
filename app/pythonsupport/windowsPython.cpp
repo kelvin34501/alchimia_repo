@@ -62,11 +62,3 @@ int WindowsPython::activateTB(const char* log_dir){
 
     return flag;
 }
-
-void WindowsPython::setPythonPath(const char* path){
-    pypath = path;
-}
-
-void WindowsPython::setTBPath(const char* path){
-    tbpath = path;
-}

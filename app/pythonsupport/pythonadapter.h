@@ -29,14 +29,21 @@ public:
         path: string, the path to the python.exe, extra "" will be auto added. The
             path IS selected by user. MAY SWITCH TO INFORMATION IN QT.
     */
-    virtual void setPythonPath(const char* path) = 0;
+    void setPythonPath(const char* path){
+        pypath = path;
+    }
     /* setTBPath: set path to the tensorboard.exe, should be called when creating */
     /*          or loading project                                                */
     /* param:
         path: string, the path to the python.exe, extra "" will be auto added. The
             path IS selected by user. MAY SWITCH TO INFORMATION IN QT.
     */
-    virtual void setTBPath(const char* path) = 0;
+    void setTBPath(const char* path){
+        tbpath = path;
+    }
+protected:
+    string pypath;
+    string tbpath;
 };
 
 /* Windows.h implementation of PythonAdapter */
@@ -45,11 +52,13 @@ public:
     ~WindowsPython() {};
     int runPython(const char* file_path);
     int activateTB(const char* log_dir);
-    void setPythonPath(const char* path);
-    void setTBPath(const char* path);
-private:
-    string pypath;
-    string tbpath;
+};
+
+class QTPython : public PythonAdapter{
+public:
+    ~QTPython() {};
+    int runPython(const char* file_path);
+    int activateTB(const char* log_dir);
 };
 
 #endif // PYTHONADAPTER_H_INCLUDED

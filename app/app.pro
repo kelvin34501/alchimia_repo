@@ -36,7 +36,8 @@ SOURCES += \
     partitem.cpp \
     project/project_control.cpp \
     project/project_object.cpp \
-    projectsettingdialog.cpp
+    projectsettingdialog.cpp \
+    pythonsupport/qtPython.cpp
 
 HEADERS += \
     connectionitem.h \
