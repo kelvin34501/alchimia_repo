@@ -12,10 +12,10 @@ int project_control::active()
     return active_project_id;
 }
 
-int project_control::add_new_project(QString name, Backend be)
+int project_control::add_new_project(QString name, Backend be, const QString &location)
 {
     int cur_id = p.size();
-    p.push_back(make_shared<project_object>(name, be));
+    p.push_back(make_shared<project_object>(name, be, location));
     return cur_id;
 }
 
@@ -57,12 +57,21 @@ void project_control::create_new_project()
     ProjectSettingDialog project_setting_dialog(&main_window);
     if (project_setting_dialog.exec() == QDialog::Rejected)
         return;
-    int project_index = add_new_project(project_setting_dialog.projecName(),
-                                        project_setting_dialog.backend());
-    shared_ptr<project_object> p = (*this)[project_index];
+    active_project_id = add_new_project(project_setting_dialog.projecName(),
+                                        project_setting_dialog.backend(),
+                                        project_setting_dialog.projectPath());
+    QDir d(project_setting_dialog.projectPath());
+    d.mkdir(project_setting_dialog.projecName());
+    shared_ptr<project_object> p = (*this)[active_project_id];
     ModelScene *modelScene = new ModelScene(*main_window_ui.toolBoxButtonGroup,
                                             *p, *main_window_ui.connectButton);
     main_window.setModelScene(modelScene);
     main_window_ui.graphicsView->setScene(modelScene);
     main_window_ui.graphicsView->setEnabled(true);
+}
+
+void project_control::compile()
+{
+    shared_ptr<project_object> p = (*this)[active()];
+    p->gen();
 }

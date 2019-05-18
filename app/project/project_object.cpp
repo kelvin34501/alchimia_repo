@@ -2,12 +2,15 @@
 
 using namespace project;
 
-project_object::project_object(QString name, Backend back):
+project_object::project_object(QString name, Backend back, const QString &location):
     backend(back), graph_mdl(new GraphModel(back))
 {
     // create a new project
     project_name = name;
     pro_desc_path = name + ".project";
+    QByteArray project_base_path((location + name + '/').toUtf8());
+    compile_cfg.archi_path = string(project_base_path.constData()) + "architecture.json";
+    compile_cfg.pyfile_path = string(project_base_path.constData()) + "model.py";
 }
 
 void project_object::gen()
