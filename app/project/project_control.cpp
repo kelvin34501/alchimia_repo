@@ -1,12 +1,11 @@
 #include "project_control.h"
+#include "projectsettingdialog.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
 
 using namespace project;
 using namespace std;
-
-project_control::project_control()
-{
-    active_project_id = -1;
-}
 
 int project_control::active()
 {
@@ -51,4 +50,19 @@ shared_ptr<project_object> project_control::operator[](int id)
 const shared_ptr<project_object> project_control::operator[](int id) const
 {
     return shared_ptr<project_object>(p[id]);
+}
+
+void project_control::create_new_project()
+{
+    ProjectSettingDialog project_setting_dialog(&main_window);
+    if (project_setting_dialog.exec() == QDialog::Rejected)
+        return;
+    int project_index = add_new_project(project_setting_dialog.projecName(),
+                                        project_setting_dialog.backend());
+    shared_ptr<project_object> p = (*this)[project_index];
+    ModelScene *modelScene = new ModelScene(*main_window_ui.toolBoxButtonGroup,
+                                            *p, *main_window_ui.connectButton);
+    main_window.setModelScene(modelScene);
+    main_window_ui.graphicsView->setScene(modelScene);
+    main_window_ui.graphicsView->setEnabled(true);
 }

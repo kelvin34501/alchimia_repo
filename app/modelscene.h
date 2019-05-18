@@ -1,13 +1,15 @@
 #ifndef MODELSCENE_H
 #define MODELSCENE_H
 
-#include "graphmodel/graphmodel_name.h"
 #include "editorcontrol.h"
+#include "project/project_object.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QToolButton>
 
+using std::shared_ptr;
+using namespace project;
 
 class ModelScene : public QGraphicsScene
 {
@@ -23,11 +25,14 @@ public:
     }
 
     explicit ModelScene(QButtonGroup &toolboxButtonGroup,
-                        GraphModel &graphModel, QToolButton &connectButton,
+                        project_object &project, QToolButton &connectButton,
                         QObject *parent = nullptr)
         : QGraphicsScene(sceneRect, parent), mClickMode(Idle),
-          mEditorControl(*this, toolboxButtonGroup, graphModel),
-          mGraphModel(graphModel), mConnectButton(connectButton) {}
+          mEditorControl(*this, toolboxButtonGroup, project),
+          mProject(project), mConnectButton(connectButton)
+    {
+        connect(&connectButton, SIGNAL(clicked(bool)), this, SLOT(startConnection(bool)));
+    }
 
 public slots:
     /**
@@ -50,7 +55,7 @@ private:
     ClickMode mClickMode;
     PartType mSelectedTemplateType;
     EditorControl mEditorControl;
-    GraphModel &mGraphModel;
+    project_object &mProject;
     QGraphicsLineItem *incompleteConnection;
     QToolButton &mConnectButton;
 

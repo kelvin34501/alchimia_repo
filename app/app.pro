@@ -34,7 +34,8 @@ SOURCES += \
     modelscene.cpp \
     partitem.cpp \
     project/project_control.cpp \
-    project/project_object.cpp
+    project/project_object.cpp \
+    projectsettingdialog.cpp
 
 HEADERS += \
     connectionitem.h \
@@ -48,6 +49,7 @@ HEADERS += \
     project/project_control.h \
     project/project_object.h \
     project/sereialize.hpp \
+    projectsettingdialog.h \
     pythonsupport/pythonadapter.h \
     utils/configurations.h \
     utils/enum_cast.hpp \
@@ -55,7 +57,8 @@ HEADERS += \
     utils/string_utils.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+        projectsettingdialog.ui
 
 INCLUDEPATH += \
     ../../cereal/include
