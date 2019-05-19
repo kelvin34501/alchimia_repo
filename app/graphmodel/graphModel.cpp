@@ -182,6 +182,7 @@ void GraphModel::deleteConnection(int id){
 /* TODO: shape change update for other types */
 void Part::update_shape(string nsh){
     vector<int> vi, vk, vs;
+    vector<int> tmp = {-1};
     int res = 1;
     switch (parttype)
     {
@@ -315,9 +316,10 @@ void Part::update_shape(string nsh){
             ports[0][0]->update_shape(nsh);
         }
         vi = stot(ports[0][0]->shape);
-        for(int i=1; i<vi.size(); i++) res *= vi[i];  // starts from 1, because vi[0] = -1
+        for(int i=1; i<vi.size(); i++) res *= vi[i]; // starts from 1, because vi[0] = -1
+        tmp.push_back(res);
         for(int i=0; i<ports[1].size(); i++){
-            ports[1][i]->update_shape("None," + to_string(res));
+            ports[1][i]->update_shape(ttos(tmp));
         }
         break;
     
