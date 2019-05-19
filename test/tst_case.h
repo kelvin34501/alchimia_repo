@@ -28,7 +28,7 @@ void compare_map(map<string,string> m1, map<string,string> m2);
 TEST(addPart, set)
 {
 
-    GraphModel gm(Keras);
+    GraphModel gm(Backend::Keras);
     Part *pa;
     Connection *cn;
 
@@ -115,7 +115,7 @@ TEST(addPart, set)
 
 TEST(addConnection,set)
 {
-    GraphModel gm(Keras);
+    GraphModel gm(Backend::Keras);
     Part *pa;
     Connection *cn;
     map<string,string> oracle;
