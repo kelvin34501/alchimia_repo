@@ -31,13 +31,12 @@ int project_control::add_existing_project(QString path)
 
 void project_control::save_project(int id)
 {
-    ofstream out(p[id]->pro_desc_path.toStdString(), ios::trunc);
+    ofstream out(p[id]->project_cfg.pro_desc_path.toStdString(), ios::trunc);
     cereal::JSONOutputArchive ar(out);
     ar(*p[id]);
 }
 
 void project_control::save_active_project(){
-    cout << p[active_project_id]->pro_desc_path.toStdString() << endl;
     save_project(active_project_id);
 }
 

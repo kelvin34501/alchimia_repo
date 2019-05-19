@@ -31,9 +31,7 @@ static const int MAX_TRY = 4000;
 class project_object
 {
 public:
-    QString project_name;
-    QString project_location;
-    QString pro_desc_path; // project file (stores graph structure)
+    ProjectCFG project_cfg;
     CompileCFG compile_cfg;
     TrainCFG train_cfg;
     TestCFG test_cfg;
@@ -50,10 +48,9 @@ public:
     template<class Archive>
     void serialize(Archive &ar)
     {
-        ar(cereal::make_nvp("name", project_name),
-           cereal::make_nvp("backend", backend),
+        ar(cereal::make_nvp("backend", backend),
            cereal::make_nvp("model", graph_mdl),
-           cereal::make_nvp("pro_desc_path", pro_desc_path),
+           cereal::make_nvp("project_cfg", project_cfg),
            cereal::make_nvp("compile_cfg", compile_cfg),
            cereal::make_nvp("train_cfg", train_cfg),
            cereal::make_nvp("test_cfg", test_cfg));
