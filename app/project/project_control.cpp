@@ -1,22 +1,21 @@
 #include "project_control.h"
+#include "projectsettingdialog.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
 
 using namespace project;
 using namespace std;
-
-project_control::project_control()
-{
-    active_project_id = -1;
-}
 
 int project_control::active()
 {
     return active_project_id;
 }
 
-int project_control::add_new_project(QString name, Backend be)
+int project_control::add_new_project(QString name, Backend be, const QString &location)
 {
     int cur_id = p.size();
-    p.push_back(make_shared<project_object>(name, be));
+    p.push_back(make_shared<project_object>(name, be, location));
     return cur_id;
 }
 
@@ -51,4 +50,32 @@ shared_ptr<project_object> project_control::operator[](int id)
 const shared_ptr<project_object> project_control::operator[](int id) const
 {
     return shared_ptr<project_object>(p[id]);
+}
+
+void project_control::create_new_project()
+{
+    ProjectSettingDialog project_setting_dialog(&main_window);
+    if (project_setting_dialog.exec() == QDialog::Rejected)
+        return;
+    active_project_id = add_new_project(project_setting_dialog.projecName(),
+                                        project_setting_dialog.backend(),
+                                        project_setting_dialog.projectPath());
+
+    QDir d(project_setting_dialog.projectPath());
+    d.mkdir(project_setting_dialog.projecName());
+
+    shared_ptr<project_object> p = (*this)[active_project_id];
+
+//    PythonAdapter *pyad = new WindowsPython ();     // TODO: dummy python adapter, should be chosen based on situations
+    PythonAdapter *pyad = new QTPython ();     // TODO: dummy python adapter, should be chosen based on situations
+    ModelControl *modelControl = new ModelControl(p, pyad, "D:/Anaconda3/python.exe");  // TODO: correct python.exe path and tensorboard.exe path sould be added
+    main_window.setModelControl(modelControl);
+    connect(main_window_ui.actionCompile, SIGNAL(triggered()),
+            modelControl, SLOT(compileModel()));
+
+    ModelScene *modelScene = new ModelScene(*main_window_ui.toolBoxButtonGroup,
+                                            *p, *main_window_ui.connectButton);
+    main_window.setModelScene(modelScene);
+    main_window_ui.graphicsView->setScene(modelScene);
+    main_window_ui.graphicsView->setEnabled(true);
 }

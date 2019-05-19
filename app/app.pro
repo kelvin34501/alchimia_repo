@@ -31,10 +31,13 @@ SOURCES += \
     graphmodel/graphModel.cpp \
     main.cpp \
     mainwindow.cpp \
+    modelcontrol/modelControl.cpp \
     modelscene.cpp \
     partitem.cpp \
     project/project_control.cpp \
-    project/project_object.cpp
+    project/project_object.cpp \
+    projectsettingdialog.cpp \
+    pythonsupport/qtPython.cpp
 
 HEADERS += \
     connectionitem.h \
@@ -43,11 +46,13 @@ HEADERS += \
     graphmodel/graphmodel.h \
     graphmodel/graphmodel_name.h \
     mainwindow.h \
+    modelcontrol/modelcontrol.h \
     modelscene.h \
     partitem.h \
     project/project_control.h \
     project/project_object.h \
     project/sereialize.hpp \
+    projectsettingdialog.h \
     pythonsupport/pythonadapter.h \
     utils/configurations.h \
     utils/enum_cast.hpp \
@@ -55,7 +60,8 @@ HEADERS += \
     utils/string_utils.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+        projectsettingdialog.ui
 
 INCLUDEPATH += \
     ../../cereal/include

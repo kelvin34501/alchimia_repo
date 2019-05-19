@@ -42,7 +42,7 @@ public:
     unique_ptr<GraphModel> graph_mdl; // graph model
 
     explicit project_object() {}
-    explicit project_object(QString name, Backend back); // create project
+    explicit project_object(QString name, Backend back, QString location); // create project
     project_object(const project_object &o) = delete; // copy con
     project_object& operator=(const project_object &o) = delete; // override =
     ~project_object() {}
@@ -58,7 +58,7 @@ public:
            cereal::make_nvp("train_cfg", train_cfg),
            cereal::make_nvp("test_cfg", test_cfg));
     }
-private:
+
     void gen();
     void gen_train();
     void gen_test();

@@ -4,8 +4,10 @@
 #include <QButtonGroup>
 #include <QPointF>
 
-#include "graphmodel/graphmodel.h"
+#include "project/project_object.h"
 
+
+using namespace project;
 
 class ModelScene;
 
@@ -19,9 +21,9 @@ public:
     void add(PartType partType, const QPointF &pos) const;
 
     EditorControl(ModelScene &modelScene, QButtonGroup &toolboxButtonGroup,
-                  GraphModel &graphModel, QObject *parent = nullptr)
+                  project_object &project, QObject *parent = nullptr)
         : QObject(parent), mModelScene(modelScene),
-          mToolboxButtonGroup(toolboxButtonGroup), mGraphModel(graphModel)
+          mToolboxButtonGroup(toolboxButtonGroup), mProject(project)
     {
         connect(&toolboxButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(selectTemplate(int)));
     }
@@ -38,7 +40,7 @@ private:
     */
     QButtonGroup &mToolboxButtonGroup;
 
-    GraphModel &mGraphModel;
+    project_object &mProject;
 };
 
 #endif // EDITORCONTROL_H

@@ -45,7 +45,7 @@ void ModelScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         removeItem(incompleteConnection);
         delete incompleteConnection;
 
-        int id = mGraphModel.addConnection(start->id(), end->id(), true, false);
+        int id = mProject.graph_mdl->addConnection(start->id(), end->id(), true, false);
         addItem(new ConnectionItem(*start, *end, id));
         setClickMode(Idle);
         mConnectButton.setChecked(false);

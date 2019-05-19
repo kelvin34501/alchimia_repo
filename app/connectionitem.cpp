@@ -5,8 +5,8 @@
 
 #ifdef M_PI
 #undef M_PI
-const double M_PI = 4 * std::atan(1);
 #endif
+const double M_PI = 4 * std::atan(1);
 
 
 const qreal ConnectionItem::arrowSize = 10;
