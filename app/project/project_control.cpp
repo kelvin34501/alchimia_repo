@@ -12,10 +12,10 @@ int project_control::active()
     return active_project_id;
 }
 
-int project_control::add_new_project(QString name, Backend be, const QString &location)
+int project_control::add_new_project(QString name, Backend be, const QString &location, QString pypath, QString tbpath)
 {
     int cur_id = p.size();
-    p.push_back(make_shared<project_object>(name, be, location));
+    p.push_back(make_shared<project_object>(name, be, location, pypath, tbpath));
     return cur_id;
 }
 
@@ -67,16 +67,18 @@ void project_control::create_new_project()
         return;
     active_project_id = add_new_project(project_setting_dialog.projecName(),
                                         project_setting_dialog.backend(),
-                                        project_setting_dialog.projectPath());
+                                        project_setting_dialog.projectPath(),
+                                        project_setting_dialog.pythonPath(),
+                                        project_setting_dialog.tensorboardPath());
 
     QDir d(project_setting_dialog.projectPath());
     d.mkdir(project_setting_dialog.projecName());
 
     shared_ptr<project_object> p = (*this)[active_project_id];
-
-//    PythonAdapter *pyad = new WindowsPython ();     // TODO: dummy python adapter, should be chosen based on situations
     PythonAdapter *pyad = new QTPython ();     // TODO: dummy python adapter, should be chosen based on situations
-    ModelControl *modelControl = new ModelControl(this, pyad, "D:/Anaconda3/python.exe");  // TODO: correct python.exe path and tensorboard.exe path sould be added
+    ModelControl *modelControl = new ModelControl(this, pyad,
+                                                  project_setting_dialog.pythonPath().toStdString().data(),
+                                                  project_setting_dialog.tensorboardPath().toStdString().data());
     main_window.setModelControl(modelControl);
     connect(main_window_ui.actionCompile, SIGNAL(triggered()),
             modelControl, SLOT(compileModel()));

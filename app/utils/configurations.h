@@ -11,6 +11,8 @@ struct ProjectCFG{
     QString name;
     QString location;
     QString pro_desc_path;
+    QString python_path;
+    QString tensorboard_path;
 };
 
 struct DataCFG{

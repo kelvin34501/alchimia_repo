@@ -40,7 +40,7 @@ public:
     unique_ptr<GraphModel> graph_mdl; // graph model
 
     explicit project_object() {}
-    explicit project_object(QString name, Backend back, QString location); // create project
+    explicit project_object(QString name, Backend back, QString location, QString pypath, QString tbpath); // create project
     project_object(const project_object &o) = delete; // copy con
     project_object& operator=(const project_object &o) = delete; // override =
     ~project_object() {}

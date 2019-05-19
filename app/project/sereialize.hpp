@@ -72,7 +72,9 @@ void serialize(Archive &archive,
 {
     archive(cereal::make_nvp("name", m.name),
             cereal::make_nvp("location",m.location),
-            cereal::make_nvp("pro_desc_path", m.pro_desc_path));
+            cereal::make_nvp("pro_desc_path", m.pro_desc_path),
+            cereal::make_nvp("python_path", m.python_path),
+            cereal::make_nvp("tensorboard_path", m.tensorboard_path));
 }
 
 template <class Archive>

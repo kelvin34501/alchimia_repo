@@ -43,7 +43,7 @@ public:
     ~project_control() = default;
 
     int active();
-    int add_new_project(QString name, Backend be, const QString &location);
+    int add_new_project(QString name, Backend be, const QString &location, QString pypath, QString tbpath);
     int add_existing_project(QString path);
     shared_ptr<project_object> operator[](int id);
     const shared_ptr<project_object> operator[](int id) const;
