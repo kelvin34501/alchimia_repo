@@ -62,29 +62,38 @@ shared_ptr<project_object> project_control::get_active_project(){
 
 void project_control::create_new_project()
 {
+    // create a project setting dialog
     ProjectSettingDialog project_setting_dialog(&main_window);
     if (project_setting_dialog.exec() == QDialog::Rejected)
         return;
+    
+    // create a new project with data from the project setting dialog
     active_project_id = add_new_project(project_setting_dialog.projecName(),
                                         project_setting_dialog.backend(),
                                         project_setting_dialog.projectPath(),
                                         project_setting_dialog.pythonPath(),
                                         project_setting_dialog.tensorboardPath());
 
+    // update system directory
     QDir d(project_setting_dialog.projectPath());
     d.mkdir(project_setting_dialog.projecName());
 
-    shared_ptr<project_object> p = (*this)[active_project_id];
-    PythonAdapter *pyad = new QTPython ();     // TODO: dummy python adapter, should be chosen based on situations
+    // create and set up model control
+    // TODO: dummy python adapter, should be chosen based on situations
+    PythonAdapter *pyad = new QTPython ();
     ModelControl *modelControl = new ModelControl(this, pyad,
-                                                  project_setting_dialog.pythonPath().toStdString().data(),
-                                                  project_setting_dialog.tensorboardPath().toStdString().data());
+                                                project_setting_dialog.pythonPath().toStdString().data(),
+                                                project_setting_dialog.tensorboardPath().toStdString().data());
     main_window.setModelControl(modelControl);
     connect(main_window_ui.actionCompile, SIGNAL(triggered()),
             modelControl, SLOT(compileModel()));
 
+    // create and set up editor control (model scene)
+    shared_ptr<project_object> p = (*this)[active_project_id];
     ModelScene *modelScene = new ModelScene(*main_window_ui.toolBoxButtonGroup,
                                             *p, *main_window_ui.connectButton);
+
+    // update main panel
     main_window.setModelScene(modelScene);
     main_window_ui.graphicsView->setScene(modelScene);
     main_window_ui.graphicsView->setEnabled(true);

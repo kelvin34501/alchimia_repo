@@ -13,9 +13,9 @@ int QTPython::runPython(const char* file_path){
     QStringList arguments;
     arguments << file_path;
 
-    QProcess *myProcess = new QProcess();
-    myProcess->start(program, arguments);
-    myProcess->waitForFinished();
+    QProcess *process = new QProcess();
+    process->start(program, arguments);
+    process->waitForFinished();
 
     return 1;
 }
