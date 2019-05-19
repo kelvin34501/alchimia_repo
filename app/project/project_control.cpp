@@ -36,6 +36,11 @@ void project_control::save_project(int id)
     ar(*p[id]);
 }
 
+void project_control::save_active_project(){
+    cout << p[active_project_id]->pro_desc_path.toStdString() << endl;
+    save_project(active_project_id);
+}
+
 void project_control::close_project(int id)
 {
     save_project(id);
@@ -50,6 +55,10 @@ shared_ptr<project_object> project_control::operator[](int id)
 const shared_ptr<project_object> project_control::operator[](int id) const
 {
     return shared_ptr<project_object>(p[id]);
+}
+
+shared_ptr<project_object> project_control::get_active_project(){
+    return (*this)[active_project_id];
 }
 
 void project_control::create_new_project()
@@ -68,7 +77,7 @@ void project_control::create_new_project()
 
 //    PythonAdapter *pyad = new WindowsPython ();     // TODO: dummy python adapter, should be chosen based on situations
     PythonAdapter *pyad = new QTPython ();     // TODO: dummy python adapter, should be chosen based on situations
-    ModelControl *modelControl = new ModelControl(p, pyad, "D:/Anaconda3/python.exe");  // TODO: correct python.exe path and tensorboard.exe path sould be added
+    ModelControl *modelControl = new ModelControl(this, pyad, "D:/Anaconda3/python.exe");  // TODO: correct python.exe path and tensorboard.exe path sould be added
     main_window.setModelControl(modelControl);
     connect(main_window_ui.actionCompile, SIGNAL(triggered()),
             modelControl, SLOT(compileModel()));

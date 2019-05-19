@@ -32,7 +32,7 @@ class project_object
 {
 public:
     QString project_name;
-
+    QString project_location;
     QString pro_desc_path; // project file (stores graph structure)
     CompileCFG compile_cfg;
     TrainCFG train_cfg;
@@ -58,10 +58,6 @@ public:
            cereal::make_nvp("train_cfg", train_cfg),
            cereal::make_nvp("test_cfg", test_cfg));
     }
-
-    void gen();
-    void gen_train();
-    void gen_test();
 };
 
 }

@@ -7,6 +7,7 @@
 #include "../utils/configurations.h"
 #include "../graphmodel/graphmodel.h"
 #include "project/project_object.h"
+#include "project/project_control.h"
 
 using namespace std;
 using namespace project;
@@ -15,9 +16,9 @@ class ModelControl : public QObject {
     Q_OBJECT
 
 public:
-    ModelControl(shared_ptr<project_object> p, PythonAdapter* python=nullptr, const char* pypath="", const char* tbpath="")
-        : project(p) {
+    ModelControl(project_control *pc, PythonAdapter* python=nullptr, const char* pypath="", const char* tbpath=""){
         this->python = python;
+        this->pc = pc;
         if(this->python != nullptr){
             this->python->setPythonPath(pypath);
             this->python->setTBPath(tbpath);
@@ -55,7 +56,8 @@ private:
     /*      generation and running python file                     */
     void launchCompile(CompileCFG compile_cfg);
     PythonAdapter* python;
-    shared_ptr<project_object> project;
+//    shared_ptr<project_object> project;
+    project_control *pc;
 };
 
 #endif // MODELCONTROL_H_INCLUDED

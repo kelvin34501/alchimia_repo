@@ -47,7 +47,9 @@ public:
     int add_existing_project(QString path);
     shared_ptr<project_object> operator[](int id);
     const shared_ptr<project_object> operator[](int id) const;
+    shared_ptr<project_object> get_active_project();
     void save_project(int id);
+    void save_active_project();
     void close_project(int id);
 
 public slots:

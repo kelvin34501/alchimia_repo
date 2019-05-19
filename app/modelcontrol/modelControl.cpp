@@ -6,7 +6,7 @@
 using namespace std;
 
 void ModelControl::compileModel(){
-    configureCompilation(project->compile_cfg);
+    configureCompilation(pc->get_active_project()->compile_cfg);
 }
 
 void ModelControl::configureCompilation(CompileCFG compile_cfg){
@@ -14,6 +14,7 @@ void ModelControl::configureCompilation(CompileCFG compile_cfg){
     compile_cfg.pyfile_path = compile_cfg.archi_path.substr(0, compile_cfg.archi_path.size()-4) + "gen";
 
     // TODO: save project and do other adjustment
+    pc->save_active_project();
 
     // launch compile
     launchCompile(compile_cfg);
@@ -21,6 +22,7 @@ void ModelControl::configureCompilation(CompileCFG compile_cfg){
 
 void ModelControl::launchCompile(CompileCFG compile_cfg){
     // get python file
+    shared_ptr<project_object> project = pc->get_active_project();
     ofstream outfile(compile_cfg.pyfile_path);
     if(!outfile.is_open()){
         cout << "error saving files" << endl;

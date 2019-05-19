@@ -68,6 +68,15 @@ void serialize(Archive &archive,
 
 template <class Archive>
 void serialize(Archive &archive,
+               ProjectCFG &m)
+{
+    archive(cereal::make_nvp("name", m.name),
+            cereal::make_nvp("location",m.location),
+            cereal::make_nvp("pro_desc_path", m.pro_desc_path));
+}
+
+template <class Archive>
+void serialize(Archive &archive,
                ModelCFG &m)
 {
     archive(cereal::make_nvp("archi_path", m.archi_path),

@@ -3,8 +3,15 @@
 
 #include <string>
 #include <vector>
+#include <QString>
 
 using namespace std;
+
+struct ProjectCFG{
+    QString name;
+    QString location;
+    QString pro_desc_path;
+};
 
 struct DataCFG{
     string train_X_file;
