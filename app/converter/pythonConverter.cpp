@@ -77,7 +77,7 @@ void PythonConverter::with_state(string state, string alias){
 string PythonConverter::to_param_list(map<string, string> params){
     string res = "";
     for(map<string, string>::iterator iter=params.begin(); iter!=params.end(); iter++){
-        if(iter->second != ""){
+        if(iter->second != "" && iter->second != "''"){
             res.append(iter->first + "=" + iter->second + ",");
         }
     }

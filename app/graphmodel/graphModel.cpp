@@ -136,9 +136,7 @@ void Part::default_init(){
         break;
     }
 
-    params.insert(pair<string, string>("name", "'" +
-                                       string(PartTypeString[as_integer(parttype)])
-                                       + "'"));
+    params.insert(pair<string, string>("name", "''"));
 }
 
 map<string, string> GraphModel::getPartInfo(int id) const{
@@ -198,6 +196,7 @@ void Part::update_shape(string nsh){
         }
         if(nsh != "-"){
             if(nsh != "" && substr_count(nsh, ",") != 1){
+                cout << "ShapeMismatchException" << endl;
                 throw ShapeMismatchException("Input of dense layer should only have 2-dimensional shape!");
             }
             ports[0][0]->update_shape(nsh);
@@ -207,6 +206,7 @@ void Part::update_shape(string nsh){
     case PartType::Conv2D:
         if(nsh != "-"){
             if(nsh != "" && substr_count(nsh, ",") != 4){
+                cout << "ShapeMismatchException" << endl;
                 throw ShapeMismatchException("Input of conv2d layer should only have 4-dimensional shape!");
             }
             ports[0][0]->update_shape(nsh);
@@ -232,6 +232,7 @@ void Part::update_shape(string nsh){
                     }
                 }
                 else{
+                    cout << "InvalidParameterException" << endl;
                     throw InvalidParameterException("Padding can only be 'same' or 'valid'!");
                 }
                 vi[vi.size()-1] = atoi(params["filters"].c_str());
@@ -245,6 +246,7 @@ void Part::update_shape(string nsh){
             cout << nsh << endl;
             // cout << substr_count(nsh, ",") << endl;
             if(nsh != "" && substr_count(nsh, ",") != 4){
+                cout << "ShapeMismatchException" << endl;
                 throw ShapeMismatchException("Input of maxpooling2d layer should only have 4-dimensional shape!");
             }
             // cout << ports[0].size() << endl;
@@ -277,6 +279,7 @@ void Part::update_shape(string nsh){
                     // cout << 2 << endl;
                 }
                 else{
+                    cout << "ShapeMismatchException" << endl;
                     throw InvalidParameterException("Padding can only be 'same' or 'valid'!");
                 }
                 // print_vector(vi);
