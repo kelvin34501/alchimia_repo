@@ -17,7 +17,7 @@ class ProjectSettingDialog : public QDialog
 
 public:
     QString projecName() const noexcept { return ui->projectNameLineEdit->text(); }
-    Backend backend() const noexcept { return mBackend; }
+    Backend backend() const noexcept { return static_cast<Backend>(ui->backendButtonGroup->checkedId()); }
     QString projectPath() const noexcept { return ui->locationLineEdit->text(); }
     QString pythonPath() const noexcept { return ui->pythonLocationEdit->text(); }
     QString tensorboardPath() const noexcept { return ui->tensorboardLocationEdit->text(); }
@@ -35,7 +35,6 @@ private slots:
 
 private:
     Ui::ProjectSettingDialog *ui;
-    Backend mBackend;
 };
 
 #endif // PROJECTSETTINGDIALOG_H

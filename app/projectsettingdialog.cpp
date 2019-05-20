@@ -8,7 +8,11 @@ ProjectSettingDialog::ProjectSettingDialog(QWidget *parent) :
     ui(new Ui::ProjectSettingDialog)
 {
     ui->setupUi(this);
-    mBackend = Backend::Keras;
+
+    // setup the button group
+    ui->backendButtonGroup->setId(ui->kerasRadioButton, static_cast<int>(Backend::Keras));
+    ui->backendButtonGroup->setId(ui->pyTorchRadioButton, static_cast<int>(Backend::Pytorch));
+
     connect(ui->browsePushButton, SIGNAL(clicked()), this, SLOT(browseFiles()));
     connect(ui->pythonBrowseButton, SIGNAL(clicked()), this, SLOT(browsePython()));
     connect(ui->tensorboardBrowseButton, SIGNAL(clicked()), this, SLOT(browseTensorboard()));
