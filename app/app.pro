@@ -37,7 +37,8 @@ SOURCES += \
     project/project_control.cpp \
     project/project_object.cpp \
     projectsettingdialog.cpp \
-    pythonsupport/qtPython.cpp
+    pythonsupport/qtPython.cpp \
+    compileconfigurationdialog.cpp
 
 HEADERS += \
     connectionitem.h \
@@ -57,11 +58,13 @@ HEADERS += \
     utils/configurations.h \
     utils/enum_cast.hpp \
     utils/exceptions.h \
-    utils/string_utils.h
+    utils/string_utils.h \
+    compileconfigurationdialog.h
 
 FORMS += \
         mainwindow.ui \
-        projectsettingdialog.ui
+        projectsettingdialog.ui \
+    compileconfigurationdialog.ui
 
 INCLUDEPATH += \
     ../../cereal/include
