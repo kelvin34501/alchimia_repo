@@ -187,7 +187,7 @@ void Part::update_shape(string nsh){
     switch (parttype)
     {
     case PartType::InputLayer:
-        cout << "update shape" << endl;
+        //cout << "update shape" << endl;
         for(int i=0; i<ports[1].size(); i++){
             ports[1][i]->update_shape("None," + params["input_shape"].substr(1, params["input_shape"].size()-2));
         }
@@ -404,7 +404,7 @@ map<string, string> Part::editPart(string key, string value){
 
 void Port::update_shape(string nsh){
     shape = nsh;
-    cout << "port shape update" << endl;
+    //cout << "port shape update" << endl;
     // pass shape update down to next part
     if(is_output && connection.lock() != nullptr){
         connection.lock()->update_shape(nsh);
@@ -431,11 +431,11 @@ Connection::~Connection(){
     }
     
     // TODO: notify front-end to deleteConnectionUI
-    cout << "connection deleted: " << id << endl;
+    //cout << "connection deleted: " << id << endl;
 }
 
 void Connection::update_shape(string nsh){
-    cout << "connection shape update" << endl;
+    //cout << "connection shape update" << endl;
     if(std::shared_ptr<Port> tmp_port = ports[1].lock()){
         tmp_port->update_shape(nsh);  // update shape of port
         if(std::shared_ptr<Part> tmp_part = tmp_port->part.lock()) {
