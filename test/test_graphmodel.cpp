@@ -21,6 +21,7 @@ void test_model_test();
 
 void set_basic_model(GraphModel &gm);
 void print_map(map<string, string> m);
+void show_info();
 
 //int main()
 //{
@@ -28,7 +29,8 @@ void print_map(map<string, string> m);
 //    // test_model_basic();
 //    // test_base_converter();
 //    getchar();
-//    test_model_gen();
+//    show_info();
+//    //test_model_gen();
 //    // test_model_train();
 
 //    cout << "all test pass" << endl;
@@ -46,6 +48,36 @@ int main(int argc, char *argv[])
 
 
 #pragma region TestFuncs
+
+void show_info()
+{
+    GraphModel gm(Backend::Keras);
+    Part *pa;
+    Connection *cn;
+
+
+    gm.addPart(PartType::InputLayer);
+    gm.addPart(PartType::Conv2D);
+    gm.addPart(PartType::Activation);
+    gm.addPart(PartType::Dropout);
+    gm.addPart(PartType::Reshape);
+    gm.addPart(PartType::Dense);
+
+    print_map(gm.getPartInfo(0));
+    cout<<endl;
+    print_map(gm.getPartInfo(1));
+    cout<<endl;
+    print_map(gm.getPartInfo(2));
+    cout<<endl;
+    print_map(gm.getPartInfo(3));
+    cout<<endl;
+    print_map(gm.getPartInfo(4));
+    cout<<endl;
+    print_map(gm.getPartInfo(5));
+    cout<<endl;
+
+}
+
 
 void test_model_basic(){
     cout << "test_model_basic" << endl;
