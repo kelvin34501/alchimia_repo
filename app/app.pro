@@ -38,7 +38,8 @@ SOURCES += \
     project/project_object.cpp \
     projectsettingdialog.cpp \
     pythonsupport/qtPython.cpp \
-    compileconfigurationdialog.cpp
+    compileconfigurationdialog.cpp \
+    popoutnotification.cpp
 
 HEADERS += \
     connectionitem.h \
@@ -59,12 +60,14 @@ HEADERS += \
     utils/enum_cast.hpp \
     utils/exceptions.h \
     utils/string_utils.h \
-    compileconfigurationdialog.h
+    compileconfigurationdialog.h \
+    popoutnotification.h
 
 FORMS += \
         mainwindow.ui \
         projectsettingdialog.ui \
-    compileconfigurationdialog.ui
+    compileconfigurationdialog.ui \
+    popoutnotification.ui
 
 INCLUDEPATH += \
     ../../cereal/include

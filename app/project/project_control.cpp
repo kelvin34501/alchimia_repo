@@ -1,5 +1,6 @@
 #include "project_control.h"
 #include "projectsettingdialog.h"
+#include "popoutnotification.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -31,9 +32,13 @@ int project_control::add_existing_project(QString path)
 
 void project_control::save_project(int id)
 {
+//    PopoutNotification notification(&main_window);
+//    notification.hideButton();
+//    notification.updateMessage("Saving Project...");
     ofstream out(p[id]->project_cfg.pro_desc_path.toStdString(), ios::trunc);
     cereal::JSONOutputArchive ar(out);
     ar(*p[id]);
+//    notification.close();
 }
 
 void project_control::save_active_project(){
