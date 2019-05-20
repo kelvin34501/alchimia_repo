@@ -8,8 +8,8 @@
 void EditorControl::selectTemplate(int partType) const noexcept
 {
     // update model scene status
-    mModelScene.setClickMode(ModelScene::TemplateSelcted);
-    mModelScene.selecteTemplate(static_cast<PartType>(partType));
+    mModelScene.setClickMode(ModelScene::TemplateSelected);
+    mModelScene.selectTemplate(static_cast<PartType>(partType));
 }
 
 // recieve the confirmation of adding part and other relative data for the part

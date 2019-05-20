@@ -11,7 +11,7 @@ void ModelScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         switch (mClickMode) {
         case Idle:
             break;
-        case TemplateSelcted:
+        case TemplateSelected:
             mEditorControl.add(mSelectedTemplateType, event->scenePos());
             break;
         case ConnectingParts:
