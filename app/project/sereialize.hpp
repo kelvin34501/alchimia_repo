@@ -128,7 +128,8 @@ void serialize(Archive &archive,
                CompileCFG &m)
 {
     archive(cereal::make_nvp("archi_path", m.archi_path),
-            cereal::make_nvp("pyfile_path",m.pyfile_path));
+            cereal::make_nvp("pyfile_path",m.pyfile_path),
+            cereal::make_nvp("archi_name", m.archi_path));
 }
 
 template <class Archive>

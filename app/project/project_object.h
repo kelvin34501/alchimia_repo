@@ -44,6 +44,7 @@ public:
     project_object(const project_object &o) = delete; // copy con
     project_object& operator=(const project_object &o) = delete; // override =
     ~project_object() {}
+    string workspace() const { return (project_cfg.location + project_cfg.name + "/").toStdString(); }
 
     template<class Archive>
     void serialize(Archive &ar)
