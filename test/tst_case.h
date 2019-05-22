@@ -25,19 +25,12 @@ void compare_map(map<string,string> m1, map<string,string> m2);
 //    ASSERT_THAT(0, Eq(0));
 //}
 
-TEST(addPart, set)
+TEST(addPart, Inputlayer)
 {
 
     GraphModel gm(Backend::Keras);
-    Part *pa;
-    Connection *cn;
-
-    // pa = new Part(PartType::InputLayer);
-    // pa->AddOutputPort("256,256,3");
-    // gm.add(pa);
-    // s1 = pa->id;
-
-    gm.addPart(PartType::InputLayer);
+    int id;
+    id = gm.addPart(PartType::InputLayer);
 
     map<string,string> oracle;
     oracle["input_shape"] = "(256,256,3)";
@@ -45,178 +38,137 @@ TEST(addPart, set)
     oracle["num_output_port"] = "1";
     oracle["shape_output_port_0"] = "None,256,256,3,";
 
-    compare_map(oracle,gm.getPartInfo(0));
+    compare_map(oracle,gm.getPartInfo(id));
     oracle.clear();
+}
 
-    gm.addPart(PartType::Dense);
+TEST(addPart, Dense)
+{
+    GraphModel gm(Backend::Keras);
+    map<string,string> oracle;
+    int id;
+
+    id = gm.addPart(PartType::Dense);
     oracle["num_input_port"] = "1";
     oracle["num_output_port"] = "1";
     oracle["shape_input_port_0"] = "";
     oracle["shape_output_port_0"] = "None,64,";
     //Confirm it later.
 
-    compare_map(oracle,gm.getPartInfo(1));
-    oracle.clear();
-
-    gm.addPart(PartType::Conv2D);
-    oracle["num_input_port"] = "1";
-    oracle["num_output_port"] = "1";
-    oracle["shape_input_port_0"] = "";
-    oracle["shape_output_port_0"] = "";
-
-    compare_map(oracle,gm.getPartInfo(2));
-    oracle.clear();
-
-    gm.addPart(PartType::MaxPooling2D);
-    oracle["num_input_port"] = "1";
-    oracle["num_output_port"] = "1";
-    oracle["shape_input_port_0"] = "";
-    oracle["shape_output_port_0"] = "";
-
-    compare_map(oracle,gm.getPartInfo(3));
-    oracle.clear();
-
-    gm.addPart(PartType::Activation);
-    oracle["num_input_port"] = "1";
-    oracle["num_output_port"] = "1";
-    oracle["shape_input_port_0"] = "";
-    oracle["shape_output_port_0"] = "";
-
-    compare_map(oracle,gm.getPartInfo(4));
-    oracle.clear();
-
-    gm.addPart(PartType::Dropout);
-    oracle["num_input_port"] = "1";
-    oracle["num_output_port"] = "1";
-    oracle["shape_input_port_0"] = "";
-    oracle["shape_output_port_0"] = "";
-
-    compare_map(oracle,gm.getPartInfo(5));
-    oracle.clear();
-
-    gm.addPart(PartType::Flatten);
-    oracle["num_input_port"] = "1";
-    oracle["num_output_port"] = "1";
-    oracle["shape_input_port_0"] = "";
-    oracle["shape_output_port_0"] = "";
-
-    compare_map(oracle,gm.getPartInfo(6));
-    oracle.clear();
-
-    gm.addPart(PartType::Reshape);
-    oracle["num_input_port"] = "1";
-    oracle["num_output_port"] = "1";
-    oracle["shape_input_port_0"] = "";
-    oracle["shape_output_port_0"] = "";
-
-    compare_map(oracle,gm.getPartInfo(7));
+    compare_map(oracle,gm.getPartInfo(id));
     oracle.clear();
 }
 
-TEST(addConnection,set)
+TEST(addPart, Conv2D)
 {
     GraphModel gm(Backend::Keras);
-    Part *pa;
-    Connection *cn;
     map<string,string> oracle;
+    int id;
 
-    gm.addPart(PartType::InputLayer);
-    gm.addPart(PartType::Conv2D);
-    gm.addPart(PartType::Activation);
-    gm.addPart(PartType::Dropout);
-    gm.addPart(PartType::Flatten);
-    gm.addPart(PartType::Reshape);
-    gm.addPart(PartType::Dense);
-    //Tested except Dense
+    id = gm.addPart(PartType::Conv2D);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "";
 
-    gm.addConnection(0,1,1,0);
+    compare_map(oracle,gm.getPartInfo(id));
+    oracle.clear();
+}
+
+TEST(addPart, MaxPooling2D)
+{
+    GraphModel gm(Backend::Keras);
+    map<string,string> oracle;
+    int id;
+
+    id = gm.addPart(PartType::MaxPooling2D);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "";
+
+    compare_map(oracle,gm.getPartInfo(id));
+    oracle.clear();
+}
+
+TEST(addPart, Activation)
+{
+    GraphModel gm(Backend::Keras);
+    map<string,string> oracle;
+    int id;
+
+    id = gm.addPart(PartType::Activation);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "";
+
+    compare_map(oracle,gm.getPartInfo(id));
+    oracle.clear();
+}
+
+TEST(addPart, Dropout)
+{
+    GraphModel gm(Backend::Keras);
+    map<string,string> oracle;
+    int id;
+
+    id = gm.addPart(PartType::Dropout);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "";
+
+    compare_map(oracle,gm.getPartInfo(id));
+    oracle.clear();
+}
+
+TEST(addPart, Flatten)
+{
+    GraphModel gm(Backend::Keras);
+    map<string,string> oracle;
+    int id;
+
+    id = gm.addPart(PartType::Flatten);
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "";
+
+    compare_map(oracle,gm.getPartInfo(id));
+    oracle.clear();
+}
+
+
+TEST(editPart,Inputlayer)
+{
+    GraphModel gm(Backend::Keras);
+    map<string,string> oracle;
+    int id;
+    id = gm.addPart(PartType::InputLayer);
+
+    gm.editPart(id,"input_shape","(128,128,3)");
+    gm.editPart(id,"num_output_port","2");
+    gm.editPart(id,"name","MyInput");
+
+    oracle["name"] = "MyInput";
     oracle["num_input_port"] = "0";
-    oracle["num_output_port"] = "1";
-    //oracle["shape_input_port_0"] = "";
-    oracle["shape_output_port_0"] = "None,256,256,3,";
-
-    compare_map(oracle,gm.getPartInfo(0));
+    oracle["num_output_port"] = "2";
+    oracle["shape_output_port_0"] = "None,128,128,3,";
+    compare_map(oracle,gm.getPartInfo(id));
     oracle.clear();
-
-    gm.addConnection(1,2,1,0);
-    oracle["num_input_port"] = "1";
-    oracle["num_output_port"] = "1";
-    oracle["shape_input_port_0"] = "None,256,256,3,";
-    oracle["shape_output_port_0"] = "None,254,254,32,";
-
-    compare_map(oracle,gm.getPartInfo(1));
-    oracle.clear();
-
-    gm.addConnection(2,3,1,0);
-    oracle["num_input_port"] = "1";
-    oracle["num_output_port"] = "1";
-    oracle["shape_input_port_0"] = "None,254,254,32,";
-    oracle["shape_output_port_0"] = "None,254,254,32,";
-
-    compare_map(oracle,gm.getPartInfo(2));
-    oracle.clear();
-
-    gm.addConnection(4,3,0,1);
-    oracle["num_input_port"] = "1";
-    oracle["num_output_port"] = "1";
-    oracle["shape_input_port_0"] = "None,254,254,32,";
-    oracle["shape_output_port_0"] = "None,254,254,32,";
-
-    compare_map(oracle,gm.getPartInfo(3));
-    oracle.clear();
-
-    gm.addConnection(4,5,1,0);
-    oracle["num_input_port"] = "1";
-    oracle["num_output_port"] = "1";
-    oracle["shape_input_port_0"] = "None,254,254,32,";
-    oracle["shape_output_port_0"] = "None,2064512,";
-
-    compare_map(oracle,gm.getPartInfo(4));
-    oracle.clear();
-
-//    gm.addConnection(3,5,1,0);
-//    oracle["num_input_port"] = "1";
-//    oracle["num_output_port"] = "1";
-//    oracle["shape_input_port_0"] = "None,254,254,32,";
-//    oracle["shape_output_port_0"] = "None,2064512,";
-
-//    compare_map(oracle,gm.getPartInfo(5));
-//    oracle.clear();
-
-//    gm.addConnection(0,6,1,0);
-//    oracle["num_input_port"] = "1";
-//    oracle["num_output_port"] = "1";
-//    oracle["shape_input_port_0"] = "None,256,256,3,";
-//    oracle["shape_output_port_0"] = "None,64,";
-
-//    compare_map(oracle,gm.getPartInfo(6));
-//    oracle.clear();
 }
 
-TEST(editPart,set)
+TEST(editPart,Conv2D)
 {
     GraphModel gm(Backend::Keras);
-    Part *pa;
-    Connection *cn;
     map<string,string> oracle;
-
-    gm.addPart(PartType::InputLayer);
-    gm.addPart(PartType::Conv2D);
-    gm.addPart(PartType::Activation);
-    gm.addPart(PartType::Dropout);
-    gm.addPart(PartType::Reshape);
-    gm.addPart(PartType::Dense);
-
-//    gm.editPart(0,"input_shape","(128,128,3)");
-//    oracle["num_input_port"] = "0";
-//    oracle["num_output_port"] = "1";
-//    oracle["shape_output_port_0"] = "None,128,128,3,";
-//    compare_map(oracle,gm.getPartInfo(0));
-//    oracle.clear();
-
-    gm.editPart(1,"filters","64");
-    gm.editPart(1,"kernel_size","(2,2)");
-    gm.editPart(1,"strides","(2,2)");
+    int id;
+    id = gm.addPart(PartType::Conv2D);
+    gm.editPart(id,"filters","64");
+    gm.editPart(id,"padding","'same'");
+    gm.editPart(id,"kernel_size","(2,2)");
+    gm.editPart(id,"strides","(2,2)");
 
 
     oracle["num_input_port"] = "1";
@@ -226,64 +178,261 @@ TEST(editPart,set)
     oracle["filters"] = "64";
     oracle["kernel_size"] = "(2,2)";
     oracle["strides"] = "(2,2)";
-    compare_map(oracle,gm.getPartInfo(1));
+    oracle["padding"] = "'same'";
+    compare_map(oracle,gm.getPartInfo(id));
     oracle.clear();
+}
 
-    gm.editPart(3,"rate","0.3");
-    oracle["rate"] = "0.3";
-    compare_map(oracle,gm.getPartInfo(3));
-    oracle.clear();
+TEST(editPart,MaxPooling2D)
+{
+    GraphModel gm(Backend::Keras);
+    map<string,string> oracle;
+    int id;
+    id = gm.addPart(PartType::MaxPooling2D);
+    gm.editPart(id,"padding","'same'");
+    gm.editPart(id,"pool_size","(2,2)");
+    gm.editPart(id,"strides","(2,2)");
 
-    gm.editPart(4,"target_shape","(2,-1)");
-    oracle["target_shape"] = "(2,-1)";
-    compare_map(oracle,gm.getPartInfo(4));
-    oracle.clear();
 
-    gm.addConnection(0,1,1,0);
-    oracle["num_input_port"] = "0";
+    oracle["num_input_port"] = "1";
     oracle["num_output_port"] = "1";
     oracle["shape_input_port_0"] = "";
-    oracle["shape_output_port_0"] = "None,256,256,3,";
-
-    compare_map(oracle,gm.getPartInfo(0));
+    oracle["shape_output_port_0"] = "";
+    oracle["pool_size"] = "(2,2)";
+    oracle["strides"] = "(2,2)";
+    oracle["padding"] = "'same'";
+    compare_map(oracle,gm.getPartInfo(id));
     oracle.clear();
+}
 
-    gm.addConnection(1,2,1,0);
+TEST(editPart,Dense)
+{
+    GraphModel gm(Backend::Keras);
+    map<string,string> oracle;
+    int id;
+    id = gm.addPart(PartType::Dense);
+    gm.editPart(id,"units","32");
+
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "None,32,";
+    oracle["units"] = "32";
+    compare_map(oracle,gm.getPartInfo(id));
+    oracle.clear();
+}
+
+
+TEST(editPart,Dropout)
+{
+    GraphModel gm(Backend::Keras);
+    map<string,string> oracle;
+    int id;
+    id = gm.addPart(PartType::Dropout);
+    gm.editPart(id,"rate","0.3");
+    oracle["rate"] = "0.3";
+    compare_map(oracle,gm.getPartInfo(id));
+    oracle.clear();
+}
+
+TEST(addConnection,Conv2D)
+{
+    GraphModel gm(Backend::Keras);
+    int id1,id2;
+    map<string,string> oracle;
+
+    id1 = gm.addPart(PartType::InputLayer);
+    id2 = gm.addPart(PartType::Conv2D);
+    gm.addConnection(id1,id2,1,0);
+
     oracle["num_input_port"] = "1";
     oracle["num_output_port"] = "1";
     oracle["shape_input_port_0"] = "None,256,256,3,";
-    oracle["shape_output_port_0"] = "None,255,255,64,";
+    oracle["shape_output_port_0"] = "None,254,254,32,";
 
-    compare_map(oracle,gm.getPartInfo(1));
-    oracle.clear();
-
-    gm.addConnection(2,3,1,0);
-    oracle["num_input_port"] = "1";
-    oracle["num_output_port"] = "1";
-    oracle["shape_input_port_0"] = "None,255,255,64,";
-    oracle["shape_output_port_0"] = "None,255,255,64,";
-
-    compare_map(oracle,gm.getPartInfo(2));
-    oracle.clear();
-
-    gm.addConnection(4,3,0,1);
-    oracle["num_input_port"] = "1";
-    oracle["num_output_port"] = "1";
-    oracle["shape_input_port_0"] = "None,255,255,64,";
-    oracle["shape_output_port_0"] = "None,255,255,64,";
-
-    compare_map(oracle,gm.getPartInfo(3));
-    oracle.clear();
-
-    gm.addConnection(4,5,1,0);
-    oracle["num_input_port"] = "1";
-    oracle["num_output_port"] = "1";
-    oracle["shape_input_port_0"] = "None,255,255,64,";
-    oracle["shape_output_port_0"] = "None,2,2080800,";
-
-    compare_map(oracle,gm.getPartInfo(4));
+    compare_map(oracle,gm.getPartInfo(id2));
     oracle.clear();
 }
+
+TEST(addConnection,MaxPooling2D)
+{
+    GraphModel gm(Backend::Keras);
+    int id1,id2;
+    map<string,string> oracle;
+
+    id1 = gm.addPart(PartType::InputLayer);
+    id2 = gm.addPart(PartType::MaxPooling2D);
+    gm.addConnection(id1,id2,1,0);
+
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "None,256,256,3,";
+    oracle["shape_output_port_0"] = "None,128,128,3,";
+
+    compare_map(oracle,gm.getPartInfo(id2));
+    oracle.clear();
+}
+
+TEST(addConnection,Activation)
+{
+    GraphModel gm(Backend::Keras);
+    int id1,id2;
+    map<string,string> oracle;
+
+    id1 = gm.addPart(PartType::InputLayer);
+    id2 = gm.addPart(PartType::Activation);
+    gm.addConnection(id1,id2,1,0);
+
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "None,256,256,3,";
+    oracle["shape_output_port_0"] = "None,256,256,3,";
+
+    compare_map(oracle,gm.getPartInfo(id2));
+    oracle.clear();
+}
+
+
+TEST(addConnection,Dropout)
+{
+    GraphModel gm(Backend::Keras);
+    int id1,id2;
+    map<string,string> oracle;
+
+    id1 = gm.addPart(PartType::InputLayer);
+    id2 = gm.addPart(PartType::Dropout);
+    gm.addConnection(id1,id2,1,0);
+
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "None,256,256,3,";
+    oracle["shape_output_port_0"] = "None,256,256,3,";
+
+    compare_map(oracle,gm.getPartInfo(id2));
+    oracle.clear();
+}
+
+TEST(addConnection,Flatten)
+{
+    GraphModel gm(Backend::Keras);
+    int id1,id2;
+    map<string,string> oracle;
+
+    id1 = gm.addPart(PartType::InputLayer);
+    id2 = gm.addPart(PartType::Flatten);
+    gm.addConnection(id1,id2,1,0);
+
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "None,256,256,3,";
+    oracle["shape_output_port_0"] = "None,196608,";
+
+    compare_map(oracle,gm.getPartInfo(id2));
+    oracle.clear();
+}
+
+TEST(addConnection,Dense)
+{
+    GraphModel gm(Backend::Keras);
+    int id1,id2,id3;
+    map<string,string> oracle;
+
+    id1 = gm.addPart(PartType::InputLayer);
+    id2 = gm.addPart(PartType::Flatten);
+    id3 = gm.addPart(PartType::Dense);
+    gm.addConnection(id1,id2,1,0);
+    gm.addConnection(id2,id3,1,0);
+
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "None,196608,";
+    oracle["shape_output_port_0"] = "None,64,";
+
+    compare_map(oracle,gm.getPartInfo(id3));
+    oracle.clear();
+}
+
+TEST(deleteConnection,Flatten)
+{
+    GraphModel gm(Backend::Keras);
+    int id1,id2,idc;
+    map<string,string> oracle;
+
+    id1 = gm.addPart(PartType::InputLayer);
+    id2 = gm.addPart(PartType::Flatten);
+    idc = gm.addConnection(id1,id2,1,0);
+    gm.deleteConnection(idc);
+
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "";
+
+   compare_map(oracle,gm.getPartInfo(id2));
+   oracle.clear();
+}
+
+
+TEST(deleteConnection,Conv2D)
+{
+    GraphModel gm(Backend::Keras);
+    int id1,id2,idc;
+    map<string,string> oracle;
+
+    id1 = gm.addPart(PartType::InputLayer);
+    id2 = gm.addPart(PartType::Conv2D);
+    idc = gm.addConnection(id1,id2,1,0);
+    gm.deleteConnection(idc);
+
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "";
+
+   compare_map(oracle,gm.getPartInfo(id2));
+   oracle.clear();
+}
+
+TEST(deletePart,Flatten)
+{
+    GraphModel gm(Backend::Keras);
+    int id1,id2,idc;
+    map<string,string> oracle;
+
+    id1 = gm.addPart(PartType::InputLayer);
+    id2 = gm.addPart(PartType::Flatten);
+    idc = gm.addConnection(id1,id2,1,0);
+    gm.deletePart(id1);
+
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "";
+
+   compare_map(oracle,gm.getPartInfo(id2));
+   oracle.clear();
+}
+
+TEST(deletePart,Conv2D)
+{
+    GraphModel gm(Backend::Keras);
+    int id1,id2,idc;
+    map<string,string> oracle;
+
+    id1 = gm.addPart(PartType::InputLayer);
+    id2 = gm.addPart(PartType::Conv2D);
+    idc = gm.addConnection(id1,id2,1,0);
+    gm.deletePart(id1);
+
+    oracle["num_input_port"] = "1";
+    oracle["num_output_port"] = "1";
+    oracle["shape_input_port_0"] = "";
+    oracle["shape_output_port_0"] = "";
+
+   compare_map(oracle,gm.getPartInfo(id2));
+   oracle.clear();
+}
+
 
 
 void compare_map(map<string,string> m1, map<string,string> m2)
