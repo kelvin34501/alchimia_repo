@@ -45,4 +45,13 @@ public:
     }
 };
 
+class DataErrorException : public exception{
+public:
+    string msg;
+    DataErrorException(string msg=""):msg(msg){}
+    const char* what() const throw(){
+        return ("Data error! " + msg).data();
+    }
+}
+
 #endif // EXCEPTIONS_H_INCLUDED

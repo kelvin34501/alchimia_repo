@@ -9,9 +9,10 @@
 
 using namespace std;
 
-enum class PartType{
+enum class PartType
+{
     None,
-    InputLayer,  // this is a dummy part type, which does not have a counterpart in Keras
+    InputLayer, // this is a dummy part type, which does not have a counterpart in Keras
     Dense,
     Conv2D,
     MaxPooling2D,
@@ -20,7 +21,8 @@ enum class PartType{
     Flatten,
     Reshape,
 };
-static const char* PartTypeString[] = {
+
+static const char *PartTypeString[] = {
     "None",
     "InputLayer",
     "Dense",

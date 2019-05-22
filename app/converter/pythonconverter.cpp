@@ -6,28 +6,35 @@
 
 using namespace std;
 
-void PythonConverter::newfile(){
+void PythonConverter::newfile()
+{
     pyfile = "";
     cur_indent = 0;
     empty_indent = false;
 }
 
-void PythonConverter::unindent(){
-    if(cur_indent >= 0){
+void PythonConverter::unindent()
+{
+    if (cur_indent >= 0)
+    {
         --cur_indent;
         empty_indent = false;
     }
 }
 
-void PythonConverter::indent(){
-    if(!empty_indent){
+void PythonConverter::indent()
+{
+    if (!empty_indent)
+    {
         ++cur_indent;
         empty_indent = true;
     }
 }
 
-void PythonConverter::addline(string statement){
-    if(statement != ""){
+void PythonConverter::addline(string statement)
+{
+    if (statement != "")
+    {
         pyfile.append(cur_indent, '\t');
         pyfile.append(statement);
         empty_indent = false;
@@ -35,19 +42,23 @@ void PythonConverter::addline(string statement){
     pyfile.append("\n");
 }
 
-void PythonConverter::addline(int lines){
+void PythonConverter::addline(int lines)
+{
     pyfile.append(lines, '\n');
 }
 
-void PythonConverter::def_state(string func_name, string params){
+void PythonConverter::def_state(string func_name, string params)
+{
     addline(string("def ") + func_name + "(" + params + "):");
     indent();
 }
 
-void PythonConverter::def_state(string func_name, map<string, string> params){
+void PythonConverter::def_state(string func_name, map<string, string> params)
+{
     string ps = "";
-    for(map<string, string>::iterator iter = params.begin(); iter != params.end(); iter++){
-        if(iter->second == "")
+    for (map<string, string>::iterator iter = params.begin(); iter != params.end(); iter++)
+    {
+        if (iter->second == "")
             ps = iter->first + ", " + ps;
         else
             ps.append(", " + iter->first + "=" + iter->second);
@@ -55,37 +66,44 @@ void PythonConverter::def_state(string func_name, map<string, string> params){
     def_state(func_name, ps);
 }
 
-void PythonConverter::import_state(string lib, string as, string from){
-    addline(((from == "")?(""):("from " + from + " ")) + "import " + lib + ((as == "")?(""):(" as " + as)));
+void PythonConverter::import_state(string lib, string as, string from)
+{
+    addline(((from == "") ? ("") : ("from " + from + " ")) + "import " + lib + ((as == "") ? ("") : (" as " + as)));
 }
 
-void PythonConverter::if_state(string cond){
+void PythonConverter::if_state(string cond)
+{
     addline("if " + cond + ":");
     indent();
 }
 
-void PythonConverter::if_main_state(){
+void PythonConverter::if_main_state()
+{
     front();
     if_state("__name__ == '__main__'");
 }
 
-void PythonConverter::with_state(string state, string alias){
+void PythonConverter::with_state(string state, string alias)
+{
     addline("with " + state + " as " + alias + ":");
     indent();
 }
 
-string PythonConverter::to_param_list(map<string, string> params){
+string PythonConverter::to_param_list(map<string, string> params)
+{
     string res = "";
-    for(map<string, string>::iterator iter=params.begin(); iter!=params.end(); iter++){
-        if(iter->second != "" && iter->second != "''"){
+    for (map<string, string>::iterator iter = params.begin(); iter != params.end(); iter++)
+    {
+        if (iter->second != "" && iter->second != "''")
+        {
             res.append(iter->first + "=" + iter->second + ",");
         }
     }
     return res;
 }
 
-
-string PythonConverter::test_base_converter(){
+string PythonConverter::test_base_converter()
+{
     newfile();
     import_state("numpy", "np");
 
