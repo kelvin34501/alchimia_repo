@@ -1,3 +1,5 @@
+include(gtest_dependency.pri)
+
 QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,9 +11,9 @@ CONFIG += c++11
 
 SOURCES += \
     test_graphmodel.cpp \
-    ../app/converter/kerasConverter.cpp \
-    ../app/converter/pythonConverter.cpp \
-    ../app/graphmodel/graphModel.cpp
+    ../app/converter/kerasconverter.cpp \
+    ../app/converter/pythonconverter.cpp \
+    ../app/graphmodel/graphmodel.cpp
 
 HEADERS += \
     ../app/converter/converter.h \
@@ -20,7 +22,9 @@ HEADERS += \
     ../app/utils/configurations.h \
     ../app/utils/enum_cast.hpp \
     ../app/utils/exceptions.h \
-    ../app/utils/string_utils.h
+    ../app/utils/string_utils.h \
+    tst_case.h
 
 INCLUDEPATH += \
     ../app
+

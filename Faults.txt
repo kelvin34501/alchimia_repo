@@ -1,0 +1,38 @@
+1、经过Flatten层后，输出维数会变为复数。
+输入：shape_input_port_0: None, 256, 256, 3, 
+预言：shape_output_port_0: None, 196608, 
+日志：shape_output_port_0: None, -196608, 
+（已修复）
+
+2、修改输入后，输出维数末尾逗号缺失：
+InputLayer: 
+输入：editPart(id, "input_shape", "(128,128,3)")
+预言：shape_output_port_0: None, 128, 128, 3, 
+日志：shape_output_port_0: None, 128, 128, 3
+
+Dense：
+输入：editPart(id, "units", "32")
+预言：shape_output_port_0: None, 32, 
+日志：shape_output_port_0: None, 32
+
+3、删除连接后，输出维数有误：
+输入:
+    id1 = gm.addPart(PartType::InputLayer);
+    id2 = gm.addPart(PartType::Flatten);
+    idc = gm.addConnection(id1,id2,1,0);
+    gm.deleteConnection(idc);
+预言：
+   shape_output_port_0: ""
+日志：
+   shape_output_port_0: "None,1,"
+
+4、移除组件后，输出维数有误：
+输入:
+    id1 = gm.addPart(PartType::InputLayer);
+    id2 = gm.addPart(PartType::Flatten);
+    idc = gm.addConnection(id1,id2,1,0);
+    gm.deletePart(id1);
+预言：
+   shape_output_port_0: ""
+日志：
+   shape_output_port_0: "None,1,"

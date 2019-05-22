@@ -199,4 +199,8 @@ string KerasConverter::parse_tb_param(TBCFG tb_cfg) const{
     return param;
 }
 
+void kerasConverter::load_data(DataCFG data_cfg){
+    
+}
+
 #pragma endregion Utils

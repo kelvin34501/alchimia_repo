@@ -64,8 +64,10 @@ public:
     }
     ~Part(){
         // id = -1;
-        cout << ports[0].size() << endl;
-        cout << ports[1].size() << endl;
+
+        //cout << ports[0].size() << endl;
+        //cout << ports[1].size() << endl;
+
         /*for(int j=0; j<2; j++)
             for(int i=0; i<ports[j].size(); i++)
                 if(ports[j][i] != nullptr){
@@ -75,7 +77,8 @@ public:
                     delete ports[j][i];
                 }*/
         // TODO: notify the front-end to deletePartUI
-        cout << "part deleted: " << id << endl;
+
+        //cout << "part deleted: " << id << endl;
     }
     /* Add ports */
     void AddInputPort(string sh=""){

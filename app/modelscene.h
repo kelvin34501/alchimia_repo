@@ -16,10 +16,10 @@ class ModelScene : public QGraphicsScene
     Q_OBJECT
 
 public:
-    enum ClickMode {Idle, TemplateSelcted, ConnectingParts};
+    enum ClickMode {Idle, TemplateSelected, ConnectingParts};
 
     void setClickMode(ClickMode clickMode) noexcept { mClickMode = clickMode; }
-    void selecteTemplate(PartType partType) noexcept
+    void selectTemplate(PartType partType) noexcept
     {
         mSelectedTemplateType = partType;
     }

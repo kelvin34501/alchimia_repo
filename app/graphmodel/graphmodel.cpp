@@ -180,11 +180,12 @@ void GraphModel::deleteConnection(int id){
 /* TODO: shape change update for other types */
 void Part::update_shape(string nsh){
     vector<int> vi, vk, vs;
+    vector<int> tmp = {-1};
     int res = 1;
     switch (parttype)
     {
     case PartType::InputLayer:
-        cout << "update shape" << endl;
+        //cout << "update shape" << endl;
         for(int i=0; i<ports[1].size(); i++){
             ports[1][i]->update_shape("None," + params["input_shape"].substr(1, params["input_shape"].size()-2));
         }
@@ -318,9 +319,10 @@ void Part::update_shape(string nsh){
             ports[0][0]->update_shape(nsh);
         }
         vi = stot(ports[0][0]->shape);
-        for(int i=1; i<vi.size(); i++) res *= vi[i];  // starts from 1, because vi[0] = -1
+        for(int i=1; i<vi.size(); i++) res *= vi[i]; // starts from 1, because vi[0] = -1
+        tmp.push_back(res);
         for(int i=0; i<ports[1].size(); i++){
-            ports[1][i]->update_shape("None," + to_string(res));
+            ports[1][i]->update_shape(ttos(tmp));
         }
         break;
     
@@ -405,7 +407,7 @@ map<string, string> Part::editPart(string key, string value){
 
 void Port::update_shape(string nsh){
     shape = nsh;
-    cout << "port shape update" << endl;
+    //cout << "port shape update" << endl;
     // pass shape update down to next part
     if(is_output && connection.lock() != nullptr){
         connection.lock()->update_shape(nsh);
@@ -432,11 +434,11 @@ Connection::~Connection(){
     }
     
     // TODO: notify front-end to deleteConnectionUI
-    cout << "connection deleted: " << id << endl;
+    //cout << "connection deleted: " << id << endl;
 }
 
 void Connection::update_shape(string nsh){
-    cout << "connection shape update" << endl;
+    //cout << "connection shape update" << endl;
     if(std::shared_ptr<Port> tmp_port = ports[1].lock()){
         tmp_port->update_shape(nsh);  // update shape of port
         if(std::shared_ptr<Part> tmp_part = tmp_port->part.lock()) {

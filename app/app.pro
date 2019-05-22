@@ -25,21 +25,21 @@ CONFIG += c++11
 
 SOURCES += \
     connectionitem.cpp \
-    converter/kerasConverter.cpp \
-    converter/pythonConverter.cpp \
+    converter/kerasconverter.cpp \
+    converter/pythonconverter.cpp \
     editorcontrol.cpp \
-    graphmodel/graphModel.cpp \
+    graphmodel/graphmodel.cpp \
     main.cpp \
     mainwindow.cpp \
-    modelcontrol/modelControl.cpp \
+    modelcontrol/modelcontrol.cpp \
     modelscene.cpp \
     partitem.cpp \
     project/project_control.cpp \
     project/project_object.cpp \
     projectsettingdialog.cpp \
-    pythonsupport/qtPython.cpp \
     compileconfigurationdialog.cpp \
-    popoutnotification.cpp
+    popoutnotification.cpp \
+    pythonsupport/qtpython.cpp
 
 HEADERS += \
     connectionitem.h \
@@ -64,8 +64,8 @@ HEADERS += \
     popoutnotification.h
 
 FORMS += \
-        mainwindow.ui \
-        projectsettingdialog.ui \
+    mainwindow.ui \
+    projectsettingdialog.ui \
     compileconfigurationdialog.ui \
     popoutnotification.ui
 
@@ -73,8 +73,7 @@ INCLUDEPATH += \
     ../../cereal/include
 
 win32 {
-    SOURCES += \
-        pythonsupport/windowsPython.cpp
+    SOURCES += pythonsupport/windowspython.cpp
 }
 
 # Default rules for deployment.
