@@ -58,9 +58,10 @@ void show_info()
 
     gm.addPart(PartType::InputLayer);
     gm.addPart(PartType::Conv2D);
+    gm.addPart(PartType::MaxPooling2D);
     gm.addPart(PartType::Activation);
     gm.addPart(PartType::Dropout);
-    gm.addPart(PartType::Reshape);
+    gm.addPart(PartType::Flatten);
     gm.addPart(PartType::Dense);
 
     print_map(gm.getPartInfo(0));
