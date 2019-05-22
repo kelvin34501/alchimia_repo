@@ -26,10 +26,6 @@ struct DataCFG{
     string test_X_folder;
     vector<int> X_columns;
     vector<int> y_columns;
-    // int X_columns[];
-    // int y_columns[];
-    // int num_X_col;
-    // int num_y_col;
     string data_format;
     DataCFG(){
         train_X_file = "";

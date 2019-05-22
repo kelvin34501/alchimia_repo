@@ -62,6 +62,7 @@ private:
     string parse_compile_param(TrainCFG train_cfg) const;
     string parse_fit_param(DataCFG data_cfg, TrainCFG train_cfg) const;
     string parse_tb_param(TBCFG tb_cfg) const;
+    void load_data(DataCFG data_cfg);
 };
 
 # endif // CONVERTER_H_INCLUDED
