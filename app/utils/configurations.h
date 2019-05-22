@@ -91,17 +91,19 @@ struct TrainCFG{
     string validation_split;
     string shuffle;
     string save_weight_path;
+    string model_name;
     bool reuse_weight;
     TBCFG tb_cfg;
     TrainCFG(){
-        optimizer = "";
-        loss = "";
+        optimizer = "rmsprop";
+        loss = "categorical_crossentropy";
         batch_size = "32";
-        epochs = "1";
+        epochs = "10";
         validation_split = "0.0";
         shuffle = "True";
         reuse_weight = false;
         save_weight_path = "";
+        model_name = "";
     }
 };
 

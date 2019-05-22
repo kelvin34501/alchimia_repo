@@ -148,7 +148,7 @@ string KerasConverter::getPythonFileTrain(const GraphModel &gm, TrainCFG cfg)
     // save weights
     if (cfg.save_weight_path.find(".h5") != string::npos)
     {
-        addline("model.save_weights(r'" + cfg.save_weight_path + "')");
+        addline("model.save_weights(r'" + cfg.save_weight_path + "/" + cfg.model_name + ".h5')");
     }
     else
     {
