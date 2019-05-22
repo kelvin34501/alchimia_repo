@@ -32,6 +32,10 @@ public:
     void setPython(PythonAdapter *python) { this->python = python; }
     /* setGraphModel: set or update graph model */
     void setGraphModel(GraphModel *gm) { this->gm = gm; }
+    void loadArchitecture() {}
+    void setModelPath(ModelCFG model_cfg);
+    void configureData() {}
+    void setDataConfiguration(DataCFG data_cfg);
 
 private:
     /* launchCompile: start the real compilation, including python */

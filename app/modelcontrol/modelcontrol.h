@@ -45,7 +45,10 @@ public:
         this->python = python;
     }
     // /* setGraphModel: set or update graph model */
-    // void setGraphModel(GraphModel* gm) { this->gm = gm; }
+    // void setGraphModel(GraphModel *gm) { this->gm = gm; }
+    void configureTraining(TrainCFG train_cfg);
+    void setModelPath(ModelCFG model_cfg);
+    void setDataConfiguration(DataCFG data_cfg);
 private slots:
     /**
     * Initiate use case,  create CompileConfigurationWindow.
@@ -53,10 +56,14 @@ private slots:
     * Connected to actionCompile's triggered().
     */
     void compileModel();
+    void trainModel() {}
+    void loadArchitecture() {}
+    void configureData() {}
 private:
     /* launchCompile: start the real compilation, including python */
     /*      generation and running python file                     */
     void launchCompile(CompileCFG compile_cfg);
+    void launchTraining(TrainCFG train_cfg);
     PythonAdapter* python;
 //    shared_ptr<project_object> project;
     project_control *pc;

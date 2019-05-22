@@ -31,6 +31,7 @@ struct DataCFG{
     vector<int> y_columns;
     string data_format;
     DataCFG(){
+        dataset = "";
         train_X_file = "";
         train_X_folder = "";
         train_y_file = "";

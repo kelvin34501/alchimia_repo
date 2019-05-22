@@ -96,7 +96,7 @@ string KerasConverter::getPythonFileTrain(const GraphModel &gm, TrainCFG cfg)
     import_state("model_from_yaml", "", "keras.models");
     addline();
 
-    load_data();
+    load_data(gm.data_cfg);
     addline(2);
 
     // load_model function
@@ -144,7 +144,7 @@ string KerasConverter::getPythonFileTrain(const GraphModel &gm, TrainCFG cfg)
     // set TB log
     addline("callbacks = [keras.callbacks.TensorBoard(" + parse_tb_param(cfg.tb_cfg) + ")]");
     // start training
-    addline("history = model.fit(" + parse_fit_param(gm.data_cfg, cfg) + ")");
+    addline("history = model.fit(" + parse_fit_param(cfg) + ")");
     // save weights
     if (cfg.save_weight_path.find(".h5") != string::npos)
     {
@@ -231,7 +231,7 @@ string KerasConverter::parse_tb_param(TBCFG tb_cfg) const
     return param;
 }
 
-void kerasConverter::load_data(DataCFG data_cfg)
+void KerasConverter::load_data(DataCFG data_cfg)
 {
     if (data_cfg.dataset != "")
     {

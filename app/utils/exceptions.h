@@ -52,6 +52,6 @@ public:
     const char* what() const throw(){
         return ("Data error! " + msg).data();
     }
-}
+};
 
 #endif // EXCEPTIONS_H_INCLUDED

@@ -40,8 +40,6 @@ void ModelControl::launchCompile(CompileCFG compile_cfg)
 
 void ModelControl::configureTraining(TrainCFG train_cfg)
 {
-    train_cfg.metrics.push_back("accuracy");
-
     launchTraining(train_cfg);
 }
 
@@ -61,4 +59,14 @@ void ModelControl::launchTraining(TrainCFG train_cfg)
     outfile.close();
 
     // TODO: run python
+}
+
+// TODO: setArchitecturePath might need other changes
+void ModelControl::setModelPath(ModelCFG model_cfg)){
+    gm->model_cfg = model_cfg;
+}
+
+// TODO: setDataConfiguration might need other changes
+void ModelControl::setDataConfiguration(DataCFG data_cfg){
+    gm->data_cfg = data_cfg;
 }
