@@ -10,6 +10,7 @@ using namespace std;
 // TODO: perfect the runPython method with QProcess, although it is functioning now
 int QTPython::runPython(const char* file_path){
     QString program = pypath.c_str();
+    cout << pypath << " " << file_path << endl;
     QStringList arguments;
     arguments << file_path;
 

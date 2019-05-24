@@ -80,6 +80,9 @@ string KerasConverter::getPythonFileModel(const GraphModel &gm, CompileCFG cfg)
     }
     else
     {
+        cout << cfg.archi_name << endl;
+        cout << cfg.archi_path << endl;
+        cout << "InvalidPathException" << endl;
         throw InvalidPathException("Architecture can only be json file or yaml file!");
     }
 
@@ -99,8 +102,7 @@ string KerasConverter::getPythonFileTrain(const GraphModel &gm, TrainCFG cfg)
     load_data(gm.data_cfg);
     addline(2);
 
-    // load_model function
-    def_state("load_model");
+    def_state("train_model");
     // load architecture
     if (gm.model_cfg.archi_path.find(".json") != string::npos)
     {
@@ -118,14 +120,9 @@ string KerasConverter::getPythonFileTrain(const GraphModel &gm, TrainCFG cfg)
     }
     else
     {
+        cout << "Architecture can only be json file or yaml file!" << endl;
         throw InvalidPathException("Architecture can only be json file or yaml file!");
     }
-    addline("return model");
-    unindent();
-
-    // train_model function
-    addline(2);
-    def_state("train_model", "model");
     // compile
     addline("model.compile(" + parse_compile_param(cfg) + ")");
     // load weight
@@ -138,6 +135,7 @@ string KerasConverter::getPythonFileTrain(const GraphModel &gm, TrainCFG cfg)
         }
         else
         {
+            cout << "Model weights can only be HDF5 file! " << gm.model_cfg.weight_path << endl;
             throw InvalidPathException("Model weights can only be HDF5 file!");
         }
     }
@@ -146,21 +144,13 @@ string KerasConverter::getPythonFileTrain(const GraphModel &gm, TrainCFG cfg)
     // start training
     addline("history = model.fit(" + parse_fit_param(cfg) + ")");
     // save weights
-    if (cfg.save_weight_path.find(".h5") != string::npos)
-    {
-        addline("model.save_weights(r'" + cfg.save_weight_path + "/" + cfg.model_name + ".h5')");
-    }
-    else
-    {
-        throw InvalidPathException("Model weights can only be HDF5 file!");
-    }
+    addline("model.save_weights(r'" + cfg.save_weight_dir + cfg.model_name + ".h5')");
     unindent();
 
     // main
     addline(2);
     if_main_state();
-    addline("m = load_model()");
-    addline("train_model(m)");
+    addline("train_model()");
 
     return pyfile;
 }

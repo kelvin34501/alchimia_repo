@@ -152,7 +152,7 @@ void serialize(Archive &archive,
             cereal::make_nvp("epochs", m.epochs),
             cereal::make_nvp("validation_split", m.validation_split),
             cereal::make_nvp("shuffle", m.shuffle),
-            cereal::make_nvp("save_weight_path", m.save_weight_path),
+            cereal::make_nvp("save_weight_path", m.save_weight_dir),
             cereal::make_nvp("reuse_weight", m.reuse_weight),
             cereal::make_nvp("tb_cfg", m.tb_cfg));
 }

@@ -2,5 +2,6 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     app \
-    test
+    test \
+    wzy_test
 

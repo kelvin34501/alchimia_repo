@@ -207,6 +207,8 @@ void GraphModel::deleteConnection(int id)
 /* TODO: shape change update for other types */
 void Part::update_shape(string nsh)
 {
+    if(nsh.size() > 0 && nsh != "-" && nsh[nsh.size()-1] != ',')
+        nsh = nsh + ",";
     vector<int> vi, vk, vs;
     vector<int> tmp = {-1};
     int res = 1;
@@ -227,9 +229,10 @@ void Part::update_shape(string nsh)
         }
         if (nsh != "-")
         {
-            if (nsh != "" && substr_count(nsh, ",") != 1)
+            if (nsh != "" && substr_count(nsh, ",") != 2)
             {
                 cout << "ShapeMismatchException" << endl;
+                cout << nsh << endl;
                 throw ShapeMismatchException("Input of dense layer should only have 2-dimensional shape!");
             }
             ports[0][0]->update_shape(nsh);
@@ -242,6 +245,7 @@ void Part::update_shape(string nsh)
             if (nsh != "" && substr_count(nsh, ",") != 4)
             {
                 cout << "ShapeMismatchException" << endl;
+                cout << nsh << endl;
                 throw ShapeMismatchException("Input of conv2d layer should only have 4-dimensional shape!");
             }
             ports[0][0]->update_shape(nsh);
@@ -258,8 +262,11 @@ void Part::update_shape(string nsh)
             for (int i = 0; i < ports[1].size(); i++)
             {
                 vi = stot(ports[0][0]->shape);
+                cout << ports[0][0]->shape << " "; print_vector(vi); cout << endl;
                 vk = stot(params["kernel_size"]);
+                cout << params["kernel_size"] << " "; print_vector(vk); cout << endl;
                 vs = stot(params["strides"]);
+                cout << params["strides"] << " "; print_vector(vs); cout << endl;
                 if (params["padding"] == "'same'")
                 {
                     for (int j = 0; j < vs.size(); j++)
@@ -293,6 +300,7 @@ void Part::update_shape(string nsh)
             if (nsh != "" && substr_count(nsh, ",") != 4)
             {
                 cout << "ShapeMismatchException" << endl;
+                cout << nsh << endl;
                 throw ShapeMismatchException("Input of maxpooling2d layer should only have 4-dimensional shape!");
             }
             // cout << ports[0].size() << endl;
@@ -310,11 +318,11 @@ void Part::update_shape(string nsh)
             for (int i = 0; i < ports[1].size(); i++)
             {
                 vi = stot(ports[0][0]->shape);
-                // cout << ports[0][0]->shape << " "; print_vector(vi); cout << endl;
+                cout << ports[0][0]->shape << " "; print_vector(vi); cout << endl;
                 vk = stot(params["pool_size"]);
-                // cout << params["pool_size"] << " "; print_vector(vk); cout << endl;
+                cout << params["pool_size"] << " "; print_vector(vk); cout << endl;
                 vs = stot(params["strides"]);
-                // cout << params["strides"] << " "; print_vector(vs); cout << endl;
+                cout << params["strides"] << " "; print_vector(vs); cout << endl;
                 // cout << vs.size() << endl;
                 if (params["padding"] == "'same'")
                 {
@@ -334,7 +342,7 @@ void Part::update_shape(string nsh)
                 }
                 else
                 {
-                    cout << "ShapeMismatchException" << endl;
+                    cout << "InvalidParameterException" << endl;
                     throw InvalidParameterException("Padding can only be 'same' or 'valid'!");
                 }
                 // print_vector(vi);
@@ -379,13 +387,22 @@ void Part::update_shape(string nsh)
             }
             ports[0][0]->update_shape(nsh);
         }
-        vi = stot(ports[0][0]->shape);
-        for (int i = 1; i < vi.size(); i++)
-            res *= vi[i]; // starts from 1, because vi[0] = -1
-        tmp.push_back(res);
-        for (int i = 0; i < ports[1].size(); i++)
+        if (ports[0][0]->shape == "")
         {
-            ports[1][i]->update_shape(ttos(tmp));
+            for (int i = 0; i < ports[1].size(); i++)
+            {
+                ports[1][i]->update_shape("");
+            }
+        }
+        else{
+            vi = stot(ports[0][0]->shape);
+            for (int i = 1; i < vi.size(); i++)
+                res *= vi[i]; // starts from 1, because vi[0] = -1
+            tmp.push_back(res);
+            for (int i = 0; i < ports[1].size(); i++)
+            {
+                ports[1][i]->update_shape(ttos(tmp));
+            }
         }
         break;
 

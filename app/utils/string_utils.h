@@ -18,10 +18,12 @@ int substr_count(string str, string sub){
 };
 
 vector<int> stot(string str){
+    // cout << "enter stot" << endl;
+    vector<int> res;
+    // if(str.size() <= 0) return res;
     int i = (str[0]=='('?1:0);
     int j = (str[str.size()-1]==')'?str.size()-1:str.size());
     int k = str.find(',', 0);
-    vector<int> res;
     string tmp;
     while(k != string::npos){
         tmp = str.substr(i, k-i);
@@ -44,10 +46,12 @@ vector<int> stot(string str){
             res.push_back(atoi(tmp.c_str()));
         }
     }
+    // cout << "leave stot" << endl;
     return res;
 };
 
 string ttos(vector<int> v, bool paranth=false){
+    // cout << "enter ttos" << endl;
     string res;
     for(int i=0; i<v.size(); i++){
         if(v[i] == -1){
@@ -60,6 +64,7 @@ string ttos(vector<int> v, bool paranth=false){
     if(paranth){
         res = "(" + res + ")";
     }
+    // cout << "leave ttos" << endl;
     return res;
 };
 

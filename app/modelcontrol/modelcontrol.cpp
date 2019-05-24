@@ -73,9 +73,9 @@ void ModelControl::configureTraining(TrainCFG train_cfg)
 
 void ModelControl::launchTraining(TrainCFG train_cfg)
 {
-    shared_ptr<project_object> project = pc->get_active_project();
     // get python file
-    ofstream outfile(train_cfg.save_weight_path + "/" + train_cfg.model_name + "_train.gen");
+    shared_ptr<project_object> project = pc->get_active_project();
+    ofstream outfile(train_cfg.save_weight_dir + "/" + train_cfg.model_name + "_train.gen");
     if (!outfile.is_open())
     {
         cout << "error saving files" << endl;

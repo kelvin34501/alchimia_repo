@@ -91,7 +91,7 @@ struct TrainCFG{
     string epochs;
     string validation_split;
     string shuffle;
-    string save_weight_path;
+    string save_weight_dir;
     string model_name;
     bool reuse_weight;
     TBCFG tb_cfg;
@@ -103,7 +103,7 @@ struct TrainCFG{
         validation_split = "0.0";
         shuffle = "True";
         reuse_weight = false;
-        save_weight_path = "";
+        save_weight_dir = "";
         model_name = "";
     }
 };
