@@ -3,12 +3,16 @@
 
 #include <iostream>
 #include <string>
+#include <QObject>
 
 using namespace std;
 
-class PythonAdapter{
+class PythonAdapter : public QObject
+{
+    Q_OBJECT
+
 public:
-    virtual ~PythonAdapter() {};
+    virtual ~PythonAdapter() {}
     /* runPython: run the python at given path, does NOT wait or check status */
     /* param:
         file_path: string, the path of python file, extra "" will be auto added.
@@ -16,6 +20,7 @@ public:
             MAY SWITCH TO INFORMATION IN QT.
     */
     virtual int runPython(const char* file_path) = 0;
+    virtual int runPythonAsync(const char* file_path) = 0;
     /* activateTB: activate Tensorboard and open browser */
     /* param:
         log_dir: string, the directory of Tensorboard log, extra "" will be auto added.
@@ -44,6 +49,9 @@ public:
 protected:
     string pypath;
     string tbpath;
+
+signals:
+    void outputUpdated(string msg);
 };
 
 /* Windows.h implementation of PythonAdapter */
@@ -51,6 +59,9 @@ class WindowsPython : public PythonAdapter{
 public:
     ~WindowsPython() {};
     int runPython(const char* file_path);
+    int runPythonAsync(const char* file_path){
+        return runPython(file_path);
+    }
     int activateTB(const char* log_dir);
 };
 
@@ -58,6 +69,7 @@ class QTPython : public PythonAdapter{
 public:
     ~QTPython() {};
     int runPython(const char* file_path);
+    int runPythonAsync(const char* file_path);
     int activateTB(const char* log_dir);
 };
 

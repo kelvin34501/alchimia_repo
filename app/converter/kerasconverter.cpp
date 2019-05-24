@@ -203,8 +203,7 @@ string KerasConverter::parse_compile_param(TrainCFG train_cfg) const
 string KerasConverter::parse_fit_param(TrainCFG train_cfg) const
 {
     string param = "x=x_train, y=y_train, ";
-
-    param += "batch_size=" + train_cfg.batch_size + ", ";
+    param += "steps_per_epoch=int(np.ceil(x_train.shape[0]/" + train_cfg.batch_size + ")), ";
     param += "epochs=" + train_cfg.epochs + ", ";
     param += "shuffle=" + train_cfg.shuffle + ", ";
     param += "validation_split=" + train_cfg.validation_split;
@@ -235,6 +234,7 @@ void KerasConverter::load_data(DataCFG data_cfg)
         {
             import_state(data_cfg.dataset, "", "keras.datasets");
             addline("(x_train, y_train), (x_test, y_test) = " + data_cfg.dataset + ".load_data()");
+            addline("y_train = K.one_hot(y_train.reshape(-1), np.unique(y_train).shape[0])");
         }
         else
         {

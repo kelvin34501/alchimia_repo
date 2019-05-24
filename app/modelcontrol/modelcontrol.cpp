@@ -29,8 +29,8 @@ void ModelControl::configureCompilation(CompileCFG compile_cfg){
 
 void ModelControl::launchCompile(CompileCFG compile_cfg){
     PopoutNotification notification(&main_window);
-//    notification.hideButton();
-//    notification.updateMessage("Configuring Workspace...");
+    notification.hideButton();
+    notification.updateMessage("Configuring Workspace...");
 
     // configure workspace
     QDir dir;
@@ -62,7 +62,7 @@ void ModelControl::launchCompile(CompileCFG compile_cfg){
     }
 
     notification.updateMessage("Compilation Complete.");
-//    notification.showButton();
+    notification.showButton();
     notification.exec();
 }
 

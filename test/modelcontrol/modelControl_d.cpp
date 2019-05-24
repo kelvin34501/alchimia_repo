@@ -46,7 +46,8 @@ void ModelControl::configureTraining(TrainCFG train_cfg)
 void ModelControl::launchTraining(TrainCFG train_cfg)
 {
     // get python file
-    ofstream outfile(train_cfg.save_weight_dir + "/" + train_cfg.model_name + "_train.gen");
+    // '/' should be already attached to train_cfg.save_weight_dir
+    ofstream outfile(train_cfg.save_weight_dir + train_cfg.model_name + "_train.gen");
     if (!outfile.is_open())
     {
         cout << "error saving files" << endl;
@@ -59,6 +60,9 @@ void ModelControl::launchTraining(TrainCFG train_cfg)
     outfile.close();
 
     // TODO: run python
+    if(python->runPythonAsync((train_cfg.save_weight_dir + train_cfg.model_name + "_train.gen").data())){
+        gm->model_cfg.weight_path = train_cfg.save_weight_dir + train_cfg.model_name + ".h5";
+    }
 }
 
 // TODO: setArchitecturePath might need other changes
