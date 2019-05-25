@@ -60,7 +60,7 @@ void ModelControl::launchTraining(TrainCFG train_cfg)
     outfile.close();
 
     // TODO: run python
-    if(python->runPythonAsync((train_cfg.save_weight_dir + train_cfg.model_name + "_train.gen").data())){
+    if(python->runPython((train_cfg.save_weight_dir + train_cfg.model_name + "_train.gen").data())){
         gm->model_cfg.weight_path = train_cfg.save_weight_dir + train_cfg.model_name + ".h5";
     }
 }

@@ -2,8 +2,10 @@
 #include <iostream>
 #include <cstring>
 #include <QtCore/QCoreApplication>
+#include <QtGui/QDesktopServices>
 #include <QtCore/QProcess>
 #include <QtCore/QStringList>
+#include <QUrl>
 
 using namespace std;
 
@@ -36,7 +38,7 @@ int QTPython::runPythonAsync(const char* file_path){
     {
         qApp->processEvents();
         tmp = process->readAllStandardOutput().toStdString();
-        cout << tmp << endl;
+        // cout << tmp << endl;
         if(tmp != outputs){
             outputs = tmp;
             cout << outputs << endl;
@@ -49,5 +51,20 @@ int QTPython::runPythonAsync(const char* file_path){
 
 // TODO: activateTB method with QProcess
 int QTPython::activateTB(const char* log_dir){
+    QString program = tbpath.c_str();
+    QStringList arguments;
+    arguments << "--logdir" << log_dir;
+
+    if(tb_process != nullptr && tb_process->state() == QProcess::ProcessState::Running){
+        tb_process->terminate();
+        tb_process->waitForFinished();
+    }
+    tb_process->start(program, arguments);
+    tb_process->waitForStarted();
+
+    QDesktopServices web_browser;
+    web_browser.openUrl(QUrl("http://localhost:6006/"));
+
+    tb_process->waitForFinished();
     return 1;
 }

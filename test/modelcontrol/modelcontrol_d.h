@@ -36,6 +36,9 @@ public:
     void setModelPath(ModelCFG model_cfg);
     void configureData() {}
     void setDataConfiguration(DataCFG data_cfg);
+    void activateTB(const char* log_dir){
+        python->activateTB(log_dir);
+    }
 
 private:
     /* launchCompile: start the real compilation, including python */

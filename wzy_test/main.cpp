@@ -7,11 +7,25 @@ using namespace std;
 
 void set_basic_model(GraphModel &gm);
 void test_train();
+void test_tb_invoke();
 
 int main(int argc, char *argv[])
 {
-    test_train();
+//    test_train();
+    test_tb_invoke();
     return 0;
+}
+
+void test_tb_invoke(){
+    GraphModel gm(Backend::Keras);
+//    set_basic_model(gm);
+
+    QTPython qt_py;
+    qt_py.setPythonPath("D:/Anaconda3/python.exe");
+    qt_py.setTBPath("D:/Anaconda3/envs/py36/Scripts/tensorboard.exe");
+
+    ModelControl model_ctr(&qt_py, &gm);
+    model_ctr.activateTB("D:/my_cnn/logs");
 }
 
 void test_train(){

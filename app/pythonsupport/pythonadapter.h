@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <QObject>
+#include <QtCore/QProcess>
 
 using namespace std;
 
@@ -67,10 +68,14 @@ public:
 
 class QTPython : public PythonAdapter{
 public:
-    ~QTPython() {};
+    QTPython() { tb_process = new QProcess();  }
+    ~QTPython() {}
     int runPython(const char* file_path);
     int runPythonAsync(const char* file_path);
     int activateTB(const char* log_dir);
+private:
+    QProcess *tb_process;
+    QProcess *web_process;
 };
 
 #endif // PYTHONADAPTER_H_INCLUDED

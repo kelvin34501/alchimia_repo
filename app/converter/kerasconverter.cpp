@@ -125,6 +125,7 @@ string KerasConverter::getPythonFileTrain(const GraphModel &gm, TrainCFG cfg)
     }
     // compile
     addline("model.compile(" + parse_compile_param(cfg) + ")");
+    addline("print('compiled')");
     // load weight
     if (cfg.reuse_weight)
     {
