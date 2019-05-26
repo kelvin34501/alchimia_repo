@@ -62,8 +62,7 @@ int QTPython::activateTB(const char* log_dir){
     tb_process->start(program, arguments);
     tb_process->waitForStarted();
 
-    QDesktopServices web_browser;
-    web_browser.openUrl(QUrl("http://localhost:6006/"));
+    QDesktopServices::openUrl(QUrl("http://localhost:6006/"));
 
     tb_process->waitForFinished();
     return 1;

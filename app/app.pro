@@ -47,7 +47,6 @@ HEADERS += \
     editorcontrol.h \
     graphmodel/graphmodel.h \
     graphmodel/graphmodel_name.h \
-    mainwindow.h \
     modelcontrol/modelcontrol.h \
     modelscene.h \
     partitem.h \
