@@ -1,5 +1,3 @@
-QT -= gui
-
 CONFIG += c++11 console
 CONFIG -= app_bundle
 
@@ -20,7 +18,6 @@ SOURCES += \
     ../app/converter/pythonconverter.cpp \
     ../app/graphmodel/graphmodel.cpp \
     ../app/pythonsupport/qtpython.cpp \
-    ../app/pythonsupport/windowspython.cpp \
     ../test/modelcontrol/modelControl_d.cpp
 
 # Default rules for deployment.
@@ -40,3 +37,7 @@ HEADERS += \
     ../test/modelcontrol/modelcontrol_d.h
 
 DISTFILES +=
+
+win32 {
+    SOURCES += pythonsupport/windowspython.cpp
+}
