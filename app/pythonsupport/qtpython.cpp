@@ -28,12 +28,14 @@ int QTPython::runPythonAsync(const char* file_path){
     QString program = pypath.c_str();
     cout << pypath << " " << file_path << endl;
     QStringList arguments;
+    arguments << "-u";
     arguments << file_path;
     string outputs, tmp;
     outputs = "";
 
     QProcess *process = new QProcess();
     process->start(program, arguments);
+    process->waitForReadyRead();
     while(process->state() != QProcess::ProcessState::NotRunning)
     {
         qApp->processEvents();

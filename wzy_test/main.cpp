@@ -11,8 +11,8 @@ void test_tb_invoke();
 
 int main(int argc, char *argv[])
 {
-//    test_train();
-    test_tb_invoke();
+    test_train();
+//    test_tb_invoke();
     return 0;
 }
 

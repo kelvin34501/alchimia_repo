@@ -207,7 +207,8 @@ string KerasConverter::parse_fit_param(TrainCFG train_cfg) const
     param += "steps_per_epoch=int(np.ceil(x_train.shape[0]/" + train_cfg.batch_size + ")), ";
     param += "epochs=" + train_cfg.epochs + ", ";
     param += "shuffle=" + train_cfg.shuffle + ", ";
-    param += "validation_split=" + train_cfg.validation_split;
+    param += "validation_split=" + train_cfg.validation_split + ",";
+    param += "callbacks=callbacks";
 
     return param;
 }

@@ -39,5 +39,5 @@ HEADERS += \
 DISTFILES +=
 
 win32 {
-    SOURCES += pythonsupport/windowspython.cpp
+    SOURCES += ../app/pythonsupport/windowspython.cpp
 }
