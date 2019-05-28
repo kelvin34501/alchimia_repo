@@ -18,7 +18,7 @@ int QTPython::runPython(const char* file_path){
 
     QProcess *process = new QProcess();
     process->start(program, arguments);
-    process->waitForFinished();
+    process->waitForFinished(-1);
 
     return 1;
 }
@@ -35,7 +35,8 @@ int QTPython::runPythonAsync(const char* file_path){
 
     QProcess *process = new QProcess();
     process->start(program, arguments);
-    process->waitForReadyRead();
+    process->waitForStarted(-1);
+//    process->waitForFinished(-1);
     while(process->state() != QProcess::ProcessState::NotRunning)
     {
 //        qApp->processEvents();

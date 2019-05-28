@@ -304,7 +304,7 @@ Pooling
     <property name="title">
      <string>Model</string>
     </property>
-    <addaction name="actionLoadModel"/>
+    <addaction name="actionConfigureModel"/>
     <addaction name="actionConfigureData"/>
     <addaction name="actionTensorboard_Visualization"/>
    </widget>
@@ -344,7 +344,7 @@ Pooling
     <string>RunTest</string>
    </property>
   </action>
-  <action name="actionLoadModel">
+  <action name="actionConfigureModel">
    <property name="text">
     <string>ConfigureModel</string>
    </property>

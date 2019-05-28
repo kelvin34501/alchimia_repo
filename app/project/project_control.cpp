@@ -92,6 +92,12 @@ void project_control::create_new_project()
     main_window.setModelControl(modelControl);
     connect(main_window_ui.actionCompile, SIGNAL(triggered()),
             modelControl, SLOT(compileModel()));
+    connect(main_window_ui.actionTrain, SIGNAL(triggered()),
+            modelControl, SLOT(trainModel()));
+    connect(main_window_ui.actionConfigureModel, SIGNAL(triggered()),
+            modelControl, SLOT(configureModel()));
+    connect(main_window_ui.actionTensorboard_Visualization, SIGNAL(triggered()),
+            modelControl, SLOT(TBVisualization()));
 
     // create and set up editor control (model scene)
     shared_ptr<project_object> p = (*this)[active_project_id];

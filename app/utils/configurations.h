@@ -60,7 +60,7 @@ struct TBCFG{
     TBCFG(){
         log_dir = "";
         histogram_freq = "1";
-        update_freq = "100";
+        update_freq = "'batch'";
     }
 };
 

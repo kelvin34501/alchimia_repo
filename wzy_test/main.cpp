@@ -41,16 +41,16 @@ void test_train(){
 
     ModelControl model_ctr(&qt_py, &gm);
 
-   CompileCFG compile_cfg = {
-       "test_model",
-       "D:/my_cnn/test_model.json"
-   };
+//   CompileCFG compile_cfg = {
+//       "test_model",
+//       "D:/my_cnn/test_model.json"
+//   };
 
-   cout << "compile set"; getchar();
+//   cout << "compile set"; getchar();
 
-   model_ctr.configureCompilation(compile_cfg);
+//   model_ctr.configureCompilation(compile_cfg);
 
-   cout << "compile complete"; getchar();
+//   cout << "compile complete"; getchar();
 
     TrainCFG train_cfg;
     train_cfg.save_weight_dir = "D:/my_cnn/";

@@ -32,8 +32,7 @@ void ModelControl::launchCompile(CompileCFG compile_cfg)
     outfile.close();
 
     // run python file
-    bool result = python->runPython(compile_cfg.pyfile_path.c_str());
-    if (result)
+    if (python->runPython(compile_cfg.pyfile_path.c_str()))
     {
         gm->model_cfg.archi_path = compile_cfg.archi_path;
     }
@@ -61,7 +60,7 @@ void ModelControl::launchTraining(TrainCFG train_cfg)
     outfile.close();
 
     // TODO: run python
-    if(python->runPython((train_cfg.save_weight_dir + train_cfg.model_name + "_train.gen").data())){
+    if(python->runPythonAsync((train_cfg.save_weight_dir + train_cfg.model_name + "_train.gen").data())){
         gm->model_cfg.weight_path = train_cfg.save_weight_dir + train_cfg.model_name + ".h5";
     }
 }

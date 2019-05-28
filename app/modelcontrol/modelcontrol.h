@@ -57,8 +57,9 @@ private slots:
     */
     void compileModel();
     void trainModel() {}
-    void loadArchitecture() {}
+    void configureModel() {}
     void configureData() {}
+    void TBVisualization() {}
 private:
     /* launchCompile: start the real compilation, including python */
     /*      generation and running python file                     */
