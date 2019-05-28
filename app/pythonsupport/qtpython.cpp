@@ -28,24 +28,26 @@ int QTPython::runPythonAsync(const char* file_path){
     QString program = pypath.c_str();
     cout << pypath << " " << file_path << endl;
     QStringList arguments;
+    arguments << "-u";
     arguments << file_path;
     string outputs, tmp;
     outputs = "";
 
     QProcess *process = new QProcess();
     process->start(program, arguments);
+    process->waitForReadyRead();
     while(process->state() != QProcess::ProcessState::NotRunning)
     {
-        qApp->processEvents();
+//        qApp->processEvents();
         tmp = process->readAllStandardOutput().toStdString();
         // cout << tmp << endl;
         if(tmp != outputs){
             outputs = tmp;
             cout << outputs << endl;
-            emit outputUpdated(outputs);
+//            emit outputUpdated(outputs);
         }
     }
-
+    cout << "exit train" << endl;
     return 1;
 }
 
