@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->actionNew_Project, SIGNAL(triggered()), &mProjectControl, SLOT(create_new_project()));
-
+    connect(ui->actionSave_Project,SIGNAL(triggered()), &mProjectControl, SLOT(save_active_project()));
     // set up the toolbox
     QButtonGroup *buttonGroup = ui->toolBoxButtonGroup;
     buttonGroup->setId(ui->inputLayerButton, static_cast<int>(PartType::InputLayer));
