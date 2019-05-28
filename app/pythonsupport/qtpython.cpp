@@ -38,16 +38,16 @@ int QTPython::runPythonAsync(const char* file_path){
     process->waitForReadyRead();
     while(process->state() != QProcess::ProcessState::NotRunning)
     {
-        qApp->processEvents();
+//        qApp->processEvents();
         tmp = process->readAllStandardOutput().toStdString();
         // cout << tmp << endl;
         if(tmp != outputs){
             outputs = tmp;
             cout << outputs << endl;
-            emit outputUpdated(outputs);
+//            emit outputUpdated(outputs);
         }
     }
-
+    cout << "exit train" << endl;
     return 1;
 }
 

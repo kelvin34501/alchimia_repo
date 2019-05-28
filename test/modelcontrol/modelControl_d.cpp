@@ -32,7 +32,8 @@ void ModelControl::launchCompile(CompileCFG compile_cfg)
     outfile.close();
 
     // run python file
-    if (python->runPython(compile_cfg.pyfile_path.c_str()))
+    bool result = python->runPython(compile_cfg.pyfile_path.c_str());
+    if (result)
     {
         gm->model_cfg.archi_path = compile_cfg.archi_path;
     }
