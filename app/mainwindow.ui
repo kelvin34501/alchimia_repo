@@ -41,7 +41,7 @@
           <x>0</x>
           <y>0</y>
           <width>231</width>
-          <height>551</height>
+          <height>587</height>
          </rect>
         </property>
         <attribute name="label">
@@ -166,7 +166,7 @@
           <x>0</x>
           <y>0</y>
           <width>231</width>
-          <height>551</height>
+          <height>587</height>
          </rect>
         </property>
         <attribute name="label">
@@ -194,6 +194,14 @@ Layer</string>
         </widget>
        </widget>
        <widget class="QWidget" name="page_3">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>231</width>
+          <height>587</height>
+         </rect>
+        </property>
         <attribute name="label">
          <string>Convolution Layer</string>
         </attribute>
@@ -218,6 +226,14 @@ Layer</string>
         </widget>
        </widget>
        <widget class="QWidget" name="page_4">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>231</width>
+          <height>587</height>
+         </rect>
+        </property>
         <attribute name="label">
          <string>Pooling Layer</string>
         </attribute>
@@ -267,7 +283,7 @@ Pooling
      <x>0</x>
      <y>0</y>
      <width>1169</width>
-     <height>30</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuRun">
@@ -275,6 +291,8 @@ Pooling
      <string>Run</string>
     </property>
     <addaction name="actionCompile"/>
+    <addaction name="actionTrain"/>
+    <addaction name="actionRunTest"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -282,8 +300,17 @@ Pooling
     </property>
     <addaction name="actionNew_Project"/>
    </widget>
+   <widget class="QMenu" name="menuModel">
+    <property name="title">
+     <string>Model</string>
+    </property>
+    <addaction name="actionLoadModel"/>
+    <addaction name="actionConfigureData"/>
+    <addaction name="actionTensorboard_Visualization"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuRun"/>
+   <addaction name="menuModel"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolBar">
@@ -305,6 +332,31 @@ Pooling
   <action name="actionNew_Project">
    <property name="text">
     <string>New Project</string>
+   </property>
+  </action>
+  <action name="actionTrain">
+   <property name="text">
+    <string>TrainModel</string>
+   </property>
+  </action>
+  <action name="actionRunTest">
+   <property name="text">
+    <string>RunTest</string>
+   </property>
+  </action>
+  <action name="actionLoadModel">
+   <property name="text">
+    <string>ConfigureModel</string>
+   </property>
+  </action>
+  <action name="actionConfigureData">
+   <property name="text">
+    <string>ConfigureData</string>
+   </property>
+  </action>
+  <action name="actionTensorboard_Visualization">
+   <property name="text">
+    <string>Tensorboard Visualization</string>
    </property>
   </action>
  </widget>
