@@ -18,8 +18,7 @@ SOURCES += \
     ../app/converter/pythonconverter.cpp \
     ../app/graphmodel/graphmodel.cpp \
     ../app/pythonsupport/qtpython.cpp \
-    ../test/modelcontrol/modelControl_d.cpp \
-    ../app/pythonsupport/windowspython.cpp
+    ../test/modelcontrol/modelControl_d.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -35,8 +34,7 @@ HEADERS += \
     ../app/utils/enum_cast.hpp \
     ../app/utils/exceptions.h \
     ../app/utils/string_utils.h \
-    ../test/modelcontrol/modelcontrol_d.h \
-    ../app/mainwindow.h
+    ../test/modelcontrol/modelcontrol_d.h
 
 DISTFILES +=
 
