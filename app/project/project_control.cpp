@@ -30,7 +30,7 @@ int project_control::add_existing_project(QString path)
     return cur_id;
 }
 
-void project_control::save_project(int id)
+void project_control::save_project(size_type id)
 {
 //    PopoutNotification notification(&main_window);
 //    notification.hideButton();
@@ -41,7 +41,8 @@ void project_control::save_project(int id)
 //    notification.close();
 }
 
-void project_control::save_active_project(){
+void project_control::save_active_project()
+{
     save_project(active_project_id);
 }
 
