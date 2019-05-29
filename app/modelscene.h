@@ -26,13 +26,7 @@ public:
 
     explicit ModelScene(QButtonGroup &toolboxButtonGroup,
                         project_object &project, QToolButton &connectButton,
-                        QObject *parent = nullptr)
-        : QGraphicsScene(sceneRect, parent), mClickMode(Idle),
-          mEditorControl(*this, toolboxButtonGroup, project),
-          mProject(project), mConnectButton(connectButton)
-    {
-        connect(&connectButton, SIGNAL(clicked(bool)), this, SLOT(startConnection(bool)));
-    }
+                        QObject *parent = nullptr);
 
 public slots:
     /**

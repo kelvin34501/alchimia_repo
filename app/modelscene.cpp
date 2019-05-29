@@ -5,6 +5,37 @@
 
 const QRectF ModelScene::sceneRect(0, 0, 5000, 5000);
 
+ModelScene::ModelScene(QButtonGroup &toolboxButtonGroup, project_object &project,
+                       QToolButton &connectButton, QObject *parent)
+    : QGraphicsScene(sceneRect, parent), mClickMode(Idle),
+      mEditorControl(*this, toolboxButtonGroup, project), mProject(project),
+      mConnectButton(connectButton)
+{
+    connect(&connectButton, SIGNAL(clicked(bool)), this, SLOT(startConnection(bool)));
+
+    // If GraphModel has parts and connections, redraw them on the ModelScene.
+    // store created PartItems in a temporary vector, ordered by their IDs
+    std::vector<PartItem *> v(mProject.graph_mdl->parts.size());
+    for (std::vector<std::shared_ptr<Part>>::size_type i = 0;
+         i < mProject.graph_mdl->parts.size(); ++i) {
+        std::shared_ptr<Part> p = mProject.graph_mdl->parts[i];
+        PartItem *partItem = new PartItem(
+            p->id,
+            p->parttype,
+            QPointF(static_cast<double>(p->position_x), static_cast<double>(p->position_y))
+        );
+        this->addItem(partItem);
+        v[static_cast<std::vector<PartItem *>::size_type>(partItem->id())] = partItem;
+    }
+    for (std::vector<std::shared_ptr<Connection>>::size_type i = 0;
+         i < mProject.graph_mdl->connections.size(); ++i) {
+        std::shared_ptr<Connection> c = mProject.graph_mdl->connections[i];
+        auto startId = static_cast<std::vector<PartItem *>::size_type>(c->ports[0].lock()->part.lock()->id);
+        auto endId = static_cast<std::vector<PartItem *>::size_type>(c->ports[1].lock()->part.lock()->id);
+        this->addItem(new ConnectionItem(*v[startId], *v[endId], c->id));
+    }
+}
+
 void ModelScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
