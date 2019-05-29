@@ -103,4 +103,5 @@ void project_control::create_new_project()
     main_window.setModelScene(modelScene);
     main_window_ui.graphicsView->setScene(modelScene);
     main_window_ui.graphicsView->setEnabled(true);
+    main_window_ui.actionSave_Project->setEnabled(true);
 }
