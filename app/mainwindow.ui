@@ -41,7 +41,7 @@
           <x>0</x>
           <y>0</y>
           <width>231</width>
-          <height>551</height>
+          <height>595</height>
          </rect>
         </property>
         <attribute name="label">
@@ -166,7 +166,7 @@
           <x>0</x>
           <y>0</y>
           <width>231</width>
-          <height>551</height>
+          <height>595</height>
          </rect>
         </property>
         <attribute name="label">
@@ -194,6 +194,14 @@ Layer</string>
         </widget>
        </widget>
        <widget class="QWidget" name="page_3">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>231</width>
+          <height>595</height>
+         </rect>
+        </property>
         <attribute name="label">
          <string>Convolution Layer</string>
         </attribute>
@@ -218,6 +226,14 @@ Layer</string>
         </widget>
        </widget>
        <widget class="QWidget" name="page_4">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>231</width>
+          <height>595</height>
+         </rect>
+        </property>
         <attribute name="label">
          <string>Pooling Layer</string>
         </attribute>
@@ -267,7 +283,7 @@ Pooling
      <x>0</x>
      <y>0</y>
      <width>1169</width>
-     <height>30</height>
+     <height>17</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuRun">
@@ -281,6 +297,7 @@ Pooling
      <string>File</string>
     </property>
     <addaction name="actionNew_Project"/>
+    <addaction name="actionSave_Project"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuRun"/>
@@ -305,6 +322,11 @@ Pooling
   <action name="actionNew_Project">
    <property name="text">
     <string>New Project</string>
+   </property>
+  </action>
+  <action name="actionSave_Project">
+   <property name="text">
+    <string>Save Project</string>
    </property>
   </action>
  </widget>
