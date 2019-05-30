@@ -2,15 +2,18 @@
 #include "partitem.h"
 #include "connectionitem.h"
 
+#include <QButtonGroup>
+
 
 const QRectF ModelScene::sceneRect(0, 0, 5000, 5000);
 
 ModelScene::ModelScene(QButtonGroup &toolboxButtonGroup, project_object &project,
                        QToolButton &connectButton, QObject *parent)
     : QGraphicsScene(sceneRect, parent), mClickMode(Idle),
-      mEditorControl(*this, toolboxButtonGroup, project), mProject(project),
+      mToolboxButtonGroup(toolboxButtonGroup), mProject(project),
       mConnectButton(connectButton)
 {
+    connect(&toolboxButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(selectTemplate(int)));
     connect(&connectButton, SIGNAL(clicked(bool)), this, SLOT(startConnection(bool)));
 
     // If GraphModel has parts and connections, redraw them on the ModelScene.
@@ -42,9 +45,22 @@ void ModelScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         switch (mClickMode) {
         case Idle:
             break;
-        case TemplateSelected:
-            mEditorControl.add(mSelectedTemplateType, event->scenePos());
+        case TemplateSelected: {
+            QPointF scenePos = event->scenePos();
+            // add part in the graph model storage
+            int id = mProject.graph_mdl->addPart(
+                        mSelectedTemplateType,
+                        static_cast<float>(scenePos.x()),
+                        static_cast<float>(scenePos.y())
+            );
+
+            // update model scene and related UIs
+            addItem(new PartItem(id, mSelectedTemplateType, scenePos));
+            // uncheck the button
+            mToolboxButtonGroup.checkedButton()->setChecked(false);
+            setClickMode(ModelScene::Idle);
             break;
+        }
         case ConnectingParts:
             incompleteConnection = addLine(QLineF(event->scenePos(), event->scenePos()));
         }

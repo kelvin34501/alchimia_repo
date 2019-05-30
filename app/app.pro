@@ -27,7 +27,6 @@ SOURCES += \
     connectionitem.cpp \
     converter/kerasconverter.cpp \
     converter/pythonconverter.cpp \
-    editorcontrol.cpp \
     graphmodel/graphmodel.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -44,7 +43,6 @@ SOURCES += \
 HEADERS += \
     connectionitem.h \
     converter/converter.h \
-    editorcontrol.h \
     graphmodel/graphmodel.h \
     graphmodel/graphmodel_name.h \
     mainwindow.h \
