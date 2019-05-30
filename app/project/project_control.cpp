@@ -87,9 +87,7 @@ void project_control::create_new_project()
     // create and set up model control
     // TODO: dummy python adapter, should be chosen based on situations
     PythonAdapter *pyad = new QTPython ();
-    ModelControl *modelControl = new ModelControl(main_window, this, pyad,
-                                                project_setting_dialog.pythonPath().toStdString().data(),
-                                                project_setting_dialog.tensorboardPath().toStdString().data());
+    ModelControl *modelControl = new ModelControl(main_window, this, pyad);
     main_window.setModelControl(modelControl);
     connect(main_window_ui.actionCompile, SIGNAL(triggered()),
             modelControl, SLOT(compileModel()));
