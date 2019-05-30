@@ -35,6 +35,12 @@ private:
     * UI of mainwindow
     */
     Ui::MainWindow &main_window_ui;
+
+    /**
+    * This method is called after a Project is created. It is responsible for
+    * binding Project to other classes.
+    */
+    void post_project_creation();
 public:
     typedef std::vector<std::shared_ptr<project_object>>::size_type size_type;
 
