@@ -41,7 +41,7 @@
           <x>0</x>
           <y>0</y>
           <width>231</width>
-          <height>587</height>
+          <height>595</height>
          </rect>
         </property>
         <attribute name="label">
@@ -166,7 +166,7 @@
           <x>0</x>
           <y>0</y>
           <width>231</width>
-          <height>587</height>
+          <height>595</height>
          </rect>
         </property>
         <attribute name="label">
@@ -199,7 +199,7 @@ Layer</string>
           <x>0</x>
           <y>0</y>
           <width>231</width>
-          <height>587</height>
+          <height>595</height>
          </rect>
         </property>
         <attribute name="label">
@@ -231,7 +231,7 @@ Layer</string>
           <x>0</x>
           <y>0</y>
           <width>231</width>
-          <height>587</height>
+          <height>595</height>
          </rect>
         </property>
         <attribute name="label">
@@ -283,7 +283,7 @@ Pooling
      <x>0</x>
      <y>0</y>
      <width>1169</width>
-     <height>18</height>
+     <height>17</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuRun">
@@ -299,6 +299,7 @@ Pooling
      <string>File</string>
     </property>
     <addaction name="actionNew_Project"/>
+    <addaction name="actionSave_Project"/>
    </widget>
    <widget class="QMenu" name="menuModel">
     <property name="title">
@@ -357,6 +358,11 @@ Pooling
   <action name="actionTensorboard_Visualization">
    <property name="text">
     <string>Tensorboard Visualization</string>
+   </property>
+  </action>
+  <action name="actionSave_Project">
+   <property name="text">
+    <string>Save Project</string>
    </property>
   </action>
  </widget>
