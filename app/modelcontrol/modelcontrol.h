@@ -16,16 +16,7 @@ class ModelControl : public QObject {
     Q_OBJECT
 
 public:
-    ModelControl(MainWindow &mw, project_control *pc, PythonAdapter* python=nullptr, const char* pypath="", const char* tbpath="")
-        : main_window(mw)
-    {
-        this->python = python;
-        this->pc = pc;
-        if(this->python != nullptr){
-            this->python->setPythonPath(pypath);
-            this->python->setTBPath(tbpath);
-        }
-    }
+    ModelControl(MainWindow &mw, project_control *pc, PythonAdapter* python = nullptr);
     ~ModelControl(){
         delete this->python;
     }

@@ -10,6 +10,18 @@
 
 using namespace std;
 
+ModelControl::ModelControl(MainWindow &mw, project_control *pc,
+                           PythonAdapter* python) : main_window(mw)
+{
+    this->python = python;
+    this->pc = pc;
+    if (this->python) {
+        const ProjectCFG &config = pc->get_active_project()->project_cfg;
+        this->python->setPythonPath(config.python_path.toUtf8());
+        this->python->setTBPath(config.tensorboard_path.toUtf8());
+    }
+}
+
 void ModelControl::compileModel(){
     CompileConfigurationDialog compile_cfg_dialog(&main_window);
     if (compile_cfg_dialog.exec() == QDialog::Rejected)

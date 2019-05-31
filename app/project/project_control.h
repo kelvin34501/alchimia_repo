@@ -35,7 +35,15 @@ private:
     * UI of mainwindow
     */
     Ui::MainWindow &main_window_ui;
+
+    /**
+    * This method is called after a Project is created. It is responsible for
+    * binding Project to other classes.
+    */
+    void post_project_creation();
 public:
+    typedef std::vector<std::shared_ptr<project_object>>::size_type size_type;
+
     project_control(MainWindow &mw, Ui::MainWindow &mwui) noexcept
         : main_window(mw), main_window_ui(mwui) {}
     project_control(const project_control &other) = delete;
@@ -48,8 +56,7 @@ public:
     shared_ptr<project_object> operator[](int id);
     const shared_ptr<project_object> operator[](int id) const;
     shared_ptr<project_object> get_active_project();
-    void save_project(int id);
-
+    void save_project(size_type id);
     void close_project(int id);
 
 public slots:
@@ -57,6 +64,10 @@ public slots:
     * Connected to the "New Project" button's clicked() signal
     */
     void create_new_project();
+
+    /**
+    * Connected to the "Save Project" button's clicked() signal
+    */
     void save_active_project();
 };
 
