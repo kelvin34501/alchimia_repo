@@ -24,6 +24,8 @@ public:
         setPos(mStart.pos());
     }
 
+    int type() const noexcept override { return Type; }
+
 private:
     PartItem &mStart, &mEnd;
     QPolygonF mArrowHead;
@@ -37,6 +39,8 @@ private:
     * @var The size of the arrow head
     */
     static const qreal arrowSize;
+
+    enum {Type = UserType + 2};
 };
 
 #endif // CONNECTIONITEM_H

@@ -38,6 +38,7 @@ private:
     */
     int mId;
 
+    enum {Type = UserType + 1};
     static const QRectF itemRect;	// all PartItems have the same rectangle
 
     /**
@@ -45,6 +46,8 @@ private:
     * side of the rectangle, in unscaled pixels.
     */
     static const qreal textHorizontalOffset;
+
+    int type() const noexcept override { return Type; }
 };
 
 #endif // PARTITEM_H
