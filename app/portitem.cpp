@@ -16,7 +16,7 @@
 const QRectF PortItem::itemRect(-5, -5, 10, 10);
 
 PortItem::PortItem(bool isOutput, PartItem *parent)
-    : QGraphicsEllipseItem(itemRect, parent), mParent(*parent), mIsOutput(isOutput)
+    : QGraphicsEllipseItem(itemRect, parent), mIsOutput(isOutput)
 {
     setBrush(QBrush(Qt::SolidPattern));
 }

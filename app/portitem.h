@@ -14,7 +14,6 @@ public:
     int type() const noexcept override { return Type; }
 
 private:
-    const PartItem &mParent;
     const bool mIsOutput;
 
     static const QRectF itemRect;
