@@ -33,6 +33,7 @@ SOURCES += \
     modelcontrol/modelcontrol.cpp \
     modelscene.cpp \
     partitem.cpp \
+    portitem.cpp \
     project/project_control.cpp \
     project/project_object.cpp \
     projectsettingdialog.cpp \
@@ -49,6 +50,7 @@ HEADERS += \
     modelcontrol/modelcontrol.h \
     modelscene.h \
     partitem.h \
+    portitem.h \
     project/project_control.h \
     project/project_object.h \
     project/sereialize.hpp \
@@ -78,4 +80,6 @@ win32 {
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=
 

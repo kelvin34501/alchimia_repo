@@ -1,9 +1,8 @@
 #ifndef PARTITEM_H
 #define PARTITEM_H
 
-#include <QGraphicsRectItem>
-
 #include "graphmodel/graphmodel_name.h"
+#include "portitem.h"
 
 
 class PartItem : public QGraphicsRectItem
@@ -21,13 +20,18 @@ public:
     PartItem(int id, PartType partType, const QPointF &center,
              QGraphicsItem *parent = nullptr)
         : QGraphicsRectItem(itemRect, parent), mPartType(partType),
-          mId(id)
+          mIn(false, this), mOut(true, this), mId(id)
     {
         setPos(center);
+        mIn.setPos(QPointF(0, -30));
+        mOut.setPos(QPointF(0, 30));
     }
 
 private:
     PartType mPartType;
+
+    PortItem mIn;
+    PortItem mOut;
 
     /**
     * @var The ID Corresponding to the Part in the GraphModel
