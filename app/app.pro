@@ -27,13 +27,13 @@ SOURCES += \
     connectionitem.cpp \
     converter/kerasconverter.cpp \
     converter/pythonconverter.cpp \
-    editorcontrol.cpp \
     graphmodel/graphmodel.cpp \
     main.cpp \
     mainwindow.cpp \
     modelcontrol/modelcontrol.cpp \
     modelscene.cpp \
     partitem.cpp \
+    portitem.cpp \
     project/project_control.cpp \
     project/project_object.cpp \
     projectsettingdialog.cpp \
@@ -44,13 +44,13 @@ SOURCES += \
 HEADERS += \
     connectionitem.h \
     converter/converter.h \
-    editorcontrol.h \
     graphmodel/graphmodel.h \
     graphmodel/graphmodel_name.h \
     mainwindow.h \
     modelcontrol/modelcontrol.h \
     modelscene.h \
     partitem.h \
+    portitem.h \
     project/project_control.h \
     project/project_object.h \
     project/sereialize.hpp \
@@ -80,4 +80,6 @@ win32 {
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=
 

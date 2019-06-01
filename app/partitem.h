@@ -1,15 +1,19 @@
 #ifndef PARTITEM_H
 #define PARTITEM_H
 
-#include <QGraphicsRectItem>
-
 #include "graphmodel/graphmodel_name.h"
+#include "portitem.h"
 
 
 class PartItem : public QGraphicsRectItem
 {
 public:
+    enum {Type = UserType + 1};
+
+    int type() const noexcept override { return Type; }
     int id() const noexcept { return mId; }
+    PortItem &inPort() noexcept { return mIn; }
+    PortItem &outPort() noexcept { return mOut; }
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget = nullptr) override;
@@ -21,13 +25,18 @@ public:
     PartItem(int id, PartType partType, const QPointF &center,
              QGraphicsItem *parent = nullptr)
         : QGraphicsRectItem(itemRect, parent), mPartType(partType),
-          mId(id)
+          mIn(false, this), mOut(true, this), mId(id)
     {
         setPos(center);
+        mIn.setPos(QPointF(0, -30));
+        mOut.setPos(QPointF(0, 30));
     }
 
 private:
     PartType mPartType;
+
+    PortItem mIn;
+    PortItem mOut;
 
     /**
     * @var The ID Corresponding to the Part in the GraphModel
