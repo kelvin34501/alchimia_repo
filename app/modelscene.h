@@ -24,17 +24,6 @@ public:
 
 private slots:
     /**
-    * Called by connectButton's clicked() to enter or exit the ConnectingParts
-    * state
-    *
-    * @param checked: corresponds to the parameter of connectButton->checked()
-    */
-    void startConnection(bool checked) noexcept
-    {
-        checked ? setClickMode(ConnectingParts) : setClickMode(Idle);
-    }
-
-    /**
     * Connected to the QButtonGroup's clicked()
     *
     * @param partType: The ID of the button clicked, mapped to PartType
