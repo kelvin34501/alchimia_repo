@@ -3,18 +3,17 @@
 #include "connectionitem.h"
 
 #include <QButtonGroup>
+#include <QMessageBox>
 
 
 const QRectF ModelScene::sceneRect(0, 0, 5000, 5000);
 
 ModelScene::ModelScene(QButtonGroup &toolboxButtonGroup, project_object &project,
-                       QToolButton &connectButton, QObject *parent)
+                       QObject *parent)
     : QGraphicsScene(sceneRect, parent), mClickMode(Idle),
-      mToolboxButtonGroup(toolboxButtonGroup), mProject(project),
-      mConnectButton(connectButton)
+      mToolboxButtonGroup(toolboxButtonGroup), mProject(project)
 {
     connect(&toolboxButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(selectTemplate(int)));
-    connect(&connectButton, SIGNAL(clicked(bool)), this, SLOT(startConnection(bool)));
 
     // If GraphModel has parts and connections, redraw them on the ModelScene.
     // store created PartItems in a temporary vector, ordered by their IDs
@@ -35,7 +34,7 @@ ModelScene::ModelScene(QButtonGroup &toolboxButtonGroup, project_object &project
         std::shared_ptr<Connection> c = mProject.graph_mdl->connections[i];
         auto startId = static_cast<std::vector<PartItem *>::size_type>(c->ports[0].lock()->part.lock()->id);
         auto endId = static_cast<std::vector<PartItem *>::size_type>(c->ports[1].lock()->part.lock()->id);
-        this->addItem(new ConnectionItem(*v[startId], *v[endId], c->id));
+        this->addItem(new ConnectionItem(v[startId]->outPort(), v[endId]->inPort(), c->id));
     }
 }
 
@@ -43,8 +42,19 @@ void ModelScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
         switch (mClickMode) {
-        case Idle:
+        case Idle: {
+            // retrieve the top item at the click position and see whether it
+            // is a PortItem
+            QList<QGraphicsItem *> l = items(event->scenePos());
+            if (!l.empty()) {
+                PortItem *item = qgraphicsitem_cast<PortItem *>(l.front());
+                if (item) {
+                    setClickMode(ConnectingParts);
+                    incompleteConnection = addLine(QLineF(event->scenePos(), event->scenePos()));
+                }
+            }
             break;
+        }
         case TemplateSelected: {
             QPointF scenePos = event->scenePos();
             // add part in the graph model storage
@@ -58,11 +68,11 @@ void ModelScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             addItem(new PartItem(id, mSelectedTemplateType, scenePos));
             // uncheck the button
             mToolboxButtonGroup.checkedButton()->setChecked(false);
-            setClickMode(ModelScene::Idle);
+            setClickMode(Idle);
             break;
         }
         case ConnectingParts:
-            incompleteConnection = addLine(QLineF(event->scenePos(), event->scenePos()));
+            break;
         }
 }
 
@@ -87,18 +97,30 @@ void ModelScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         endItems.pop_front();
         removeItem(incompleteConnection);
         delete incompleteConnection;
+        setClickMode(Idle);
 
-        // Don't change the state of ModelScene if there is no part under
-        // the cursor.
+        // if there is no part under the cursor.
         if (startItems.empty() || endItems.empty())
             return;
 
-        PartItem *start = static_cast<PartItem *>(startItems.front());
-        PartItem *end = static_cast<PartItem *>(endItems.front());
+        auto endPort = qgraphicsitem_cast<PortItem *>(endItems.front());
+        if (!endPort)	// there is no port under incompleteConnection->line().p1()
+            return;
+        // assume that the start position is valid i.e. there is a port under
+        // incompleteConnection->line().p1()
+        auto startPort = static_cast<PortItem *>(startItems.front());
+        // startPort must be an output port and endPort must be an input port.
+        if (startPort->isOutput() && !endPort->isOutput()) {
+            auto start = static_cast<PartItem *>(startPort->parentItem());
+            auto end = static_cast<PartItem *>(endPort->parentItem());
 
-        int id = mProject.graph_mdl->addConnection(start->id(), end->id(), true, false);
-        addItem(new ConnectionItem(*start, *end, id));
-        setClickMode(Idle);
-        mConnectButton.setChecked(false);
+            int id = mProject.graph_mdl->addConnection(start->id(), end->id(), true, false);
+            addItem(new ConnectionItem(*startPort, *endPort, id));
+        } else { // inform the user of I/O mismatch
+            QMessageBox msg;
+            msg.setText("Ports can only be connected in the direction from an "
+                        "output port to an input port.");
+            msg.exec();
+        }
     }
 }

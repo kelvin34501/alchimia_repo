@@ -20,8 +20,7 @@ void project_control::post_project_creation()
 
     // create and set up editor control (model scene)
     shared_ptr<project_object> p = (*this)[active_project_id];
-    ModelScene *modelScene = new ModelScene(*main_window_ui.toolBoxButtonGroup,
-                                            *p, *main_window_ui.connectButton);
+    ModelScene *modelScene = new ModelScene(*main_window_ui.toolBoxButtonGroup, *p);
 
     // update main panel
     main_window.setModelScene(modelScene);

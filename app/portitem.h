@@ -9,15 +9,17 @@ class PartItem;
 class PortItem : public QGraphicsEllipseItem
 {
 public:
-    PortItem(bool isOutput, PartItem *parent);
+    enum {Type = UserType + 3};
 
     int type() const noexcept override { return Type; }
+    bool isOutput() const noexcept { return mIsOutput; }
+
+    PortItem(bool isOutput, PartItem *parent);
 
 private:
     const bool mIsOutput;
 
     static const QRectF itemRect;
-    enum {Type = UserType + 3};
 };
 
 #endif // PORTITEM_H

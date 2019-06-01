@@ -8,7 +8,12 @@
 class PartItem : public QGraphicsRectItem
 {
 public:
+    enum {Type = UserType + 1};
+
+    int type() const noexcept override { return Type; }
     int id() const noexcept { return mId; }
+    PortItem &inPort() noexcept { return mIn; }
+    PortItem &outPort() noexcept { return mOut; }
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget = nullptr) override;
@@ -38,7 +43,6 @@ private:
     */
     int mId;
 
-    enum {Type = UserType + 1};
     static const QRectF itemRect;	// all PartItems have the same rectangle
 
     /**
@@ -46,8 +50,6 @@ private:
     * side of the rectangle, in unscaled pixels.
     */
     static const qreal textHorizontalOffset;
-
-    int type() const noexcept override { return Type; }
 };
 
 #endif // PARTITEM_H

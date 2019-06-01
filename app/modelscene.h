@@ -20,8 +20,7 @@ public:
     void setClickMode(ClickMode clickMode) noexcept { mClickMode = clickMode; }
 
     explicit ModelScene(QButtonGroup &toolboxButtonGroup,
-                        project_object &project, QToolButton &connectButton,
-                        QObject *parent = nullptr);
+                        project_object &project, QObject *parent = nullptr);
 
 private slots:
     /**
@@ -62,7 +61,6 @@ private:
 
     project_object &mProject;
     QGraphicsLineItem *incompleteConnection;
-    QToolButton &mConnectButton;
 
     static const QRectF sceneRect;  // fixed-size graphics scene
 };
