@@ -38,6 +38,9 @@ ModelScene::ModelScene(QButtonGroup &toolboxButtonGroup, project_object &project
     }
 }
 
+/*!
+\fn ModelScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+*/
 void ModelScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
@@ -46,13 +49,12 @@ void ModelScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             // retrieve the top item at the click position and see whether it
             // is a PortItem
             QList<QGraphicsItem *> l = items(event->scenePos());
-            if (!l.empty()) {
-                PortItem *item = qgraphicsitem_cast<PortItem *>(l.front());
-                if (item) {
-                    setClickMode(ConnectingParts);
-                    incompleteConnection = addLine(QLineF(event->scenePos(), event->scenePos()));
-                }
+            if (!l.empty() && qgraphicsitem_cast<PortItem *>(l.front())) {
+                setClickMode(ConnectingParts);
+                incompleteConnection = addLine(QLineF(event->scenePos(), event->scenePos()));
             }
+            else	// handle item selection
+                QGraphicsScene::mousePressEvent(event);
             break;
         }
         case TemplateSelected: {
@@ -122,5 +124,6 @@ void ModelScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
                         "output port to an input port.");
             msg.exec();
         }
-    }
+    } else	// handle item selection
+        QGraphicsScene::mouseReleaseEvent(event);
 }
