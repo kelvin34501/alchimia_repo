@@ -107,7 +107,7 @@ void ModelScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
             return;
 
         auto endPort = qgraphicsitem_cast<PortItem *>(endItems.front());
-        if (!endPort)	// there is no port under incompleteConnection->line().p1()
+        if (!endPort)   // there is no port under incompleteConnection->line().p1()
             return;
         // assume that the start position is valid i.e. there is a port under
         // incompleteConnection->line().p1()
@@ -125,6 +125,16 @@ void ModelScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
                         "output port to an input port.");
             msg.exec();
         }
-    } else	// handle item selection and movement
+    } else {
+        auto item = qgraphicsitem_cast<PartItem *>(mouseGrabberItem());
+        // update the position of Part in GraphModel
+        if (item) {
+            using namespace std;
+            auto part = mProject.graph_mdl->parts[static_cast<vector<shared_ptr<Part>>::size_type>(item->id())];
+            part->position_x = static_cast<float>(item->pos().x());
+            part->position_y = static_cast<float>(item->pos().y());
+        }
+        // handle item selection and movement
         QGraphicsScene::mouseReleaseEvent(event);
+    }
 }
