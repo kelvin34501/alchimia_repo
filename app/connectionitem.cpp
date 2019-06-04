@@ -10,6 +10,15 @@
 const double M_PI = 4 * std::atan(1);
 
 
+/*!
+\class ConnectionItem
+\brief Representation of a Connection in the UI
+
+ConnectionItem's position is updated whenever it is repainted.
+
+The origin of the item coordinate is mStart.pos().
+*/
+
 const qreal ConnectionItem::arrowSize = 10;
 
 QRectF ConnectionItem::boundingRect() const
@@ -37,6 +46,8 @@ void ConnectionItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
 
     using std::sin;
     using std::cos;
+    // update the position for the movement of start item
+    setPos(mStart.scenePos());
     painter->setBrush(Qt::black);
 
     QLineF centerLine(QPointF(0, 0), mapFromScene(mEnd.scenePos()));

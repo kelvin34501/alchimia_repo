@@ -26,7 +26,7 @@ PartItem::PartItem(int id, PartType partType, const QPointF &center,
     setPos(center);
     mIn.setPos(QPointF(0, -30));
     mOut.setPos(QPointF(0, 30));
-    setFlags({ItemIsSelectable});
+    setFlags({ItemIsSelectable, ItemIsMovable});
 }
 
 void PartItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,

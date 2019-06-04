@@ -53,7 +53,7 @@ void ModelScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 setClickMode(ConnectingParts);
                 incompleteConnection = addLine(QLineF(event->scenePos(), event->scenePos()));
             }
-            else	// handle item selection
+            else	// handle item selection and movement
                 QGraphicsScene::mousePressEvent(event);
             break;
         }
@@ -85,7 +85,8 @@ void ModelScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         QLineF newLine = incompleteConnection->line();
         newLine.setP2(event->scenePos());
         incompleteConnection->setLine(newLine);
-    }
+    } else	// handle item movement
+        QGraphicsScene::mouseMoveEvent(event);
 }
 
 void ModelScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
@@ -124,6 +125,6 @@ void ModelScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
                         "output port to an input port.");
             msg.exec();
         }
-    } else	// handle item selection
+    } else	// handle item selection and movement
         QGraphicsScene::mouseReleaseEvent(event);
 }

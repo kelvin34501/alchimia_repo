@@ -4,11 +4,6 @@
 #include "portitem.h"
 
 
-/**
-* @class Representation of a Connection in the UI
-*
-* The origin of the item coordinate is mStart.pos().
-*/
 class ConnectionItem : public QGraphicsLineItem
 {
 public:
