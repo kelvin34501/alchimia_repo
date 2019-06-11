@@ -47,9 +47,9 @@ struct DataCFG{
 struct ModelCFG{
     string archi_path;
     string weight_path;
-    ModelCFG(){
-        archi_path = "";
-        weight_path = "";
+    ModelCFG(string ap="", string wp=""){
+        archi_path = ap;
+        weight_path = wp;
     }
 };
 

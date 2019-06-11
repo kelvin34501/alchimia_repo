@@ -47,6 +47,7 @@ public:
     void setTBPath(const char* path){
         tbpath = path;
     }
+    virtual void killtb() = 0;
 protected:
     string pypath;
     string tbpath;
@@ -58,7 +59,7 @@ signals:
 /* Windows.h implementation of PythonAdapter */
 class WindowsPython : public PythonAdapter{
 public:
-    ~WindowsPython() {};
+    ~WindowsPython() {}
     int runPython(const char* file_path);
     int runPythonAsync(const char* file_path){
         return runPython(file_path);
@@ -68,14 +69,21 @@ public:
 
 class QTPython : public PythonAdapter{
 public:
-    QTPython() { tb_process = new QProcess();  }
-    ~QTPython() {}
+    QTPython() { tb_process = new QProcess(); status = 0; }
+    ~QTPython() {
+        if(tb_process->state() == QProcess::Running){
+            tb_process->kill();
+            tb_process->waitForFinished();
+        }
+    }
     int runPython(const char* file_path);
     int runPythonAsync(const char* file_path);
     int activateTB(const char* log_dir);
+    void killtb();
 private:
     QProcess *tb_process;
     QProcess *web_process;
+    int status;
 };
 
 #endif // PYTHONADAPTER_H_INCLUDED

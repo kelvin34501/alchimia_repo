@@ -165,6 +165,7 @@ public:
         //delete py_cvt;
     }
     vector<int> get_input_parts_idx() const; // index of all potential input parts
+    vector<string> get_input_parts_shape() const;   // input_shape of all potential input parts, with "()" added
     int add(shared_ptr<Part> pa);            // add part
     int add(shared_ptr<Connection> cn);      // add part
 

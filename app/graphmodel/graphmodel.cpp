@@ -31,6 +31,15 @@ vector<int> GraphModel::get_input_parts_idx() const
     return idx;
 }
 
+vector<string> GraphModel::get_input_parts_shape() const{
+    vector<int> idx = get_input_parts_idx();
+    vector<string> shapes;
+    for(int i=0; i<idx.size(); i++){
+        shapes.push_back(parts[idx[i]]->params["input_shape"]);
+    }
+    return shapes;
+}
+
 int GraphModel::add(shared_ptr<Part> pa)
 {
     pa->id = parts.size();
