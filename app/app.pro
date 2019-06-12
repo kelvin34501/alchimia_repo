@@ -43,7 +43,8 @@ SOURCES += \
     pythonsupport/qtpython.cpp \
     modelconfigurationdialog.cpp \
     dataconfigurationdialog.cpp \
-    tbvisuaizationdialog.cpp
+    tbvisuaizationdialog.cpp \
+    trainconfigurationdialog.cpp
 
 HEADERS += \
     connectionitem.h \
@@ -68,7 +69,8 @@ HEADERS += \
     popoutnotification.h \
     modelconfigurationdialog.h \
     dataconfigurationdialog.h \
-    tbvisuaizationdialog.h
+    tbvisuaizationdialog.h \
+    trainconfigurationdialog.h
 
 FORMS += \
     mainwindow.ui \
@@ -77,7 +79,8 @@ FORMS += \
     popoutnotification.ui \
     modelconfigurationdialog.ui \
     dataconfigurationdialog.ui \
-    tbvisuaizationdialog.ui
+    tbvisuaizationdialog.ui \
+    trainconfigurationdialog.ui
 
 INCLUDEPATH += \
     ../../cereal/include
