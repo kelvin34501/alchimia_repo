@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    ModelScene *modelScene() const noexcept { return mModelScene; }
     void setModelScene(ModelScene * modelScene) noexcept { mModelScene = modelScene; }
     void setModelControl(ModelControl *modelControl) noexcept { mModelControl = modelControl; }
 

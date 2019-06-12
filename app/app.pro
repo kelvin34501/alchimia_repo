@@ -4,6 +4,7 @@
 #
 #-------------------------------------------------
 QT       += core gui
+QT       += concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,30 +28,35 @@ SOURCES += \
     connectionitem.cpp \
     converter/kerasconverter.cpp \
     converter/pythonconverter.cpp \
-    editorcontrol.cpp \
     graphmodel/graphmodel.cpp \
     main.cpp \
     mainwindow.cpp \
     modelcontrol/modelcontrol.cpp \
     modelscene.cpp \
+    partinfomodel.cpp \
     partitem.cpp \
+    portitem.cpp \
     project/project_control.cpp \
     project/project_object.cpp \
     projectsettingdialog.cpp \
     compileconfigurationdialog.cpp \
     popoutnotification.cpp \
-    pythonsupport/qtpython.cpp
+    pythonsupport/qtpython.cpp \
+    modelconfigurationdialog.cpp \
+    dataconfigurationdialog.cpp \
+    tbvisuaizationdialog.cpp
 
 HEADERS += \
     connectionitem.h \
     converter/converter.h \
-    editorcontrol.h \
     graphmodel/graphmodel.h \
     graphmodel/graphmodel_name.h \
     mainwindow.h \
     modelcontrol/modelcontrol.h \
     modelscene.h \
+    partinfomodel.h \
     partitem.h \
+    portitem.h \
     project/project_control.h \
     project/project_object.h \
     project/sereialize.hpp \
@@ -61,13 +67,19 @@ HEADERS += \
     utils/exceptions.h \
     utils/string_utils.h \
     compileconfigurationdialog.h \
-    popoutnotification.h
+    popoutnotification.h \
+    modelconfigurationdialog.h \
+    dataconfigurationdialog.h \
+    tbvisuaizationdialog.h
 
 FORMS += \
     mainwindow.ui \
     projectsettingdialog.ui \
     compileconfigurationdialog.ui \
-    popoutnotification.ui
+    popoutnotification.ui \
+    modelconfigurationdialog.ui \
+    dataconfigurationdialog.ui \
+    tbvisuaizationdialog.ui
 
 INCLUDEPATH += \
     ../../cereal/include
@@ -81,6 +93,10 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+
 RESOURCES += \
     alchimia.qrc
+
+DISTFILES +=
+
 

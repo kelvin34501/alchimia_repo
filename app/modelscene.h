@@ -1,14 +1,15 @@
 #ifndef MODELSCENE_H
 #define MODELSCENE_H
 
-#include "editorcontrol.h"
 #include "project/project_object.h"
+#include "partinfomodel.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QToolButton>
+#include <QTreeView>
 
-using std::shared_ptr;
+
 using namespace project;
 
 class ModelScene : public QGraphicsScene
@@ -19,32 +20,26 @@ public:
     enum ClickMode {Idle, TemplateSelected, ConnectingParts};
 
     void setClickMode(ClickMode clickMode) noexcept { mClickMode = clickMode; }
-    void selectTemplate(PartType partType) noexcept
-    {
-        mSelectedTemplateType = partType;
-    }
+    void displayPartInfo(int partId, PartInfoModel &model) const;
+    void addItem(QGraphicsItem *item) { QGraphicsScene::addItem(item); }
+    void addItem(PartItem * item);
 
-    explicit ModelScene(QButtonGroup &toolboxButtonGroup,
-                        project_object &project, QToolButton &connectButton,
-                        QObject *parent = nullptr)
-        : QGraphicsScene(sceneRect, parent), mClickMode(Idle),
-          mEditorControl(*this, toolboxButtonGroup, project),
-          mProject(project), mConnectButton(connectButton)
-    {
-        connect(&connectButton, SIGNAL(clicked(bool)), this, SLOT(startConnection(bool)));
-    }
+    explicit ModelScene(QButtonGroup &toolboxButtonGroup, QTreeView &tv,
+                        project_object &project, QObject *parent = nullptr);
 
-public slots:
+private slots:
     /**
-    * Called by connectButton's clicked() to enter or exit the ConnectingParts
-    * state
+    * Connected to the QButtonGroup's clicked()
     *
-    * @param checked: corresponds to the parameter of connectButton->checked()
+    * @param partType: The ID of the button clicked, mapped to PartType
     */
-    void startConnection(bool checked) noexcept
+    void selectTemplate(int partType) noexcept
     {
-        checked ? setClickMode(ConnectingParts) : setClickMode(Idle);
+        setClickMode(ModelScene::TemplateSelected);
+        mSelectedTemplateType = static_cast<PartType>(partType);
     }
+
+    void editPart(QStandardItem *item) const;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -54,10 +49,20 @@ protected:
 private:
     ClickMode mClickMode;
     PartType mSelectedTemplateType;
-    EditorControl mEditorControl;
+
+    /**
+    * @var The QButtonGroup that is associated with the EditorControl
+    */
+    QButtonGroup &mToolboxButtonGroup;
+
+    /*!
+    \variable ModelScene::treeView
+    \brief The QTreeView object associated with this ModelScene
+    */
+    QTreeView &treeView;
+
     project_object &mProject;
     QGraphicsLineItem *incompleteConnection;
-    QToolButton &mConnectButton;
 
     static const QRectF sceneRect;  // fixed-size graphics scene
 };

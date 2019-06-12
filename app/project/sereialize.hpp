@@ -89,7 +89,8 @@ template <class Archive>
 void serialize(Archive &archive,
                DataCFG &m)
 {
-    archive(cereal::make_nvp("train_X_file", m.train_X_file),
+    archive(cereal::make_nvp("dataset", m.dataset),
+            cereal::make_nvp("train_X_file", m.train_X_file),
             cereal::make_nvp("train_X_folder", m.train_X_folder),
             cereal::make_nvp("train_y_file", m.train_y_file),
             cereal::make_nvp("validate_X_file", m.validate_X_file),
@@ -98,7 +99,8 @@ void serialize(Archive &archive,
             cereal::make_nvp("test_X_file", m.test_X_file),
             cereal::make_nvp("test_X_folder", m.test_X_folder),
             cereal::make_nvp("X_columns", m.X_columns),
-            cereal::make_nvp("y_columns", m.y_columns));
+            cereal::make_nvp("y_columns", m.y_columns),
+            cereal::make_nvp("data_format", m.data_format));
 }
 
 template <class Archive>

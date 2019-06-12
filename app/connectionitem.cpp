@@ -2,12 +2,22 @@
 
 #include <QPainter>
 #include <cmath>
+#include <QDebug>
 
 #ifdef M_PI
 #undef M_PI
 #endif
 const double M_PI = 4 * std::atan(1);
 
+
+/*!
+\class ConnectionItem
+\brief Representation of a Connection in the UI
+
+ConnectionItem's position is updated whenever it is repainted.
+
+The origin of the item coordinate is mStart.pos().
+*/
 
 const qreal ConnectionItem::arrowSize = 10;
 
@@ -36,40 +46,30 @@ void ConnectionItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
 
     using std::sin;
     using std::cos;
+    // update the position for the movement of start item
+    setPos(mStart.scenePos());
     painter->setBrush(Qt::black);
 
-    // use the scene coordinate throughout computation
-    QLineF centerLine(mStart.pos(), mEnd.pos());
-    // find the intersection between the connection and the edges of the
-    // PartItem at the end of the connection
-    // v1 is the top left vertex in the scene coordinate
-    QPointF v1 = mEnd.rect().topLeft() + mEnd.pos();
-    QVector<QPointF> vertices = {
-        mEnd.rect().topRight(), mEnd.rect().bottomRight(),
-        mEnd.rect().bottomLeft(), mEnd.rect().topLeft()
-    };
-    QPointF intersection;
-    for (QVector<QPointF>::size_type i = 0; i < vertices.size(); ++i) {
-        QPointF v2 = vertices.at(i) + mEnd.pos();
-        QLineF edge = QLineF(v1, v2);	// for each edge
-        QLineF::IntersectType intersectType = edge.intersect(centerLine, &intersection);
-        if (intersectType == QLineF::BoundedIntersection)
-            break;
-        v1 = v2;
-    }
-    setLine(QLineF(mapFromScene(intersection), QPointF(0, 0)));
+    QLineF centerLine(QPointF(0, 0), mapFromScene(mEnd.scenePos()));
+    qreal radius = mEnd.rect().width() / 2;
+    qreal ratio = 1 - radius / centerLine.length();
+    // the intersection between the line connecting two centers of PortItems
+    // and mEnd's circle
+    QPointF intersection = QPointF(centerLine.dx(), centerLine.dy()) * ratio;
+    centerLine.setP2(intersection);
+    setLine(centerLine);
+    painter->drawLine(line());
 
     // draw the arrow head
-    double angle = std::atan2(-line().dy(), line().dx());
-    QPointF arrowP1 = line().p1() + QPointF(sin(angle + M_PI / 3) * arrowSize,
-                                    cos(angle + M_PI / 3) * arrowSize);
-    QPointF arrowP2 = line().p1() + QPointF(sin(angle + M_PI - M_PI / 3) * arrowSize,
-                                    cos(angle + M_PI - M_PI / 3) * arrowSize);
-
+    double angle = std::atan2(line().dy(), line().dx());
+    QPointF arrowP1 = line().p2()
+            + QPointF(cos(5 * M_PI / 6 + angle), sin(5 * M_PI / 6 + angle)) * arrowSize;
+    QPointF arrowP2 = line().p2()
+            + QPointF(cos(7 * M_PI / 6 + angle), sin(7 * M_PI / 6 + angle)) * arrowSize;
     mArrowHead.clear();
-    mArrowHead << line().p1() << arrowP1 << arrowP2;
-    painter->drawLine(line());
+    mArrowHead << line().p2() << arrowP1 << arrowP2;
     painter->drawPolygon(mArrowHead);
+
     if (isSelected()) {
         QLineF myLine = line();
         myLine.translate(0, 4.0);

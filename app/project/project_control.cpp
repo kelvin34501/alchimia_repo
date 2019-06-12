@@ -9,6 +9,37 @@
 using namespace project;
 using namespace std;
 
+void project_control::post_project_creation()
+{
+    // create and set up model control
+    // TODO: dummy python adapter, should be chosen based on situations
+    PythonAdapter *pyad = new QTPython ();
+    ModelControl *modelControl = new ModelControl(main_window, this, pyad);
+    main_window.setModelControl(modelControl);
+    connect(main_window_ui.actionCompile, SIGNAL(triggered()),
+            modelControl, SLOT(compileModel()));
+    connect(main_window_ui.actionTrain, SIGNAL(triggered()),
+            modelControl, SLOT(trainModel()));
+    connect(main_window_ui.actionConfigureModel, SIGNAL(triggered()),
+            modelControl, SLOT(configureModel()));
+    connect(main_window_ui.actionConfigureData, SIGNAL(triggered()),
+            modelControl, SLOT(configureData()));
+    connect(main_window_ui.actionTensorboard_Visualization, SIGNAL(triggered()),
+            modelControl, SLOT(TBVisualization()));
+
+    // create and set up editor control (model scene)
+    shared_ptr<project_object> p = (*this)[active_project_id];
+    ModelScene *modelScene = new ModelScene(*main_window_ui.toolBoxButtonGroup,
+                                            *main_window_ui.treeView,
+                                            *p);
+
+    // update main panel
+    main_window.setModelScene(modelScene);
+    main_window_ui.graphicsView->setScene(modelScene);
+    main_window_ui.graphicsView->setEnabled(true);
+    main_window_ui.actionSave_Project->setEnabled(true);
+}
+
 int project_control::active()
 {
     return active_project_id;
@@ -31,7 +62,7 @@ int project_control::add_existing_project(QString path)
     return cur_id;
 }
 
-void project_control::save_project(int id)
+void project_control::save_project(size_type id)
 {
 //    PopoutNotification notification(&main_window);
 //    notification.hideButton();
@@ -42,7 +73,8 @@ void project_control::save_project(int id)
 //    notification.close();
 }
 
-void project_control::save_active_project(){
+void project_control::save_active_project()
+{
     save_project(active_project_id);
 }
 
@@ -140,23 +172,5 @@ void project_control::create_new_project()
     QDir d(project_setting_dialog.projectPath());
     d.mkdir(project_setting_dialog.projecName());
 
-    // create and set up model control
-    // TODO: dummy python adapter, should be chosen based on situations
-    PythonAdapter *pyad = new QTPython ();
-    ModelControl *modelControl = new ModelControl(main_window, this, pyad,
-                                                project_setting_dialog.pythonPath().toStdString().data(),
-                                                project_setting_dialog.tensorboardPath().toStdString().data());
-    main_window.setModelControl(modelControl);
-    connect(main_window_ui.actionCompile, SIGNAL(triggered()),
-            modelControl, SLOT(compileModel()));
-
-    // create and set up editor control (model scene)
-    shared_ptr<project_object> p = (*this)[active_project_id];
-    ModelScene *modelScene = new ModelScene(*main_window_ui.toolBoxButtonGroup,
-                                            *p, *main_window_ui.connectButton);
-
-    // update main panel
-    main_window.setModelScene(modelScene);
-    main_window_ui.graphicsView->setScene(modelScene);
-    main_window_ui.graphicsView->setEnabled(true);
+    post_project_creation();
 }
