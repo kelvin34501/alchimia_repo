@@ -50,14 +50,14 @@ public:
     shared_ptr<project_object> get_active_project();
     void save_project(int id);
 
-    void close_project(int id);
-
 public slots:
     /**
     * Connected to the "New Project" button's clicked() signal
     */
     void create_new_project();
     void save_active_project();
+    void close_project();
+    void open_project();
 };
 
 }

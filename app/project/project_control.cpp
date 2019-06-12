@@ -3,7 +3,8 @@
 #include "popoutnotification.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include <QFileDialog>
+#include <QMessageBox>
 
 using namespace project;
 using namespace std;
@@ -45,10 +46,22 @@ void project_control::save_active_project(){
     save_project(active_project_id);
 }
 
-void project_control::close_project(int id)
+void project_control::close_project()
 {
+    int id = active_project_id;
     save_project(id);
-    p[id] = nullptr;
+
+    // update main panel
+    ModelScene *mModelScene = nullptr;
+    main_window.setModelScene(mModelScene);
+    main_window_ui.graphicsView->setScene(mModelScene);
+    main_window_ui.graphicsView->setEnabled(false);
+
+    main_window_ui.actionSave_Project->setEnabled(false);
+
+    //destruct
+    p[id]->graph_mdl->~GraphModel();
+    p[id]->~project_object();
 }
 
 shared_ptr<project_object> project_control::operator[](int id)
@@ -64,6 +77,50 @@ const shared_ptr<project_object> project_control::operator[](int id) const
 shared_ptr<project_object> project_control::get_active_project(){
     return (*this)[active_project_id];
 }
+
+
+void project_control::open_project(){
+    QMessageBox message_box;
+    message_box.setText("Are you sure to save and close current project?");
+    message_box.exec();
+    close_project();
+    QFileDialog *select_project_dialog = new QFileDialog;
+    select_project_dialog->setWindowTitle(tr("Open Project File"));
+    select_project_dialog->setDirectory(".");
+    select_project_dialog->setNameFilter(tr("Project(*.project)"));
+    select_project_dialog->setViewMode(QFileDialog::Detail);
+    QStringList chosen_files;
+    if(select_project_dialog->exec()== QDialog::Rejected){
+        return;
+    }
+    chosen_files = select_project_dialog->selectedFiles();
+
+    QString path = chosen_files[0];
+    active_project_id = add_existing_project(path);
+
+
+    // create and set up model control
+    // TODO: dummy python adapter, should be chosen based on situations
+    PythonAdapter *pyad = new QTPython ();
+    ModelControl *modelControl = new ModelControl(main_window, this, pyad,
+                                           get_active_project()->project_cfg.python_path.toStdString().data(),
+                                           get_active_project()->project_cfg.tensorboard_path.toStdString().data());
+    main_window.setModelControl(modelControl);
+    connect(main_window_ui.actionCompile, SIGNAL(triggered()),modelControl, SLOT(compileModel()));
+
+    // create and set up editor control (model scene)
+    shared_ptr<project_object> p = (*this)[active_project_id];
+    ModelScene *modelScene = new ModelScene(*main_window_ui.toolBoxButtonGroup,
+                                            *p, *main_window_ui.connectButton);
+
+    // update main panel
+    main_window.setModelScene(modelScene);
+    main_window_ui.graphicsView->setScene(modelScene);
+    main_window_ui.graphicsView->setEnabled(true);
+
+}
+
+
 
 void project_control::create_new_project()
 {
