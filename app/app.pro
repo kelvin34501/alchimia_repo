@@ -33,6 +33,7 @@ SOURCES += \
     mainwindow.cpp \
     modelcontrol/modelcontrol.cpp \
     modelscene.cpp \
+    partinfomodel.cpp \
     partitem.cpp \
     portitem.cpp \
     project/project_control.cpp \
@@ -54,6 +55,7 @@ HEADERS += \
     mainwindow.h \
     modelcontrol/modelcontrol.h \
     modelscene.h \
+    partinfomodel.h \
     partitem.h \
     portitem.h \
     project/project_control.h \

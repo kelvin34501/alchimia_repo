@@ -3,6 +3,8 @@
 
 #include "graphmodel/graphmodel_name.h"
 #include "portitem.h"
+#include "modelscene.h"
+#include "partinfomodel.h"
 
 
 class PartItem : public QGraphicsRectItem
@@ -10,10 +12,12 @@ class PartItem : public QGraphicsRectItem
 public:
     enum {Type = UserType + 1};
 
+    ModelScene *scene() { return static_cast<ModelScene *>(QGraphicsRectItem::scene()); }
     int type() const noexcept override { return Type; }
     int id() const noexcept { return mId; }
     PortItem &inPort() noexcept { return mIn; }
     PortItem &outPort() noexcept { return mOut; }
+    PartInfoModel &partInfoModel() noexcept { return model; }
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget = nullptr) override;
@@ -30,6 +34,12 @@ private:
     */
     int mId;
 
+    /*!
+    \property model
+    \brief Save the parameters of a Part
+    */
+    PartInfoModel model;
+
     static const QRectF itemRect;	// all PartItems have the same rectangle
 
     /**
@@ -37,6 +47,9 @@ private:
     * side of the rectangle, in unscaled pixels.
     */
     static const qreal textHorizontalOffset;
+
+protected:
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 };
 
 #endif // PARTITEM_H

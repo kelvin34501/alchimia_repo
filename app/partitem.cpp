@@ -6,6 +6,9 @@
 /*!
 \class PartItem
 \brief The UI for the Part class
+
+PartItems can only be added to ModelScene, but not QGraphicsScene, due to
+its reimplementation of scene().
 */
 
 const QRectF PartItem::itemRect(-60, -30, 120, 60);
@@ -21,7 +24,7 @@ overlap with the boundary of the ModelScene
 PartItem::PartItem(int id, PartType partType, const QPointF &center,
                    QGraphicsItem *parent)
     : QGraphicsRectItem(itemRect, parent), mPartType(partType),
-      mIn(false, this), mOut(true, this), mId(id)
+      mIn(false, this), mOut(true, this), mId(id), model(*this)
 {
     setPos(center);
     mIn.setPos(QPointF(0, -30));
@@ -39,4 +42,19 @@ void PartItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     textPos.setX(textPos.x() + textHorizontalOffset);
     textPos.setY(textPos.y() + rect().height() / 3);
     painter->drawText(textPos, PartTypeString[static_cast<int>(mPartType)]);
+}
+
+/*!
+\fn PartItem::itemChange(GraphicsItemChange change, const QVariant &value)
+\brief Reimplemented to support Part editing during selection state change.
+*/
+QVariant PartItem::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+    if (change == ItemSelectedChange) {
+        bool isSelected = value.toBool();
+        ModelScene *s = scene();
+        if (isSelected)
+            s->displayPartInfo(id(), model);
+    }
+    return QGraphicsRectItem::itemChange(change, value);
 }
