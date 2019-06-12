@@ -133,22 +133,7 @@ void project_control::open_project(){
 
     // create and set up model control
     // TODO: dummy python adapter, should be chosen based on situations
-    PythonAdapter *pyad = new QTPython ();
-    ModelControl *modelControl = new ModelControl(main_window, this, pyad,
-                                           get_active_project()->project_cfg.python_path.toStdString().data(),
-                                           get_active_project()->project_cfg.tensorboard_path.toStdString().data());
-    main_window.setModelControl(modelControl);
-    connect(main_window_ui.actionCompile, SIGNAL(triggered()),modelControl, SLOT(compileModel()));
 
-    // create and set up editor control (model scene)
-    shared_ptr<project_object> p = (*this)[active_project_id];
-    ModelScene *modelScene = new ModelScene(*main_window_ui.toolBoxButtonGroup,
-                                            *p, *main_window_ui.connectButton);
-
-    // update main panel
-    main_window.setModelScene(modelScene);
-    main_window_ui.graphicsView->setScene(modelScene);
-    main_window_ui.graphicsView->setEnabled(true);
 
 }
 
