@@ -3,10 +3,14 @@
 #include <fstream>
 #include "modelcontrol.h"
 #include "compileconfigurationdialog.h"
+#include "modelconfigurationdialog.h"
+#include "dataconfigurationdialog.h"
+#include "tbvisuaizationdialog.h"
 #include "popoutnotification.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDir>
+#include<QtConcurrent>
 
 using namespace std;
 
@@ -21,6 +25,18 @@ ModelControl::ModelControl(MainWindow &mw, project_control *pc,
         this->python->setTBPath(config.tensorboard_path.toUtf8());
     }
 }
+
+bool ModelControl::modelSet(){
+    ModelCFG cfg = pc->get_active_project()->graph_mdl->model_cfg;
+    return cfg.archi_path != "";
+}
+
+bool ModelControl::dataSet(){
+    DataCFG cfg = pc->get_active_project()->graph_mdl->data_cfg;
+    return cfg.dataset != "";
+}
+
+#pragma region compile
 
 void ModelControl::compileModel(){
     CompileConfigurationDialog compile_cfg_dialog(&main_window);
@@ -78,6 +94,15 @@ void ModelControl::launchCompile(CompileCFG compile_cfg){
     notification.exec();
 }
 
+#pragma endregion compile
+
+#pragma region train
+
+void ModelControl::trainModel()
+{
+
+}
+
 void ModelControl::configureTraining(TrainCFG train_cfg)
 {
     launchTraining(train_cfg);
@@ -99,15 +124,66 @@ void ModelControl::launchTraining(TrainCFG train_cfg)
     }
     outfile.close();
 
-    // TODO: run python
+    if(python->runPythonAsync((train_cfg.save_weight_dir + train_cfg.model_name + "_train.gen").data())){
+        project->graph_mdl->model_cfg.weight_path = train_cfg.save_weight_dir + train_cfg.model_name + ".h5";
+    }
+}
+
+#pragma endregion train
+
+#pragma region cfgModel
+
+void ModelControl::configureModel()
+{
+    ModelConfigurationDialog model_cfg_dialog(pc->get_active_project()->graph_mdl->model_cfg, &main_window);
+    if (model_cfg_dialog.exec() == QDialog::Rejected)
+        return;
+    setModelConfiguration({model_cfg_dialog.archiPath().toStdString(),
+                           model_cfg_dialog.weightPath().toStdString()});
 }
 
 // TODO: setArchitecturePath might need other changes
-void ModelControl::setModelPath(ModelCFG model_cfg){
+void ModelControl::setModelConfiguration(ModelCFG model_cfg){
     pc->get_active_project()->graph_mdl->model_cfg = model_cfg;
+}
+
+#pragma endregion cfgModel
+
+#pragma region cfgData
+
+void ModelControl::configureData()
+{
+    DataConfigurationDialog data_cfg_dialog(pc->get_active_project()->graph_mdl->data_cfg, &main_window, pc);
+    DataCFG data_cfg;
+    if (data_cfg_dialog.exec() == QDialog::Rejected)
+        return;
+    data_cfg.dataset = data_cfg_dialog.datasetName().toStdString();
+    setDataConfiguration(data_cfg);
 }
 
 // TODO: setDataConfiguration might need other changes
 void ModelControl::setDataConfiguration(DataCFG data_cfg){
     pc->get_active_project()->graph_mdl->data_cfg = data_cfg;
 }
+
+#pragma endregion cfgData
+
+#pragma region tbvisual
+
+void test(ModelControl* mc, const char* a)
+{
+    mc->python->activateTB(a);
+}
+
+void ModelControl::TBVisualization(){
+    TBVisuaizationDialog tb_dialog(&main_window, this);
+    if (tb_dialog.exec() == QDialog::Rejected)
+        return;
+//    QtConcurrent::run(test, this, tb_dialog.logDir().toStdString().data());
+    python->killtb();
+    python->activateTB(tb_dialog.logDir().toStdString().data());
+}
+
+
+#pragma endregion tbvisual
+

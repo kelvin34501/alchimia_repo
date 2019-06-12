@@ -4,6 +4,7 @@
 #
 #-------------------------------------------------
 QT       += core gui
+QT       += concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -39,7 +40,10 @@ SOURCES += \
     projectsettingdialog.cpp \
     compileconfigurationdialog.cpp \
     popoutnotification.cpp \
-    pythonsupport/qtpython.cpp
+    pythonsupport/qtpython.cpp \
+    modelconfigurationdialog.cpp \
+    dataconfigurationdialog.cpp \
+    tbvisuaizationdialog.cpp
 
 HEADERS += \
     connectionitem.h \
@@ -61,13 +65,19 @@ HEADERS += \
     utils/exceptions.h \
     utils/string_utils.h \
     compileconfigurationdialog.h \
-    popoutnotification.h
+    popoutnotification.h \
+    modelconfigurationdialog.h \
+    dataconfigurationdialog.h \
+    tbvisuaizationdialog.h
 
 FORMS += \
     mainwindow.ui \
     projectsettingdialog.ui \
     compileconfigurationdialog.ui \
-    popoutnotification.ui
+    popoutnotification.ui \
+    modelconfigurationdialog.ui \
+    dataconfigurationdialog.ui \
+    tbvisuaizationdialog.ui
 
 INCLUDEPATH += \
     ../../cereal/include

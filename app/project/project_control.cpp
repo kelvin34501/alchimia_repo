@@ -21,6 +21,8 @@ void project_control::post_project_creation()
             modelControl, SLOT(trainModel()));
     connect(main_window_ui.actionConfigureModel, SIGNAL(triggered()),
             modelControl, SLOT(configureModel()));
+    connect(main_window_ui.actionConfigureData, SIGNAL(triggered()),
+            modelControl, SLOT(configureData()));
     connect(main_window_ui.actionTensorboard_Visualization, SIGNAL(triggered()),
             modelControl, SLOT(TBVisualization()));
 
