@@ -36,16 +36,14 @@ int QTPython::runPythonAsync(const char* file_path){
     QProcess *process = new QProcess();
     process->start(program, arguments);
     process->waitForStarted(-1);
-//    process->waitForFinished(-1);
-    while(process->state() != QProcess::ProcessState::NotRunning)
+    py_status = 1;
+    cout << "training started" << endl;
+    while(process->state() != QProcess::ProcessState::NotRunning && py_status)
     {
-//        qApp->processEvents();
         tmp = process->readAllStandardOutput().toStdString();
-        // cout << tmp << endl;
         if(tmp != outputs){
             outputs = tmp;
             cout << outputs << endl;
-//            emit outputUpdated(outputs);
         }
     }
     cout << "exit train" << endl;

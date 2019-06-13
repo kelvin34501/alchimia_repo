@@ -16,12 +16,14 @@ class TrainConfigurationDialog : public QDialog
 public:
     explicit TrainConfigurationDialog(TrainCFG cfg, QWidget *parent = nullptr, ModelControl *mc = nullptr);
     ~TrainConfigurationDialog();
+    TrainCFG TrainConfiguration();
 
 private slots:
     void browseSaveDir();
+    void browseLogDir();
     void updateBatchSlider(int);
     void updateSplitSlider(int);
-    void updateSplitText(QString);
+    // void updateSplitText(QString);
 
 private:
     void update();

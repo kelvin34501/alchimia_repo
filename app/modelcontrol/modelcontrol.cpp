@@ -6,11 +6,13 @@
 #include "modelconfigurationdialog.h"
 #include "dataconfigurationdialog.h"
 #include "tbvisuaizationdialog.h"
+#include "trainconfigurationdialog.h"
 #include "popoutnotification.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDir>
-#include<QtConcurrent>
+#include <QtConcurrent>
+#include <QMessageBox>
 
 using namespace std;
 
@@ -100,12 +102,63 @@ void ModelControl::launchCompile(CompileCFG compile_cfg){
 
 void ModelControl::trainModel()
 {
+    TrainCFG train_cfg;
+    bool flag;
 
+    // TODO: remove this when editing metrics is available
+    train_cfg.metrics.push_back("accuracy");
+    train_cfg.model_name = "test_model";
+    train_cfg.save_weight_dir = "D:/a/weights";
+    train_cfg.tb_cfg.log_dir = "D:/a/logs";
+
+    do
+    {
+        TrainConfigurationDialog train_cfg_dialog(train_cfg, &main_window, this);
+        if (train_cfg_dialog.exec() == QDialog::Rejected)
+            return;
+        train_cfg = train_cfg_dialog.TrainConfiguration();
+        flag = (train_cfg.model_name == "" || train_cfg.save_weight_dir == ""
+                || train_cfg.metrics.size() <= 0);
+    } while (flag);
+
+    configureTraining(train_cfg);
 }
 
 void ModelControl::configureTraining(TrainCFG train_cfg)
 {
-    launchTraining(train_cfg);
+    while(!modelSet()){
+        QMessageBox msgBox;
+        msgBox.setText("Model has not configured yet!");
+        msgBox.setInformativeText("Do you want to configure model and continue training?");
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::Yes);
+        int ret = msgBox.exec();
+        if(ret == QMessageBox::Yes){
+            configureModel();
+        }
+        else{
+            return;
+        }
+    }
+
+    while(!dataSet()){
+        QMessageBox msgBox;
+        msgBox.setText("Data has not configured yet!");
+        msgBox.setInformativeText("Do you want to configure data and continue training?");
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::Yes);
+        int ret = msgBox.exec();
+        if(ret == QMessageBox::Yes){
+            configureData();
+        }
+        else{
+            return;
+        }
+    }
+
+    QtConcurrent::run(this, &ModelControl::launchTraining, train_cfg);
+    QtConcurrent::run(this, &ModelControl::launchTB, train_cfg.tb_cfg.log_dir);
+//    launchTraining(train_cfg);
 }
 
 void ModelControl::launchTraining(TrainCFG train_cfg)
@@ -124,7 +177,7 @@ void ModelControl::launchTraining(TrainCFG train_cfg)
     }
     outfile.close();
 
-    if(python->runPythonAsync((train_cfg.save_weight_dir + train_cfg.model_name + "_train.gen").data())){
+    if(python->runPythonAsync((train_cfg.save_weight_dir + "/" + train_cfg.model_name + "_train.gen").data())){
         project->graph_mdl->model_cfg.weight_path = train_cfg.save_weight_dir + train_cfg.model_name + ".h5";
     }
 }
@@ -184,6 +237,10 @@ void ModelControl::TBVisualization(){
     python->activateTB(tb_dialog.logDir().toStdString().data());
 }
 
+void ModelControl::launchTB(string logdir){
+    python->killtb();
+    python->activateTB(logdir.data());
+}
 
 #pragma endregion tbvisual
 

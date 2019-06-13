@@ -3,6 +3,8 @@
 #include "utils/configurations.h"
 #include "modelcontrol/modelcontrol.h"
 #include <cmath>
+#include <QFileDialog>
+#include <QDir>
 
 TrainConfigurationDialog::TrainConfigurationDialog(TrainCFG cfg, QWidget *parent, ModelControl *mc) :
     QDialog(parent),
@@ -15,11 +17,11 @@ TrainConfigurationDialog::TrainConfigurationDialog(TrainCFG cfg, QWidget *parent
 
     connect(ui->LoadModelButton, SIGNAL(clicked()), mc, SLOT(configureModel()));
     connect(ui->LoadDataButton, SIGNAL(clicked()), mc, SLOT(configureData()));
-
+    connect(ui->LogDirBrowseButton, SIGNAL(clicked()), this, SLOT(browseLogDir()));
     connect(ui->SaveDirBrowseButton, SIGNAL(clicked()), this, SLOT(browseSaveDir()));
     connect(ui->BatchSizeSlider, SIGNAL(valueChanged(int)), this, SLOT(updateBatchSlider(int)));
     connect(ui->SplitSlider, SIGNAL(valueChanged(int)), this, SLOT(updateSplitSlider(int)));
-    connect(ui->SplitLineEdit, SIGNAL(textChanged(QString)), this, SLOT(updateSplitText(QString)));
+    // connect(ui->SplitLineEdit, SIGNAL(textChanged(QString)), this, SLOT(updateSplitText(QString)));
 }
 
 TrainConfigurationDialog::~TrainConfigurationDialog()
@@ -29,19 +31,35 @@ TrainConfigurationDialog::~TrainConfigurationDialog()
 
 
 void TrainConfigurationDialog::browseSaveDir(){
+    QFileDialog fileDialog;
+    fileDialog.setFileMode(QFileDialog::FileMode::Directory);
+    if (fileDialog.exec()){
+        QStringList files = fileDialog.selectedFiles();
+        ui->SaveDirLineEdit->setText(files.front());
+    }
+}
 
+void TrainConfigurationDialog::browseLogDir(){
+    QFileDialog fileDialog;
+    fileDialog.setFileMode(QFileDialog::FileMode::Directory);
+    if (fileDialog.exec()){
+        QStringList files = fileDialog.selectedFiles();
+        ui->LogDirLineEdit->setText(files.front());
+    }
 }
 
 void TrainConfigurationDialog::updateBatchSlider(int){
-
+    int tmp_batch = ui->BatchSizeSlider->value();
+    QString tmp_str = QString::number((int)ldexp(1.0, tmp_batch), 10);
+    train_cfg.batch_size = tmp_str.toStdString();
+    ui->BatchSizeLineEdit->setText(tmp_str);
 }
 
 void TrainConfigurationDialog::updateSplitSlider(int){
-
-}
-
-void TrainConfigurationDialog::updateSplitText(QString){
-
+    int tmp_split = ui->SplitSlider->value();
+    QString tmp_str = QString::number((double)tmp_split / ui->SplitSlider->maximum(), 'g', 2);
+    train_cfg.validation_split = tmp_str.toStdString();
+    ui->SplitLineEdit->setText(tmp_str);
 }
 
 void TrainConfigurationDialog::update(){
@@ -72,6 +90,8 @@ void TrainConfigurationDialog::update(){
 
     ui->ShuffleCheckBox->setChecked(train_cfg.shuffle == "True");
 
+    ui->LogDirLineEdit->setText(QString::fromStdString(train_cfg.tb_cfg.log_dir));
+
     ui->ModelNameLineEdit->setText(QString::fromStdString(train_cfg.model_name));
     ui->SaveDirLineEdit->setText(QString::fromStdString(train_cfg.save_weight_dir));
     ui->ReuseCheckBox->setChecked(train_cfg.reuse_weight);
@@ -80,3 +100,51 @@ void TrainConfigurationDialog::update(){
     ui->WeightLabel->setText(QString::fromStdString(tmp_m_cfg.weight_path));
     ui->DatasetLabel->setText(QString::fromStdString(tmp_d_cfg.dataset));
 }
+
+TrainCFG TrainConfigurationDialog::TrainConfiguration(){
+    train_cfg.optimizer = ui->OptimizerComboBox->currentText().toStdString();
+    train_cfg.loss = ui->LossComboBox->currentText().toStdString();
+
+    // TODO: update metrics
+
+    // batch size and validation split already set in slot functions
+    train_cfg.epochs = ui->EpochsLineEdit->text().toStdString();
+    train_cfg.shuffle = ((ui->ShuffleCheckBox->isChecked())?"True":"False");
+
+    train_cfg.tb_cfg.log_dir = ui->LogDirLineEdit->text().toStdString();
+
+    train_cfg.model_name = ui->ModelNameLineEdit->text().toStdString();
+    train_cfg.save_weight_dir = ui->SaveDirLineEdit->text().toStdString();
+    train_cfg.reuse_weight = ui->ReuseCheckBox->isChecked();
+
+    return train_cfg;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

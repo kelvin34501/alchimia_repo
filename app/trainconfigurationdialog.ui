@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="MetricsSettings">
     <attribute name="title">
@@ -63,7 +63,43 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QComboBox" name="OptimizerComboBox"/>
+       <widget class="QComboBox" name="OptimizerComboBox">
+        <item>
+         <property name="text">
+          <string>sgd</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>rmsprop</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>adagrad</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>adadelta</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>adam</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>adamax</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>nadam</string>
+         </property>
+        </item>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
@@ -80,7 +116,78 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QComboBox" name="LossComboBox"/>
+       <widget class="QComboBox" name="LossComboBox">
+        <item>
+         <property name="text">
+          <string>mean_squared_error</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>mean_absolute_error</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>mean_absolute_percentage_error</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>mean_squared_logarithmic_error</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>squared_hinge</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>hinge</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>categorical_hinge</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>logcosh</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>categorical_crossentropy</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>sparse_categorical_crossentropy</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>binary_crossentropy</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>kullback_leibler_divergence</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>poisson</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>cosine_proximity</string>
+         </property>
+        </item>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -159,7 +266,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="SplitLineEdit"/>
+         <widget class="QLineEdit" name="SplitLineEdit">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_8">
@@ -193,6 +304,44 @@
          <widget class="QLabel" name="label_7">
           <property name="text">
            <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="TensorBoardSettings">
+    <attribute name="title">
+     <string>TensorBoard Settings</string>
+    </attribute>
+    <widget class="QWidget" name="formLayoutWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>691</width>
+       <height>241</height>
+      </rect>
+     </property>
+     <layout class="QFormLayout" name="formLayout_3">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>Log Dir:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLineEdit" name="LogDirLineEdit"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="LogDirBrowseButton">
+          <property name="text">
+           <string>Browse</string>
           </property>
          </widget>
         </item>

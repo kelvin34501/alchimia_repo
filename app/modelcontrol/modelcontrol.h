@@ -72,6 +72,7 @@ private:
     /*      generation and running python file                     */
     void launchCompile(CompileCFG compile_cfg);
     void launchTraining(TrainCFG train_cfg);
+    void launchTB(string logdir);
     PythonAdapter* python;
 //    shared_ptr<project_object> project;
     project_control *pc;

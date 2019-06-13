@@ -208,6 +208,7 @@ string KerasConverter::parse_fit_param(TrainCFG train_cfg) const
     param += "epochs=" + train_cfg.epochs + ", ";
     param += "shuffle=" + train_cfg.shuffle + ", ";
     param += "validation_split=" + train_cfg.validation_split + ", ";
+    param += "validation_steps=1,";
     param += "callbacks=callbacks";
 
     return param;
