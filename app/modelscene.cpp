@@ -20,8 +20,6 @@ void ModelScene::displayPartInfo(int partId, PartInfoModel &model) const
         model.cachePartInfo(info);
         model.setCached(true);
     }
-    for (auto i = info.begin(); i != info.end(); ++i)
-        std::cout << i->first << ' ' << i->second << std::endl;
     treeView.setModel(&model);
 }
 
