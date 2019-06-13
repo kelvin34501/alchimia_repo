@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="MetricsSettings">
     <attribute name="title">
@@ -58,7 +58,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>optimizer:</string>
+         <string>Optimizer:</string>
         </property>
        </widget>
       </item>
@@ -68,19 +68,19 @@
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>loss:</string>
+         <string>Loss:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Metrics:</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
        <widget class="QComboBox" name="LossComboBox"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>metrics:</string>
-        </property>
-       </widget>
       </item>
      </layout>
     </widget>
@@ -102,7 +102,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>batch size:</string>
+         <string>Batch Size:</string>
         </property>
        </widget>
       </item>
@@ -125,21 +125,25 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="BatchSizeLineEdit"/>
+         <widget class="QLineEdit" name="BatchSizeLineEdit">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_5">
         <property name="text">
-         <string>validation split:</string>
+         <string>Validation Split:</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="15,1,0,0,0">
+       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="15,1,0,0">
         <item>
-         <widget class="QSlider" name="SplitSlider_2">
+         <widget class="QSlider" name="SplitSlider">
           <property name="maximum">
            <number>100</number>
           </property>
@@ -155,26 +159,19 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="SplitLineEdit_2"/>
+         <widget class="QLineEdit" name="SplitLineEdit"/>
         </item>
         <item>
          <widget class="QLabel" name="label_8">
           <property name="text">
-           <string>          </string>
+           <string/>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QCheckBox" name="ShuffleCheckBox">
           <property name="text">
-           <string>shuffle</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_9">
-          <property name="text">
-           <string>  </string>
+           <string>Shuffle</string>
           </property>
          </widget>
         </item>
@@ -183,19 +180,159 @@
       <item row="2" column="0">
        <widget class="QLabel" name="label_6">
         <property name="text">
-         <string>epochs:</string>
+         <string>Epochs:</string>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,15">
         <item>
-         <widget class="QLineEdit" name="lineEdit"/>
+         <widget class="QLineEdit" name="EpochsLineEdit"/>
         </item>
         <item>
          <widget class="QLabel" name="label_7">
           <property name="text">
-           <string>                                                                                                              </string>
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="ModelSettings">
+    <attribute name="title">
+     <string>Model Settings</string>
+    </attribute>
+    <widget class="QWidget" name="formLayoutWidget_5">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>691</width>
+       <height>241</height>
+      </rect>
+     </property>
+     <layout class="QFormLayout" name="formLayout_5">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_19">
+        <property name="text">
+         <string>Model Name:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="ModelNameLineEdit"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_20">
+        <property name="text">
+         <string>Save Weight Dir:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="10,3,1,3">
+        <item>
+         <widget class="QLineEdit" name="SaveDirLineEdit"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="SaveDirBrowseButton">
+          <property name="text">
+           <string>Browse</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_21">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="ReuseCheckBox">
+          <property name="text">
+           <string>Reuse Current Model</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Current Architecture:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="ArchiLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_22">
+        <property name="text">
+         <string>Current Weight:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="WeightLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="10,3">
+        <item>
+         <widget class="QLabel" name="label_23">
+          <property name="text">
+           <string>                                                                                             </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="LoadModelButton">
+          <property name="text">
+           <string>Configure Model</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_25">
+        <property name="text">
+         <string>Dataset:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="DatasetLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="10,3">
+        <item>
+         <widget class="QLabel" name="label_26">
+          <property name="text">
+           <string>                                                                                             </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="LoadDataButton">
+          <property name="text">
+           <string>Configure Data</string>
           </property>
          </widget>
         </item>

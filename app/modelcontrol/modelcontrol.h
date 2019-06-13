@@ -50,6 +50,12 @@ public:
     void compileModelPublic() { compileModel(); }
     void configureModelPublic() { configureModel(); }
     void configureDataPublic() { configureData(); }
+    ModelCFG getCurrentModelCFG() {
+        return pc->get_active_project()->graph_mdl->model_cfg;
+    }
+    DataCFG getCurrentDataCFG() {
+        return pc->get_active_project()->graph_mdl->data_cfg;
+    }
 private slots:
     /**
     * Initiate use case,  create CompileConfigurationWindow.

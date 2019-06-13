@@ -15,7 +15,6 @@ TBVisuaizationDialog::TBVisuaizationDialog(QWidget *parent, ModelControl *mc) :
     connect(ui->existsRadioButton, SIGNAL(clicked()), this, SLOT(updateExists()));
     connect(ui->currentRadioButton, SIGNAL(clicked()), this, SLOT(updateCurrent()));
     connect(ui->logdirBrowseButton, SIGNAL(clicked()), this, SLOT(browseLogDir()));
-    // TODO: link browser, link radio buttons
 }
 
 TBVisuaizationDialog::~TBVisuaizationDialog()
