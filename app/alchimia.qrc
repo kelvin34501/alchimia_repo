@@ -20,5 +20,14 @@
         <file>resources/convolutional-recurrent-layers.svg</file>
         <file>resources/convolutional-layers.svg</file>
         <file>resources/core-layers.png</file>
+        <file>resources/folder-open.svg</file>
+        <file>resources/folder-new.svg</file>
+        <file>resources/project-open.svg</file>
+        <file>resources/document-open.svg</file>
+        <file>resources/run-build.svg</file>
+        <file>resources/document-new.svg</file>
+        <file>resources/document-save.svg</file>
+        <file>resources/document-close.svg</file>
+        <file>resources/debug-run.svg</file>
     </qresource>
 </RCC>
