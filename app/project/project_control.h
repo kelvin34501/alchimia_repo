@@ -24,7 +24,7 @@ class project_control : public QObject
 
 private:
     std::vector<std::shared_ptr<project_object>> p;
-    int active_project_id;
+    int active_project_id = -1;
 
     /**
     * @var Passed as a pointer to the dialogs.

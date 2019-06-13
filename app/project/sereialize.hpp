@@ -168,10 +168,19 @@ void serialize(Archive &archive,
 
 // temp workaround for QString
 template <class Archive>
-void serialize(Archive &archive,
-               QString &m)
+std::string save_minimal(
+  Archive const &,
+  QString const & m )
 {
-    archive(m.toStdString());
+    return m.toStdString();
+}
+
+template <class Archive>
+void load_minimal( Archive const &,
+  QString & m,
+  std::string const & v)
+{
+    m = QString::fromUtf8(v.c_str());
 }
 
 #endif // SEREIALIZE_H

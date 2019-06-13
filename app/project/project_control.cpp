@@ -5,6 +5,8 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QDebug>
+#include "utils/enum_cast.hpp"
 
 using namespace project;
 using namespace std;
@@ -81,19 +83,18 @@ void project_control::save_active_project()
 void project_control::close_project()
 {
     int id = active_project_id;
-    save_project(id);
+    save_active_project();
 
     // update main panel
-    ModelScene *mModelScene = nullptr;
-    main_window.setModelScene(mModelScene);
-    main_window_ui.graphicsView->setScene(mModelScene);
     main_window_ui.graphicsView->setEnabled(false);
-
     main_window_ui.actionSave_Project->setEnabled(false);
-
+    main_window.modelScene();
+    main_window.setModelScene(main_window.modelScene());
     //destruct
-    p[id]->graph_mdl->~GraphModel();
-    p[id]->~project_object();
+
+    main_window.modelScene()->~ModelScene();
+    // p[id]->graph_mdl->~GraphModel();
+    active_project_id = -1;
 }
 
 shared_ptr<project_object> project_control::operator[](int id)
@@ -113,9 +114,14 @@ shared_ptr<project_object> project_control::get_active_project(){
 
 void project_control::open_project(){
     QMessageBox message_box;
-    message_box.setText("Are you sure to save and close current project?");
-    message_box.exec();
-    close_project();
+    if(active_project_id<0){
+    }
+    else {
+        message_box.setText("Are you sure to save and close current project?");
+        message_box.exec();
+        close_project();
+    }
+
     QFileDialog *select_project_dialog = new QFileDialog;
     select_project_dialog->setWindowTitle(tr("Open Project File"));
     select_project_dialog->setDirectory(".");
@@ -126,13 +132,12 @@ void project_control::open_project(){
         return;
     }
     chosen_files = select_project_dialog->selectedFiles();
-
     QString path = chosen_files[0];
+
     active_project_id = add_existing_project(path);
-
-
-    // create and set up model control
-    // TODO: dummy python adapter, should be chosen based on situations
+    //qDebug() << "active!!!" << active_project_id;
+    this->post_project_creation();
+    select_project_dialog->~QFileDialog();
 
 
 }
