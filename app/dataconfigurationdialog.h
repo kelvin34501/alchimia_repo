@@ -27,6 +27,9 @@ private slots:
     void updateInputShape();
     void updateDataset(const QString);
 
+signals:
+    void modelUpdated();
+
 private:
     Ui::DataConfigurationDialog *ui;
     project_control *pc;

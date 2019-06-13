@@ -94,6 +94,7 @@ void DataConfigurationDialog::updateInputShape()
         if(shape != shapes[i])
         {
             pc->get_active_project()->graph_mdl->editPart(idx[i], "input_shape", shape);
+            emit modelUpdated();    // emit model updated signal
         }
 //        } catch () {
 
