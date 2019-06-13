@@ -16,9 +16,13 @@ int QTPython::runPython(const char* file_path){
     QStringList arguments;
     arguments << file_path;
 
-    QProcess *process = new QProcess();
-    process->start(program, arguments);
-    process->waitForFinished(-1);
+    if(py_status){
+        py_status = 0;
+        py_process->waitForFinished();
+    }
+
+    py_process->start(program, arguments);
+    py_process->waitForFinished(-1);
 
     return 1;
 }
@@ -33,26 +37,26 @@ int QTPython::runPythonAsync(const char* file_path){
     string outputs, tmp;
     outputs = "";
 
-    QProcess *process = new QProcess();
-    process->start(program, arguments);
-    process->waitForStarted(-1);
+    py_process->start(program, arguments);
+    py_process->waitForStarted(-1);
     py_status = 1;
     cout << "training started" << endl;
-    while(process->state() != QProcess::ProcessState::NotRunning && py_status)
+    while(py_process->state() != QProcess::ProcessState::NotRunning && py_status)
     {
-        tmp = process->readAllStandardOutput().toStdString();
+        tmp = py_process->readAllStandardOutput().toStdString();
         if(tmp != outputs){
             outputs = tmp;
             cout << outputs << endl;
         }
     }
-    cout << "exit train" << endl;
+    py_process->terminate();
+    py_process->waitForFinished();
     return 1;
 }
 
 void QTPython::killtb()
 {
-    status = 0;
+    tb_status = 0;
     tb_process->waitForFinished();
 //    if(tb_process != nullptr && tb_process->state() == QProcess::ProcessState::Running){
 //        tb_process->kill();
@@ -73,12 +77,12 @@ int QTPython::activateTB(const char* log_dir){
     tb_process->start(program, arguments);
     tb_process->waitForStarted();
 
-    status = 1;
+    tb_status = 1;
 
     QDesktopServices::openUrl(QUrl("http://localhost:6006/"));
     cout << "TB started" << endl;
 //    while(tb_process->state() != QProcess::ProcessState::NotRunning )
-    while(status)
+    while(tb_status)
     {
         qApp->processEvents();
     }

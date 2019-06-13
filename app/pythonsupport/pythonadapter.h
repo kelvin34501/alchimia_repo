@@ -70,9 +70,15 @@ public:
 
 class QTPython : public PythonAdapter{
 public:
-    QTPython() { tb_process = new QProcess(); status = 0; py_status = 0; }
+    QTPython() {
+        tb_process = new QProcess();
+        py_process = new QProcess();
+        tb_status = 0;
+        py_status = 0;
+    }
     ~QTPython() {
         py_status = 0;
+        py_process->waitForFinished();
         if(tb_process->state() == QProcess::Running){
             tb_process->kill();
             tb_process->waitForFinished();
@@ -85,8 +91,8 @@ public:
     void killpy() { py_status = 0; }
 private:
     QProcess *tb_process;
-    QProcess *web_process;
-    int status;
+    QProcess *py_process;
+    int tb_status;
     int py_status;
 };
 
