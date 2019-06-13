@@ -30,6 +30,7 @@ PartItem::PartItem(int id, PartType partType, const QPointF &center,
     mIn.setPos(QPointF(0, -30));
     mOut.setPos(QPointF(0, 30));
     setFlags({ItemIsSelectable, ItemIsMovable});
+    setCursor(Qt::PointingHandCursor);
 }
 
 void PartItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
