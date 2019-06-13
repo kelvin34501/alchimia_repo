@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/file-add.svg</file>
+        <file>resources/folder-add.svg</file>
+        <file>resources/icon_compile.svg</file>
+        <file>resources/save.svg</file>
+        <file>resources/export.svg</file>
+        <file>resources/activation layers.svg</file>
+        <file>resources/connect.svg</file>
+        <file>resources/Flatten.svg</file>
+        <file>resources/icon_dropout.svg</file>
+        <file>resources/input.svg</file>
+        <file>resources/pooling-layers.svg</file>
+        <file>resources/normalization-layers.svg</file>
+        <file>resources/noise-layers.svg</file>
+        <file>resources/local-layers.svg</file>
+        <file>resources/io-layers.svg</file>
+        <file>resources/embeddings-layers.svg</file>
+        <file>resources/core-layers.svg</file>
+        <file>resources/convolutional-recurrent-layers.svg</file>
+        <file>resources/convolutional-layers.svg</file>
+        <file>resources/core-layers.png</file>
+    </qresource>
+</RCC>

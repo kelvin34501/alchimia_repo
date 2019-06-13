@@ -69,6 +69,8 @@ public slots:
     * Connected to the "Save Project" button's clicked() signal
     */
     void save_active_project();
+    void close_project();
+    void open_project();
 };
 
 }
