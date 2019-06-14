@@ -6,33 +6,23 @@
 #include <QButtonGroup>
 #include <QMessageBox>
 
+/*!
+\class ModelScene
+
+Assumed that only PartItem can be selected and no batch selection is supported.
+This assumption is needed for editPart().
+*/
 
 const QRectF ModelScene::sceneRect(0, 0, 5000, 5000);
 
 /*!
-\fn void ModelScene::displayPartInfo(int partId, PartInfoModel &model)
+\fn void ModelScene::displayPartInfo(int partId)
 \brief Display the parameters of a Part for editing when it is selected.
 */
-void ModelScene::displayPartInfo(int partId, PartInfoModel &model) const
+void ModelScene::displayPartInfo(int partId)
 {
     auto info = mProject.graph_mdl->getPartInfo(partId);
-    if (!model.isCached()) {
-        model.cachePartInfo(info);
-        model.setCached(true);
-    }
-    treeView.setModel(&model);
-}
-
-/*!
-\fn void ModelScene::addItem(PartItem *item)
-\brief Overload addItem for PartItem so that PartInfoModel::itemChanged can
-be connected to editPart when the item is added to the scene.
-*/
-inline void ModelScene::addItem(PartItem *item)
-{
-    QGraphicsScene::addItem(item);
-    connect(&item->partInfoModel(), SIGNAL(itemChanged(QStandardItem *)),
-            this, SLOT(editPart(QStandardItem *)));
+    partInfoModel.storePartInfo(info);
 }
 
 ModelScene::ModelScene(QButtonGroup &toolboxButtonGroup, QTreeView &tv,
@@ -40,7 +30,10 @@ ModelScene::ModelScene(QButtonGroup &toolboxButtonGroup, QTreeView &tv,
     : QGraphicsScene(sceneRect, parent), mClickMode(Idle),
       mToolboxButtonGroup(toolboxButtonGroup), treeView(tv), mProject(project)
 {
+    treeView.setModel(&partInfoModel);
     connect(&toolboxButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(selectTemplate(int)));
+    connect(&partInfoModel, SIGNAL(itemChanged(QStandardItem *)),
+            this, SLOT(editPart(QStandardItem *)));
 
     // If GraphModel has parts and connections, redraw them on the ModelScene.
     // store created PartItems in a temporary vector, ordered by their IDs
@@ -72,13 +65,15 @@ ModelScene::ModelScene(QButtonGroup &toolboxButtonGroup, QTreeView &tv,
 void ModelScene::editPart(QStandardItem *item) const
 {
     std::string paramValue(item->data(Qt::DisplayRole).toString().toStdString());
-    auto model = reinterpret_cast<PartInfoModel *>(item->model());
     // Each parameter of a Part is a key-value pair
     // retrieve the key here
-    QStandardItem *paramNameItem = model->item(item->row());
+    QStandardItem *paramNameItem = partInfoModel.item(item->row());
     std::string paramName(paramNameItem->data(Qt::DisplayRole).toString().toStdString());
     try {
-        mProject.graph_mdl->editPart(model->partItem().id(), paramName, paramValue);
+        // assumed that only PartItem can be selected and no batch selection is
+        // supported
+        auto partItem = static_cast<PartItem *>(selectedItems().front());
+        mProject.graph_mdl->editPart(partItem->id(), paramName, paramValue);
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }

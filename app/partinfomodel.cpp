@@ -5,7 +5,7 @@
 \fn void PartInfoModel::cachePartInfo(const std::map<std::string, std::string> &info)
 \brief Store a copy of a Part's parameters in the QStandardItemModel.
 */
-void PartInfoModel::cachePartInfo(const std::map<std::string, std::string> &info)
+void PartInfoModel::storePartInfo(const std::map<std::string, std::string> &info)
 {
     setColumnCount(2);
     QStandardItem *parentItem = invisibleRootItem();
