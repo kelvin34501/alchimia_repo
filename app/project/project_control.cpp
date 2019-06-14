@@ -82,18 +82,19 @@ void project_control::save_active_project()
 
 void project_control::close_project()
 {
-    int id = active_project_id;
-    save_active_project();
+    if (active_project_id == -1)
+        return;
 
+    save_active_project();
     // update main panel
     main_window_ui.graphicsView->setEnabled(false);
     main_window_ui.actionSave_Project->setEnabled(false);
-    main_window.modelScene();
-    main_window.setModelScene(main_window.modelScene());
-    //destruct
 
-    main_window.modelScene()->~ModelScene();
-    // p[id]->graph_mdl->~GraphModel();
+    // destruct
+    ModelScene *s = main_window.modelScene();
+    main_window.setModelScene(nullptr);
+    delete s;
+    p.erase(p.begin() + active_project_id);
     active_project_id = -1;
 }
 
