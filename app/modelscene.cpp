@@ -6,6 +6,7 @@
 #include <QButtonGroup>
 #include <QMessageBox>
 
+
 /*!
 \class ModelScene
 
@@ -32,6 +33,7 @@ ModelScene::ModelScene(QButtonGroup &toolboxButtonGroup, QTreeView &tv,
       mToolboxButtonGroup(toolboxButtonGroup), treeView(tv), mProject(project)
 {
     treeView.setModel(&partInfoModel);
+
     connect(&toolboxButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(selectTemplate(int)));
     connect(&partInfoModel, SIGNAL(itemChanged(QStandardItem *)),
             this, SLOT(editPart(QStandardItem *)));
