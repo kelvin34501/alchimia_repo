@@ -39,6 +39,7 @@ void project_control::post_project_creation()
     main_window.setModelScene(modelScene);
     main_window_ui.graphicsView->setScene(modelScene);
     main_window_ui.graphicsView->setEnabled(true);
+    main_window_ui.treeView->setEnabled(true);
     main_window_ui.actionSave_Project->setEnabled(true);
 }
 
@@ -87,6 +88,7 @@ void project_control::close_project()
 
     save_active_project();
     // update main panel
+    main_window_ui.treeView->setEnabled(false);
     main_window_ui.graphicsView->setEnabled(false);
     main_window_ui.actionSave_Project->setEnabled(false);
 
