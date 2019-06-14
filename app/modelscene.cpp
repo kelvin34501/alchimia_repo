@@ -23,6 +23,7 @@ void ModelScene::displayPartInfo(int partId)
 {
     auto info = mProject.graph_mdl->getPartInfo(partId);
     partInfoModel.storePartInfo(info);
+    treeView.resizeColumnToContents(0);
 }
 
 ModelScene::ModelScene(QButtonGroup &toolboxButtonGroup, QTreeView &tv,
