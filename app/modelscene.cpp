@@ -83,6 +83,21 @@ void ModelScene::editPart(QStandardItem *item) const
 }
 
 /*!
+\fn void ModelScene::updateInfoDisplay()
+\brief Connected to DataConfigurationDialog::modelUpdated
+*/
+void ModelScene::updateInfoDisplay()
+{
+    if (partInfoModel.rowCount() == 0)
+        return;
+    // now there must be a selected PartItem
+    auto partItem = static_cast<PartItem *>(selectedItems().front());
+    auto info = mProject.graph_mdl->getPartInfo(partItem->id());
+    partInfoModel.storePartInfo(info);
+    treeView.resizeColumnToContents(0);
+}
+
+/*!
 \fn ModelScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 */
 void ModelScene::mousePressEvent(QGraphicsSceneMouseEvent *event)

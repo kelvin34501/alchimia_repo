@@ -41,6 +41,7 @@ private slots:
     }
 
     void editPart(QStandardItem *item) const;
+    void updateInfoDisplay();
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
