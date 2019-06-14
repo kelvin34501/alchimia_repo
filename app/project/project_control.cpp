@@ -3,10 +3,10 @@
 #include "popoutnotification.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QDebug>
 #include "utils/enum_cast.hpp"
+
+#include <QMessageBox>
+#include <QFileDialog>
 
 using namespace project;
 using namespace std;
@@ -111,38 +111,29 @@ shared_ptr<project_object> project_control::get_active_project(){
     return (*this)[active_project_id];
 }
 
-
-void project_control::open_project(){
-    QMessageBox message_box;
-    if(active_project_id<0){
-    }
-    else {
+void project_control::open_project()
+{
+    if (active_project_id >= 0) {
+        QMessageBox message_box;
         message_box.setText("Are you sure to save and close current project?");
         message_box.exec();
         close_project();
     }
 
-    QFileDialog *select_project_dialog = new QFileDialog;
-    select_project_dialog->setWindowTitle(tr("Open Project File"));
-    select_project_dialog->setDirectory(".");
-    select_project_dialog->setNameFilter(tr("Project(*.project)"));
-    select_project_dialog->setViewMode(QFileDialog::Detail);
+    QFileDialog select_project_dialog;
+    select_project_dialog.setWindowTitle(tr("Open Project File"));
+    // select_project_dialog->setDirectory(".");
+    select_project_dialog.setNameFilter(tr("Project(*.project)"));
+    select_project_dialog.setViewMode(QFileDialog::Detail);
     QStringList chosen_files;
-    if(select_project_dialog->exec()== QDialog::Rejected){
+    if (select_project_dialog.exec() == QDialog::Rejected)
         return;
-    }
-    chosen_files = select_project_dialog->selectedFiles();
+    chosen_files = select_project_dialog.selectedFiles();
     QString path = chosen_files[0];
 
     active_project_id = add_existing_project(path);
-    //qDebug() << "active!!!" << active_project_id;
-    this->post_project_creation();
-    select_project_dialog->~QFileDialog();
-
-
+    post_project_creation();
 }
-
-
 
 void project_control::create_new_project()
 {
