@@ -93,6 +93,7 @@ void ModelScene::updateInfoDisplay()
     // now there must be a selected PartItem
     auto partItem = static_cast<PartItem *>(selectedItems().front());
     auto info = mProject.graph_mdl->getPartInfo(partItem->id());
+    partInfoModel.clear();
     partInfoModel.storePartInfo(info);
     treeView.resizeColumnToContents(0);
 }
