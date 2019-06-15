@@ -8,12 +8,20 @@
 
 using namespace std;
 
+/* Backend for converter to select */
+enum class Backend
+{
+    Keras,
+    Pytorch
+};
+
 struct ProjectCFG{
     QString name;
     QString location;
     QString pro_desc_path;
     QString python_path;
     QString tensorboard_path;
+    Backend backend;
 };
 
 struct DataCFG{

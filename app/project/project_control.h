@@ -64,6 +64,7 @@ public slots:
     * Connected to the "New Project" button's clicked() signal
     */
     void create_new_project();
+    void ConfigureSetting();
 
     /**
     * Connected to the "Save Project" button's clicked() signal
@@ -71,6 +72,10 @@ public slots:
     void save_active_project();
     void close_project();
     void open_project();
+
+private:
+    void set_pypath(QString pypath);
+    void set_tbpath(QString tbpath);
 };
 
 }

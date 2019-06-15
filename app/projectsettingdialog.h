@@ -3,6 +3,7 @@
 
 #include "converter/converter.h"
 #include "ui_projectsettingdialog.h"
+#include "utils/configurations.h"
 
 #include <QDialog>
 
@@ -21,9 +22,9 @@ public:
     QString projectPath() const noexcept { return ui->locationLineEdit->text(); }
     QString pythonPath() const noexcept { return ui->pythonLocationEdit->text(); }
     QString tensorboardPath() const noexcept { return ui->tensorboardLocationEdit->text(); }
-
     explicit ProjectSettingDialog(QWidget *parent = nullptr);
     ~ProjectSettingDialog();
+    void ConfigureSettingMode(ProjectCFG project_cfg);
 
 private slots:
     /**

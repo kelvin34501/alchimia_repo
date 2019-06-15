@@ -12,13 +12,6 @@
 
 using namespace std;
 
-/* Backend for converter to select */
-enum class Backend
-{
-    Keras,
-    Pytorch
-};
-
 /* Base python converter */
 /* Support basic python statement template */
 class PythonConverter

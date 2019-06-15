@@ -28,6 +28,8 @@ void project_control::post_project_creation()
             modelControl, SLOT(configureData()));
     connect(main_window_ui.actionTensorboard_Visualization, SIGNAL(triggered()),
             modelControl, SLOT(TBVisualization()));
+    connect(main_window_ui.actionProject_Setting, SIGNAL(triggered()),
+            this, SLOT(ConfigureSetting()));
 
     // create and set up editor control (model scene)
     shared_ptr<project_object> p = (*this)[active_project_id];
@@ -41,6 +43,15 @@ void project_control::post_project_creation()
     main_window_ui.graphicsView->setEnabled(true);
     main_window_ui.treeView->setEnabled(true);
     main_window_ui.actionSave_Project->setEnabled(true);
+}
+
+void project_control::ConfigureSetting(){
+    ProjectSettingDialog project_setting_dialog(&main_window);
+    project_setting_dialog.ConfigureSettingMode(get_active_project()->project_cfg);
+    if (project_setting_dialog.exec() == QDialog::Rejected)
+        return;
+    set_pypath(project_setting_dialog.pythonPath());
+    set_tbpath(project_setting_dialog.tensorboardPath());
 }
 
 int project_control::active()
@@ -157,4 +168,14 @@ void project_control::create_new_project()
     d.mkdir(project_setting_dialog.projecName());
 
     post_project_creation();
+}
+
+void project_control::set_pypath(QString pypath)
+{
+    get_active_project()->project_cfg.python_path = pypath;
+}
+
+void project_control::set_tbpath(QString tbpath)
+{
+    get_active_project()->project_cfg.tensorboard_path = tbpath;
 }

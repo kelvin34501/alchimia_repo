@@ -11,6 +11,7 @@ project_object::project_object(QString name, Backend back, QString location, QSt
     if (location.back() != '/')
         location.append('/');
     project_cfg.location = location;
+    project_cfg.backend = back;
     QString project_base_path = location + name + '/';
     project_cfg.pro_desc_path = project_base_path + name + ".project";
     project_cfg.python_path = pypath;

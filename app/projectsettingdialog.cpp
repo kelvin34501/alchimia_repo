@@ -1,4 +1,5 @@
 #include "projectsettingdialog.h"
+#include "utils/configurations.h"
 
 #include <QFileDialog>
 #include <QDir>
@@ -13,7 +14,7 @@ ProjectSettingDialog::ProjectSettingDialog(QWidget *parent) :
     ui->backendButtonGroup->setId(ui->kerasRadioButton, static_cast<int>(Backend::Keras));
     ui->backendButtonGroup->setId(ui->pyTorchRadioButton, static_cast<int>(Backend::Pytorch));
 
-    connect(ui->browsePushButton, SIGNAL(clicked()), this, SLOT(browseFiles()));
+    connect(ui->locationBrowseButton, SIGNAL(clicked()), this, SLOT(browseFiles()));
     connect(ui->pythonBrowseButton, SIGNAL(clicked()), this, SLOT(browsePython()));
     connect(ui->tensorboardBrowseButton, SIGNAL(clicked()), this, SLOT(browseTensorboard()));
 }
@@ -53,4 +54,26 @@ void ProjectSettingDialog::browseTensorboard() const noexcept
         QStringList files = fileDialog.selectedFiles();
         ui->tensorboardLocationEdit->setText(files.front());
     }
+}
+
+void ProjectSettingDialog::ConfigureSettingMode(ProjectCFG project_cfg)
+{
+    ui->projectNameLineEdit->setText(project_cfg.name);
+    ui->projectNameLineEdit->setReadOnly(true);
+    switch (project_cfg.backend) {
+    case Backend::Keras:
+        ui->kerasRadioButton->click();
+        break;
+    case Backend::Pytorch:
+        ui->pyTorchRadioButton->click();
+        break;
+    }
+    ui->kerasRadioButton->setEnabled(false);
+    ui->pyTorchRadioButton->setEnabled(false);
+    ui->locationLineEdit->setText(project_cfg.location);
+    ui->locationLineEdit->setReadOnly(true);
+    ui->locationBrowseButton->setEnabled(false);
+//    ui->locationBrowseButton->setVisible(false);
+    ui->pythonLocationEdit->setText(project_cfg.python_path);
+    ui->tensorboardLocationEdit->setText(project_cfg.tensorboard_path);
 }
