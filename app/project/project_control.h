@@ -9,6 +9,7 @@
 #include <cereal/types/polymorphic.hpp>
 #include <vector>
 #include <memory>
+//#include "modelcontrol/modelcontrol.h"
 
 class MainWindow;
 
@@ -44,8 +45,7 @@ private:
 public:
     typedef std::vector<std::shared_ptr<project_object>>::size_type size_type;
 
-    project_control(MainWindow &mw, Ui::MainWindow &mwui) noexcept
-        : main_window(mw), main_window_ui(mwui) {}
+    project_control(MainWindow &mw, Ui::MainWindow &mwui) noexcept;
     project_control(const project_control &other) = delete;
     project_control& operator=(const project_control &other) = delete;
     ~project_control() = default;

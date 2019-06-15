@@ -11,6 +11,11 @@
 using namespace project;
 using namespace std;
 
+project_control::project_control(MainWindow &mw, Ui::MainWindow &mwui) noexcept: main_window(mw), main_window_ui(mwui)
+{
+
+}
+
 void project_control::post_project_creation()
 {
     // create and set up model control
@@ -28,8 +33,6 @@ void project_control::post_project_creation()
             modelControl, SLOT(configureData()));
     connect(main_window_ui.actionTensorboard_Visualization, SIGNAL(triggered()),
             modelControl, SLOT(TBVisualization()));
-    connect(main_window_ui.actionProject_Setting, SIGNAL(triggered()),
-            this, SLOT(ConfigureSetting()));
 
     // create and set up editor control (model scene)
     shared_ptr<project_object> p = (*this)[active_project_id];
@@ -105,8 +108,11 @@ void project_control::close_project()
 
     // destruct
     ModelScene *s = main_window.modelScene();
+    ModelControl *mc = main_window.modelControl();
     main_window.setModelScene(nullptr);
+    main_window.setModelControl(nullptr);
     delete s;
+    delete mc;
     p.erase(p.begin() + active_project_id);
     active_project_id = -1;
 }
