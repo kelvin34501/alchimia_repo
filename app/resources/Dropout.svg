@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1024 1024" style="enable-background:new 0 0 1024 1024;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#B3B3B3;stroke:#000000;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#3795D3;stroke-width:40;stroke-miterlimit:10;}
+	.st2{fill:#E6E6E6;stroke:#000000;stroke-miterlimit:10;}
+	.st3{fill:#3795D3;}
+	.st4{fill:#231815;}
+</style>
+<path class="st0" d="M941.4,256.9H84.5c-11.1,0-20.1-9-20.1-20.1V84.3c0-11.1,9-20.1,20.1-20.1h856.9c11.1,0,20.1,9,20.1,20.1v152.5
+	C961.5,247.9,952.5,256.9,941.4,256.9z"/>
+<path class="st0" d="M940.8,960.1H83.9c-11.1,0-20.1-9-20.1-20.1V787.5c0-11.1,9-20.1,20.1-20.1h856.9c11.1,0,20.1,9,20.1,20.1V940
+	C960.9,951.1,951.9,960.1,940.8,960.1z"/>
+<line class="st1" x1="192" y1="157" x2="192" y2="868.7"/>
+<line class="st1" x1="615.9" y1="156.7" x2="615.9" y2="873.1"/>
+<circle class="st2" cx="192" cy="156.7" r="55.5"/>
+<circle class="st2" cx="615.9" cy="156.7" r="55.5"/>
+<circle class="st2" cx="193.1" cy="868.7" r="55.5"/>
+<circle class="st2" cx="615.9" cy="868.7" r="55.5"/>
+<g>
+	<path class="st3" d="M426.7,837h-40v-80h40V837z M426.7,717h-40v-80h40V717z M426.7,597h-40v-80h40V597z M426.7,477h-40v-80h40V477
+		z M426.7,357h-40v-80h40V357z M426.7,237h-40v-80h40V237z"/>
+	<line class="st4" x1="406.7" y1="157" x2="406.7" y2="873.1"/>
+</g>
+<g>
+	<path class="st3" d="M851.7,839h-40v-80h40V839z M851.7,719h-40v-80h40V719z M851.7,599h-40v-80h40V599z M851.7,479h-40v-80h40V479
+		z M851.7,359h-40v-80h40V359z M851.7,239h-40v-80h40V239z"/>
+	<line class="st4" x1="831.7" y1="159" x2="831.7" y2="875.1"/>
+</g>
+<circle class="st2" cx="406.7" cy="156.7" r="55.5"/>
+<circle class="st2" cx="404.6" cy="868.7" r="55.5"/>
+<circle class="st2" cx="832.2" cy="157" r="55.5"/>
+<circle class="st2" cx="831.2" cy="868.7" r="55.5"/>
+</svg>

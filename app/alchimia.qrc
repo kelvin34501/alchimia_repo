@@ -29,5 +29,8 @@
         <file>resources/document-save.svg</file>
         <file>resources/document-close.svg</file>
         <file>resources/debug-run.svg</file>
+        <file>resources/Dropout.svg</file>
+        <file>resources/Activation.svg</file>
+        <file>resources/Dense.svg</file>
     </qresource>
 </RCC>

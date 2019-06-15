@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     buttonGroup->button(1)->setIcon(QIcon(":/resources/io-layers.svg"));
     buttonGroup->button(1)->setIconSize(QSize(60,60));
     buttonGroup->setId(ui->denseButton, static_cast<int>(PartType::Dense));
-    buttonGroup->button(2)->setIcon(QIcon(":/resources/core-layers.png"));
+    buttonGroup->button(2)->setIcon(QIcon(":/resources/Dense.svg"));
     buttonGroup->button(2)->setIconSize(QSize(60,60));
     buttonGroup->setId(ui->conv2DButton, static_cast<int>(PartType::Conv2D));
     buttonGroup->button(3)->setIcon(QIcon(":/resources/convolutional-layers.svg"));
@@ -28,13 +28,13 @@ MainWindow::MainWindow(QWidget *parent) :
     buttonGroup->button(4)->setIcon(QIcon(":/resources/convolutional-layers.svg"));
     buttonGroup->button(4)->setIconSize(QSize(60,60));
     buttonGroup->setId(ui->activationButton, static_cast<int>(PartType::Activation));
-    buttonGroup->button(5)->setIcon(QIcon(":/resources/core-layers.png"));
+    buttonGroup->button(5)->setIcon(QIcon(":/resources/Activation.svg"));
     buttonGroup->button(5)->setIconSize(QSize(60,60));
     buttonGroup->setId(ui->dropoutButton, static_cast<int>(PartType::Dropout));
-    buttonGroup->button(6)->setIcon(QIcon(":/resources/core-layers.png"));
+    buttonGroup->button(6)->setIcon(QIcon(":/resources/Dropout.svg"));
     buttonGroup->button(6)->setIconSize(QSize(60,60));
     buttonGroup->setId(ui->flattenButton, static_cast<int>(PartType::Flatten));
-    buttonGroup->button(7)->setIcon(QIcon(":/resources/core-layers.png"));
+    buttonGroup->button(7)->setIcon(QIcon(":/resources/Flatten.svg"));
     buttonGroup->button(7)->setIconSize(QSize(60,60));
     buttonGroup->setId(ui->reshapeButton, static_cast<int>(PartType::Reshape));
     buttonGroup->button(8)->setIcon(QIcon(":/resources/core-layers.png"));
