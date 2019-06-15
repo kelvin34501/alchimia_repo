@@ -127,6 +127,11 @@ class GraphModel
 {
 public:
     vector<shared_ptr<Part>> parts;
+    /*
+       WARNING:
+        Pointers in the connections vector may be null due to implementation
+        of deleteConnection().
+    */
     vector<shared_ptr<Connection>> connections;
     ModelCFG model_cfg;
     DataCFG data_cfg;

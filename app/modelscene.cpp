@@ -5,13 +5,14 @@
 
 #include <QButtonGroup>
 #include <QMessageBox>
+#include <QKeyEvent>
 
 
 /*!
 \class ModelScene
 
-Assumed that only PartItem can be selected and no batch selection is supported.
-This assumption is needed for editPart().
+Assumed that batch selection is not supported. This assumption is needed
+for editPart().
 */
 
 const QRectF ModelScene::sceneRect(0, 0, 5000, 5000);
@@ -52,12 +53,15 @@ ModelScene::ModelScene(QButtonGroup &toolboxButtonGroup, QTreeView &tv,
         this->addItem(partItem);
         v[static_cast<std::vector<PartItem *>::size_type>(partItem->id())] = partItem;
     }
+    typedef std::vector<PartItem *>::size_type size_type;
     for (std::vector<std::shared_ptr<Connection>>::size_type i = 0;
          i < mProject.graph_mdl->connections.size(); ++i) {
         std::shared_ptr<Connection> c = mProject.graph_mdl->connections[i];
-        auto startId = static_cast<std::vector<PartItem *>::size_type>(c->ports[0].lock()->part.lock()->id);
-        auto endId = static_cast<std::vector<PartItem *>::size_type>(c->ports[1].lock()->part.lock()->id);
-        this->addItem(new ConnectionItem(v[startId]->outPort(), v[endId]->inPort(), c->id));
+        if (c) {
+            auto startId = static_cast<size_type>(c->ports[0].lock()->part.lock()->id);
+            auto endId = static_cast<size_type>(c->ports[1].lock()->part.lock()->id);
+            this->addItem(new ConnectionItem(v[startId]->outPort(), v[endId]->inPort(), c->id));
+        }
     }
 }
 
@@ -73,8 +77,7 @@ void ModelScene::editPart(QStandardItem *item) const
     QStandardItem *paramNameItem = partInfoModel.item(item->row());
     std::string paramName(paramNameItem->data(Qt::DisplayRole).toString().toStdString());
     try {
-        // assumed that only PartItem can be selected and no batch selection is
-        // supported
+        // assumed batch selection is not supported
         auto partItem = static_cast<PartItem *>(selectedItems().front());
         mProject.graph_mdl->editPart(partItem->id(), paramName, paramValue);
     } catch (std::exception &e) {
@@ -196,5 +199,23 @@ void ModelScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         }
         // handle item selection and movement
         QGraphicsScene::mouseReleaseEvent(event);
+    }
+}
+
+/*!
+\fn void ModelScene::keyPressEvent(QKeyEvent *event)
+\brief Reimplemented to support deleting ConnectionItem and PartItem with the
+"Del" key.
+*/
+void ModelScene::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Delete) {
+        QList<QGraphicsItem *> l = selectedItems();
+        ConnectionItem *ci;
+        if (!l.empty() && (ci = qgraphicsitem_cast<ConnectionItem *>(l.front()))) {
+            mProject.graph_mdl->deleteConnection(ci->id());
+            removeItem(ci);
+            delete ci;
+        }
     }
 }

@@ -5,6 +5,7 @@
 
 
 class PartItem;
+class ConnectionItem;
 
 class PortItem : public QGraphicsEllipseItem
 {
@@ -13,10 +14,17 @@ public:
 
     int type() const noexcept override { return Type; }
     bool isOutput() const noexcept { return mIsOutput; }
+    void setConnection(ConnectionItem *ci) noexcept { connection = ci; }
 
     PortItem(bool isOutput, PartItem *parent);
 
 private:
+    /*!
+    \variable PortItem::connection
+    \brief the ConnectionItem that this PortItem is connected to
+    */
+    ConnectionItem *connection = nullptr;
+
     const bool mIsOutput;
 
     static const QRectF itemRect;
