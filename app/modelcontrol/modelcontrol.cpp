@@ -16,8 +16,8 @@
 
 using namespace std;
 
-ModelControl::ModelControl(MainWindow &mw, project_control *pc,
-                           PythonAdapter* python) : main_window(mw)
+ModelControl::ModelControl(MainWindow &mw, Ui::MainWindow &mwui, project_control *pc,
+                           PythonAdapter* python) : main_window(mw), main_window_ui(mwui)
 {
     this->python = python;
     this->pc = pc;
@@ -36,6 +36,11 @@ bool ModelControl::modelSet(){
 bool ModelControl::dataSet(){
     DataCFG cfg = pc->get_active_project()->graph_mdl->data_cfg;
     return cfg.dataset != "";
+}
+
+void ModelControl::interrupt(){
+    python->killpy();
+    python->killtb();
 }
 
 #pragma region compile
@@ -156,13 +161,12 @@ void ModelControl::configureTraining(TrainCFG train_cfg)
         }
     }
 
-    QtConcurrent::run(this, &ModelControl::launchTraining, train_cfg);
-    QtConcurrent::run(this, &ModelControl::launchTB, train_cfg.tb_cfg.log_dir);
-//    launchTraining(train_cfg);
+    launchTraining(train_cfg);
 }
 
 void ModelControl::launchTraining(TrainCFG train_cfg)
 {
+    QMessageBox msgBox;
     // get python file
     shared_ptr<project_object> project = pc->get_active_project();
     ofstream outfile(train_cfg.save_weight_dir + "/" + train_cfg.model_name + "_train.gen");
@@ -177,9 +181,25 @@ void ModelControl::launchTraining(TrainCFG train_cfg)
     }
     outfile.close();
 
-    if(python->runPythonAsync((train_cfg.save_weight_dir + "/" + train_cfg.model_name + "_train.gen").data())){
+    main_window_ui.actionTrain->setEnabled(false);
+    main_window_ui.actionCompile->setEnabled(false);
+    main_window_ui.actionRunTest->setEnabled(false);
+
+    QtConcurrent::run(this, &ModelControl::launchTB, train_cfg.tb_cfg.log_dir);
+//    QFuture<int> future = QtConcurrent::run(python, &PythonAdapter::runPythonAsync, QString::fromStdString(train_cfg.save_weight_dir + "/" + train_cfg.model_name + "_train.gen"));
+    int res = python->runPythonAsync(QString::fromStdString(train_cfg.save_weight_dir + "/" + train_cfg.model_name + "_train.gen"));
+
+//    if(future.result()){
+   if(res){
         project->graph_mdl->model_cfg.weight_path = train_cfg.save_weight_dir + train_cfg.model_name + ".h5";
+        msgBox.setText("Training complete.");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.exec();
     }
+
+   main_window_ui.actionTrain->setEnabled(true);
+   main_window_ui.actionCompile->setEnabled(true);
+   main_window_ui.actionRunTest->setEnabled(true);
 }
 
 #pragma endregion train

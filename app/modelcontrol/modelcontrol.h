@@ -20,7 +20,7 @@ class ModelControl : public QObject {
     Q_OBJECT
 
 public:
-    ModelControl(MainWindow &mw, project_control *pc, PythonAdapter* python = nullptr);
+    ModelControl(MainWindow &mw, Ui::MainWindow &mwui, project_control *pc, PythonAdapter* python = nullptr);
     ~ModelControl(){
         python->killtb();
         delete this->python;
@@ -67,6 +67,7 @@ private slots:
     void configureModel();
     void configureData();
     void TBVisualization();
+    void interrupt();
 private:
     /* launchCompile: start the real compilation, including python */
     /*      generation and running python file                     */
@@ -77,6 +78,7 @@ private:
 //    shared_ptr<project_object> project;
     project_control *pc;
     MainWindow &main_window;
+    Ui::MainWindow &main_window_ui;
     friend void test(ModelControl* mc, const char* a);
 };
 

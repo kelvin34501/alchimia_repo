@@ -383,6 +383,7 @@ Pooling
     <addaction name="actionCompile"/>
     <addaction name="actionTrain"/>
     <addaction name="actionRunTest"/>
+    <addaction name="actionInterrupt"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -519,6 +520,11 @@ Pooling
   <action name="actionProject_Setting">
    <property name="text">
     <string>Project Setting</string>
+   </property>
+  </action>
+  <action name="actionInterrupt">
+   <property name="text">
+    <string>Interrupt</string>
    </property>
   </action>
  </widget>

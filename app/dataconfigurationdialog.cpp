@@ -15,6 +15,10 @@ DataConfigurationDialog::DataConfigurationDialog(DataCFG data_cfg, QWidget *pare
     ui->setupUi(this);
     this->pc = pc;
 
+    int id = ui->datasetComboBox->findText(QString::fromStdString(data_cfg.dataset));
+    ui->datasetComboBox->setCurrentIndex(id);
+    updateDataset(QString::fromStdString(data_cfg.dataset));
+
     connect(ui->updateInputButton, SIGNAL(clicked()), this, SLOT(updateInputShape()));
     connect(ui->datasetComboBox, SIGNAL(currentIndexChanged(const QString)), this, SLOT(updateDataset(const QString)));
 }

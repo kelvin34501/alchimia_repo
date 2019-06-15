@@ -107,7 +107,7 @@ struct TrainCFG{
         loss = "categorical_crossentropy";
         batch_size = "32";
         epochs = "10";
-        validation_split = "0.0";
+        validation_split = "0.2";
         shuffle = "True";
         reuse_weight = false;
         save_weight_dir = "";

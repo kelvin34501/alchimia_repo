@@ -21,7 +21,7 @@ void project_control::post_project_creation()
     // create and set up model control
     // TODO: dummy python adapter, should be chosen based on situations
     PythonAdapter *pyad = new QTPython ();
-    ModelControl *modelControl = new ModelControl(main_window, this, pyad);
+    ModelControl *modelControl = new ModelControl(main_window, main_window_ui, this, pyad);
     main_window.setModelControl(modelControl);
     connect(main_window_ui.actionCompile, SIGNAL(triggered()),
             modelControl, SLOT(compileModel()));
@@ -33,6 +33,8 @@ void project_control::post_project_creation()
             modelControl, SLOT(configureData()));
     connect(main_window_ui.actionTensorboard_Visualization, SIGNAL(triggered()),
             modelControl, SLOT(TBVisualization()));
+    connect(main_window_ui.actionInterrupt, SIGNAL(triggered()),
+            modelControl, SLOT(interrupt()));
 
     // create and set up editor control (model scene)
     shared_ptr<project_object> p = (*this)[active_project_id];

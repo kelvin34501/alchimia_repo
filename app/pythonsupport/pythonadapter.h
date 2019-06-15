@@ -21,7 +21,7 @@ public:
             MAY SWITCH TO INFORMATION IN QT.
     */
     virtual int runPython(const char* file_path) = 0;
-    virtual int runPythonAsync(const char* file_path) = 0;
+    virtual int runPythonAsync(QString file_path) = 0;
     /* activateTB: activate Tensorboard and open browser */
     /* param:
         log_dir: string, the directory of Tensorboard log, extra "" will be auto added.
@@ -62,8 +62,8 @@ class WindowsPython : public PythonAdapter{
 public:
     ~WindowsPython() {}
     int runPython(const char* file_path);
-    int runPythonAsync(const char* file_path){
-        return runPython(file_path);
+    int runPythonAsync(QString file_path){
+//        return runPython(file_path);
     }
     int activateTB(const char* log_dir);
 };
@@ -85,10 +85,10 @@ public:
         }
     }
     int runPython(const char* file_path);
-    int runPythonAsync(const char* file_path);
+    int runPythonAsync(QString file_path);
     int activateTB(const char* log_dir);
     void killtb();
-    void killpy() { py_status = 0; }
+    void killpy();
 private:
     QProcess *tb_process;
     QProcess *py_process;
