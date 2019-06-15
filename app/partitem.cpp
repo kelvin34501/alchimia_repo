@@ -24,7 +24,7 @@ overlap with the boundary of the ModelScene
 PartItem::PartItem(int id, PartType partType, const QPointF &center,
                    QGraphicsItem *parent)
     : QGraphicsRectItem(itemRect, parent), mPartType(partType),
-      mIn(false, this), mOut(true, this), mId(id), model(*this)
+      mIn(false, this), mOut(true, this), mId(id)
 {
     setPos(center);
     mIn.setPos(QPointF(0, -30));
@@ -55,7 +55,9 @@ QVariant PartItem::itemChange(GraphicsItemChange change, const QVariant &value)
         bool isSelected = value.toBool();
         ModelScene *s = scene();
         if (isSelected)
-            s->displayPartInfo(id(), model);
+            s->displayPartInfo(id());
+        else
+            s->clearPartInfo();
     }
     return QGraphicsRectItem::itemChange(change, value);
 }

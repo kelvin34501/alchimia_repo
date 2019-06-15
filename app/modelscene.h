@@ -12,6 +12,8 @@
 
 using namespace project;
 
+class PartItem;
+
 class ModelScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -20,12 +22,11 @@ public:
     enum ClickMode {Idle, TemplateSelected, ConnectingParts};
 
     void setClickMode(ClickMode clickMode) noexcept { mClickMode = clickMode; }
-    void displayPartInfo(int partId, PartInfoModel &model) const;
-    void addItem(QGraphicsItem *item) { QGraphicsScene::addItem(item); }
-    void addItem(PartItem * item);
+    void displayPartInfo(int partId);
+    void clearPartInfo() { partInfoModel.clear(); }
 
-    explicit ModelScene(QButtonGroup &toolboxButtonGroup, QTreeView &tv,
-                        project_object &project, QObject *parent = nullptr);
+    ModelScene(QButtonGroup &toolboxButtonGroup, QTreeView &tv,
+               project_object &project, QObject *parent = nullptr);
 
 private slots:
     /**
@@ -40,6 +41,7 @@ private slots:
     }
 
     void editPart(QStandardItem *item) const;
+    void updateInfoDisplay();
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -63,6 +65,12 @@ private:
 
     project_object &mProject;
     QGraphicsLineItem *incompleteConnection;
+
+    /*!
+    \variable ModelScene::partInfoModel
+    \brief The PartInfoModel associated with QTreeView
+    */
+    PartInfoModel partInfoModel;
 
     static const QRectF sceneRect;  // fixed-size graphics scene
 };

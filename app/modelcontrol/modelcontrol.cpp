@@ -207,6 +207,8 @@ void ModelControl::setModelConfiguration(ModelCFG model_cfg){
 void ModelControl::configureData()
 {
     DataConfigurationDialog data_cfg_dialog(pc->get_active_project()->graph_mdl->data_cfg, &main_window, pc);
+    connect(&data_cfg_dialog, SIGNAL(modelUpdated()),
+            main_window.modelScene(), SLOT(updateInfoDisplay()));
     DataCFG data_cfg;
     if (data_cfg_dialog.exec() == QDialog::Rejected)
         return;

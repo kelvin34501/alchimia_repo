@@ -17,7 +17,6 @@ public:
     int id() const noexcept { return mId; }
     PortItem &inPort() noexcept { return mIn; }
     PortItem &outPort() noexcept { return mOut; }
-    PartInfoModel &partInfoModel() noexcept { return model; }
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget = nullptr) override;
@@ -33,12 +32,6 @@ private:
     * @var The ID Corresponding to the Part in the GraphModel
     */
     int mId;
-
-    /*!
-    \property model
-    \brief Save the parameters of a Part
-    */
-    PartInfoModel model;
 
     static const QRectF itemRect;	// all PartItems have the same rectangle
 
