@@ -27,6 +27,18 @@ int QTPython::runPython(const char* file_path){
     return py_status;
 }
 
+string trim(string s)
+{
+    if (s.empty())
+    {
+        return s;
+    }
+
+    s.erase(0,s.find_first_not_of(" "));
+    s.erase(s.find_last_not_of(" ") + 1);
+    return s;
+}
+
 // TODO: more
 int QTPython::runPythonAsync(QString file_path){
     QString program = pypath.c_str();
@@ -44,8 +56,8 @@ int QTPython::runPythonAsync(QString file_path){
     while(py_process->state() != QProcess::ProcessState::NotRunning && py_status)
     {
         qApp->processEvents();
-        tmp = py_process->readAllStandardOutput().toStdString();
-        if(tmp != outputs){
+        tmp = trim(py_process->readAllStandardOutput().toStdString());
+        if(tmp != outputs && tmp != ""){
             outputs = tmp;
             cout << outputs << endl;
             emit outputUpdated(outputs);

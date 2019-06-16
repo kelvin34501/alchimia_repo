@@ -68,6 +68,7 @@ private slots:
     void configureData();
     void TBVisualization();
     void interrupt();
+    void train_status_update(string msg);
 private:
     /* launchCompile: start the real compilation, including python */
     /*      generation and running python file                     */

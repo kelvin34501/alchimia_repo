@@ -27,6 +27,7 @@ ModelControl::ModelControl(MainWindow &mw, Ui::MainWindow &mwui, project_control
         this->python->setTBPath(config.tensorboard_path.toUtf8());
     }
     cache_train_cfg.metrics.push_back("acc");
+    connect(this->python, SIGNAL(outputUpdated(string)), this, SLOT(train_status_update(string)));
 }
 
 bool ModelControl::modelSet(){
@@ -189,6 +190,7 @@ void ModelControl::launchTraining(TrainCFG train_cfg)
     // get python file
     shared_ptr<project_object> project = pc->get_active_project();
     ofstream outfile(train_cfg.save_weight_dir + "/" + train_cfg.model_name + "_train.gen");
+    main_window.statusBar()->showMessage("Generating Python..");
     if (!outfile.is_open())
     {
         cout << "error saving files" << endl;
@@ -206,6 +208,7 @@ void ModelControl::launchTraining(TrainCFG train_cfg)
 
     QtConcurrent::run(this, &ModelControl::launchTB, train_cfg.tb_cfg.log_dir);
 //    QFuture<int> future = QtConcurrent::run(python, &PythonAdapter::runPythonAsync, QString::fromStdString(train_cfg.save_weight_dir + "/" + train_cfg.model_name + "_train.gen"));
+    main_window.statusBar()->showMessage("Trianing...");
     int res = python->runPythonAsync(QString::fromStdString(train_cfg.save_weight_dir + "/" + train_cfg.model_name + "_train.gen"));
 
 //    if(future.result()){
@@ -219,6 +222,12 @@ void ModelControl::launchTraining(TrainCFG train_cfg)
    main_window_ui.actionTrain->setEnabled(true);
    main_window_ui.actionCompile->setEnabled(true);
    main_window_ui.actionRunTest->setEnabled(true);
+   main_window.statusBar()->showMessage("Training terminated.");
+}
+
+void ModelControl::train_status_update(string msg)
+{
+    main_window.statusBar()->showMessage(QString::fromStdString(msg));
 }
 
 #pragma endregion train
@@ -287,6 +296,7 @@ void ModelControl::TBVisualization(){
 }
 
 void ModelControl::launchTB(string logdir){
+    main_window.statusBar()->showMessage("Tensorboard activated.");
     python->killtb();
     python->activateTB(logdir.data());
 }
