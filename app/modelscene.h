@@ -40,7 +40,7 @@ private slots:
         mSelectedTemplateType = static_cast<PartType>(partType);
     }
 
-    void editPart(QStandardItem *item) const;
+    void editPart(QStandardItem *item);
     void updateInfoDisplay();
 
 protected:

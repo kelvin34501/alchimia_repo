@@ -70,7 +70,7 @@ ModelScene::ModelScene(QButtonGroup &toolboxButtonGroup, QTreeView &tv,
 \fn void ModelScene::editPart(QStandardItem *item)
 \brief Connected to PartInfoModel::itemChanged()
 */
-void ModelScene::editPart(QStandardItem *item) const
+void ModelScene::editPart(QStandardItem *item)
 {
     std::string paramValue(item->data(Qt::DisplayRole).toString().toStdString());
     // Each parameter of a Part is a key-value pair
@@ -81,6 +81,8 @@ void ModelScene::editPart(QStandardItem *item) const
         // assumed batch selection is not supported
         auto partItem = static_cast<PartItem *>(selectedItems().front());
         mProject.graph_mdl->editPart(partItem->id(), paramName, paramValue);
+        partInfoModel.clear();
+        displayPartInfo(partItem->id());
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }
