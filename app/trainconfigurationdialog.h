@@ -15,7 +15,7 @@ class TrainConfigurationDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit TrainConfigurationDialog(TrainCFG cfg, QWidget *parent = nullptr, ModelControl *mc = nullptr);
+    explicit TrainConfigurationDialog(TrainCFG cfg, QString msg, int page, QWidget *parent = nullptr, ModelControl *mc = nullptr);
     ~TrainConfigurationDialog();
     TrainCFG TrainConfiguration();
 

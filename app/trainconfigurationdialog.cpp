@@ -6,7 +6,7 @@
 #include <QFileDialog>
 #include <QDir>
 
-TrainConfigurationDialog::TrainConfigurationDialog(TrainCFG cfg, QWidget *parent, ModelControl *mc) :
+TrainConfigurationDialog::TrainConfigurationDialog(TrainCFG cfg, QString msg, int page, QWidget *parent, ModelControl *mc) :
     QDialog(parent),
     ui(new Ui::TrainConfigurationDialog)
 {
@@ -29,6 +29,9 @@ TrainConfigurationDialog::TrainConfigurationDialog(TrainCFG cfg, QWidget *parent
     metrics.insert("msle", ui->msle);
     metrics.insert("mape", ui->mape);
     metrics.insert("cosine", ui->cosine);
+
+    ui->Message->setText(msg);
+    ui->TrainTab->setCurrentIndex(page);
 
     update();
 }

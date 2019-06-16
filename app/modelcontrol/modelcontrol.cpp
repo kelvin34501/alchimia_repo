@@ -110,6 +110,8 @@ void ModelControl::trainModel()
 {
     TrainCFG train_cfg;
     bool flag;
+    QString msg = "";
+    int page = 0;
 
     train_cfg = cache_train_cfg;
 
@@ -120,12 +122,25 @@ void ModelControl::trainModel()
 
     do
     {
-        TrainConfigurationDialog train_cfg_dialog(train_cfg, &main_window, this);
+        TrainConfigurationDialog train_cfg_dialog(train_cfg, msg, page, &main_window, this);
         if (train_cfg_dialog.exec() == QDialog::Rejected)
             return;
         train_cfg = train_cfg_dialog.TrainConfiguration();
+        msg = "";
         flag = (train_cfg.model_name == "" || train_cfg.save_weight_dir == ""
                 || train_cfg.metrics.size() <= 0);
+        if(train_cfg.model_name == ""){
+            msg += "Model name not specified.\n";
+            page = 3;
+        }
+        if(train_cfg.save_weight_dir == ""){
+            msg += "Directory to save weights not specified.\n";
+            page = 3;
+        }
+        if(train_cfg.metrics.size() <= 0){
+            msg += "Metrics no specified,\n";
+            page = 0;
+        }
     } while (flag);
     cout << "cache cfg" << endl;
     cache_train_cfg = train_cfg;
