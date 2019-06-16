@@ -64,9 +64,7 @@ int QTPython::runPythonAsync(QString file_path){
         }
     }
     cout << "Terminating Python" << endl;
-    py_process->terminate();
     py_process->kill();
-    py_process->terminate();
     py_process->waitForFinished(-1);
     return py_status;
 }
@@ -74,13 +72,11 @@ int QTPython::runPythonAsync(QString file_path){
 void QTPython::killtb()
 {
     tb_status = 0;
-    tb_process->waitForFinished(-1);
 }
 
 void QTPython::killpy()
 {
     py_status = 0;
-    py_process->waitForFinished(-1);
 }
 
 // TODO: activateTB method with QProcess
@@ -103,9 +99,7 @@ int QTPython::activateTB(const char* log_dir){
         qApp->processEvents();
     }
     cout << "Terminating Tensorboard" << endl;
-    tb_process->terminate();
     tb_process->kill();
-    tb_process->terminate();
     tb_process->waitForFinished(-1);
     cout << "TB finished" << endl;
     return 1;
