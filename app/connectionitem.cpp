@@ -2,7 +2,6 @@
 
 #include <QPainter>
 #include <cmath>
-#include <QDebug>
 
 #ifdef M_PI
 #undef M_PI
@@ -77,4 +76,15 @@ void ConnectionItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
         myLine.translate(0,-8.0);
         painter->drawLine(myLine);
     }
+}
+
+ConnectionItem::ConnectionItem(PortItem &start, PortItem &end, int id)
+    : mStart(start), mEnd(end), mId(id)
+{
+    mStart.setConnection(this);
+    mEnd.setConnection(this);
+
+    setZValue(-100);	// place connections below parts
+    setPos(mStart.scenePos());
+    setFlag(ItemIsSelectable);
 }
