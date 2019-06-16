@@ -1,5 +1,5 @@
-#include "portitem.h"
 #include "partitem.h"
+#include "connectionitem.h"
 
 #include <QBrush>
 
@@ -19,4 +19,9 @@ PortItem::PortItem(bool isOutput, PartItem *parent)
     : QGraphicsEllipseItem(itemRect, parent), mIsOutput(isOutput)
 {
     setBrush(QBrush(Qt::SolidPattern));
+}
+
+inline PortItem::~PortItem()
+{
+    delete connection;
 }

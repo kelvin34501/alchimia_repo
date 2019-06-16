@@ -42,16 +42,17 @@ ModelScene::ModelScene(QButtonGroup &toolboxButtonGroup, QTreeView &tv,
     // If GraphModel has parts and connections, redraw them on the ModelScene.
     // store created PartItems in a temporary vector, ordered by their IDs
     std::vector<PartItem *> v(mProject.graph_mdl->parts.size());
-    for (std::vector<std::shared_ptr<Part>>::size_type i = 0;
-         i < mProject.graph_mdl->parts.size(); ++i) {
-        std::shared_ptr<Part> p = mProject.graph_mdl->parts[i];
-        PartItem *partItem = new PartItem(
-            p->id,
-            p->parttype,
-            QPointF(static_cast<double>(p->position_x), static_cast<double>(p->position_y))
-        );
-        this->addItem(partItem);
-        v[static_cast<std::vector<PartItem *>::size_type>(partItem->id())] = partItem;
+    for (auto i = mProject.graph_mdl->parts.begin(); i < mProject.graph_mdl->parts.end(); ++i) {
+        std::shared_ptr<Part> p = *i;
+        if (p) {
+            PartItem *partItem = new PartItem(
+                p->id,
+                p->parttype,
+                QPointF(static_cast<double>(p->position_x), static_cast<double>(p->position_y))
+            );
+            this->addItem(partItem);
+            v[static_cast<std::vector<PartItem *>::size_type>(partItem->id())] = partItem;
+        }
     }
     typedef std::vector<PartItem *>::size_type size_type;
     for (std::vector<std::shared_ptr<Connection>>::size_type i = 0;
@@ -211,11 +212,23 @@ void ModelScene::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Delete) {
         QList<QGraphicsItem *> l = selectedItems();
-        ConnectionItem *ci;
-        if (!l.empty() && (ci = qgraphicsitem_cast<ConnectionItem *>(l.front()))) {
-            mProject.graph_mdl->deleteConnection(ci->id());
-            removeItem(ci);
-            delete ci;
+        if (!l.empty()) {
+            switch (l.front()->type()) {
+            case ConnectionItem::Type: {
+                auto item = static_cast<ConnectionItem *>(l.front());
+                mProject.graph_mdl->deleteConnection(item->id());
+                removeItem(item);
+                delete item;
+                break;
+            }
+            case PartItem::Type: {
+                auto item = static_cast<PartItem *>(l.front());
+                mProject.graph_mdl->deletePart(item->id());
+                removeItem(item);
+                delete item;
+                break;
+            }
+            }
         }
     }
 }

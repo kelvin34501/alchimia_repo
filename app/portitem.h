@@ -17,6 +17,7 @@ public:
     void setConnection(ConnectionItem *ci) noexcept { connection = ci; }
 
     PortItem(bool isOutput, PartItem *parent);
+    ~PortItem() override;
 
 private:
     /*!
