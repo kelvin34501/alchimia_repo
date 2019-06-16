@@ -26,6 +26,7 @@ ModelControl::ModelControl(MainWindow &mw, Ui::MainWindow &mwui, project_control
         this->python->setPythonPath(config.python_path.toUtf8());
         this->python->setTBPath(config.tensorboard_path.toUtf8());
     }
+    cache_train_cfg.metrics.push_back("acc");
 }
 
 bool ModelControl::modelSet(){
@@ -110,8 +111,9 @@ void ModelControl::trainModel()
     TrainCFG train_cfg;
     bool flag;
 
-    // TODO: remove this when editing metrics is available
-    train_cfg.metrics.push_back("acc");
+    train_cfg = cache_train_cfg;
+
+    // TODO: remove following default settings
     train_cfg.model_name = "test_model";
     train_cfg.save_weight_dir = "D:/a/weights";
     train_cfg.tb_cfg.log_dir = "D:/a/logs";
@@ -125,6 +127,8 @@ void ModelControl::trainModel()
         flag = (train_cfg.model_name == "" || train_cfg.save_weight_dir == ""
                 || train_cfg.metrics.size() <= 0);
     } while (flag);
+    cout << "cache cfg" << endl;
+    cache_train_cfg = train_cfg;
 
     configureTraining(train_cfg);
 }
@@ -232,7 +236,15 @@ void ModelControl::configureData()
     DataCFG data_cfg;
     if (data_cfg_dialog.exec() == QDialog::Rejected)
         return;
-    data_cfg.dataset = data_cfg_dialog.datasetName().toStdString();
+    if(data_cfg_dialog.datasetName() == "<<None>>")
+    {
+        data_cfg.dataset = "";
+    }
+    else
+    {
+        data_cfg.dataset = data_cfg_dialog.datasetName().toStdString();
+    }
+
     setDataConfiguration(data_cfg);
 }
 

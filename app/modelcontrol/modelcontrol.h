@@ -80,6 +80,7 @@ private:
     MainWindow &main_window;
     Ui::MainWindow &main_window_ui;
     friend void test(ModelControl* mc, const char* a);
+    TrainCFG cache_train_cfg;
 };
 
 #endif // MODELCONTROL_H_INCLUDED
