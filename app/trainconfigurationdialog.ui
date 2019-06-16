@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="MetricsSettings">
     <attribute name="title">
@@ -188,6 +188,62 @@
          </property>
         </item>
        </widget>
+      </item>
+      <item row="2" column="1">
+       <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0">
+        <item row="0" column="2">
+         <widget class="QCheckBox" name="mse">
+          <property name="text">
+           <string>mse</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="mape">
+          <property name="text">
+           <string>mape</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QCheckBox" name="msle">
+          <property name="text">
+           <string>msle</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="acc">
+          <property name="text">
+           <string>acc</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="mae">
+          <property name="text">
+           <string>mae</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QCheckBox" name="ce">
+          <property name="text">
+           <string>ce</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="cosine">
+          <property name="text">
+           <string>cosine</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -442,7 +498,7 @@
         <item>
          <widget class="QLabel" name="label_23">
           <property name="text">
-           <string>                                                                                             </string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -474,7 +530,7 @@
         <item>
          <widget class="QLabel" name="label_26">
           <property name="text">
-           <string>                                                                                             </string>
+           <string/>
           </property>
          </widget>
         </item>

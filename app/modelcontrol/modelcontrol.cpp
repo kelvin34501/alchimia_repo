@@ -111,7 +111,7 @@ void ModelControl::trainModel()
     bool flag;
 
     // TODO: remove this when editing metrics is available
-    train_cfg.metrics.push_back("accuracy");
+    train_cfg.metrics.push_back("acc");
     train_cfg.model_name = "test_model";
     train_cfg.save_weight_dir = "D:/a/weights";
     train_cfg.tb_cfg.log_dir = "D:/a/logs";

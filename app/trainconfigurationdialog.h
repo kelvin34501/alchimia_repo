@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "utils/configurations.h"
 #include "modelcontrol/modelcontrol.h"
+#include "ui_trainconfigurationdialog.h"
 
 namespace Ui {
 class TrainConfigurationDialog;
@@ -31,6 +32,7 @@ private:
     Ui::TrainConfigurationDialog *ui;
     ModelControl *mc;
     TrainCFG train_cfg;
+    QMap<string, QCheckBox*> metrics;
 };
 
 #endif // TRAINCONFIGURATIONDIALOG_H

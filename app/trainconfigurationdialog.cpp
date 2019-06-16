@@ -13,7 +13,6 @@ TrainConfigurationDialog::TrainConfigurationDialog(TrainCFG cfg, QWidget *parent
     ui->setupUi(this);
     this->mc = mc;
     train_cfg = cfg;
-    update();
 
     connect(ui->LoadModelButton, SIGNAL(clicked()), mc, SLOT(configureModel()));
     connect(ui->LoadDataButton, SIGNAL(clicked()), mc, SLOT(configureData()));
@@ -22,6 +21,16 @@ TrainConfigurationDialog::TrainConfigurationDialog(TrainCFG cfg, QWidget *parent
     connect(ui->BatchSizeSlider, SIGNAL(valueChanged(int)), this, SLOT(updateBatchSlider(int)));
     connect(ui->SplitSlider, SIGNAL(valueChanged(int)), this, SLOT(updateSplitSlider(int)));
     // connect(ui->SplitLineEdit, SIGNAL(textChanged(QString)), this, SLOT(updateSplitText(QString)));
+
+    metrics.insert("acc", ui->acc);
+    metrics.insert("ce", ui->ce);
+    metrics.insert("mse", ui->mse);
+    metrics.insert("mae", ui->mae);
+    metrics.insert("msle", ui->msle);
+    metrics.insert("mape", ui->mape);
+    metrics.insert("cosine", ui->cosine);
+
+    update();
 }
 
 TrainConfigurationDialog::~TrainConfigurationDialog()
@@ -76,7 +85,12 @@ void TrainConfigurationDialog::update(){
     loss_id = ui->LossComboBox->findText(QString::fromStdString(train_cfg.loss));
     ui->LossComboBox->setCurrentIndex(((loss_id >= 0)?loss_id:0));
 
-    // TODO: update metrics
+    for(int i=0; i<train_cfg.metrics.size(); i++)
+    {
+        cout << train_cfg.metrics[i] << endl;
+        metrics[train_cfg.metrics[i]]->setChecked(true);
+//        ui->MetricsButtons->findChild<QCheckBox*>(QString::fromStdString(train_cfg.metrics[i]));//->setChecked(true);
+    }
 
     tmp_batch = atoi(train_cfg.batch_size.data());
     ui->BatchSizeSlider->setValue(log((double)tmp_batch) / log(2.0));
@@ -105,7 +119,18 @@ TrainCFG TrainConfigurationDialog::TrainConfiguration(){
     train_cfg.optimizer = ui->OptimizerComboBox->currentText().toStdString();
     train_cfg.loss = ui->LossComboBox->currentText().toStdString();
 
-    // TODO: update metrics
+//    QList<QCheckBox*> metrics = ui->MetricsButtons->findChildren<QCheckBox*>(QRegExp("*"));
+//    QList<QCheckBox*> metrics = ui->MetricsButtons->
+//    cout << metrics.size() << endl;
+    train_cfg.metrics.clear();
+    for (QMap<string, QCheckBox*>::const_iterator i=metrics.constBegin();
+         i!=metrics.constEnd(); i++) {
+        if(i.value()->isChecked())
+        {
+            train_cfg.metrics.push_back(i.key());
+            cout << i.key() << endl;
+        }
+    }
 
     // batch size and validation split already set in slot functions
     train_cfg.epochs = ui->EpochsLineEdit->text().toStdString();
