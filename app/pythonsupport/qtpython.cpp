@@ -51,6 +51,7 @@ int QTPython::runPythonAsync(QString file_path){
 
     py_process->start(program, arguments);
     py_process->waitForStarted(-1);
+    py_process->waitForReadyRead(-1);
     py_status = 1;
     cout << "training started" << endl;
     while(py_process->state() != QProcess::ProcessState::NotRunning && py_status)
@@ -64,6 +65,9 @@ int QTPython::runPythonAsync(QString file_path){
         }
     }
     cout << "Terminating Python" << endl;
+    if(py_status){
+        cout << "process finished by itself" << endl;
+    }
     py_process->kill();
     py_process->waitForFinished(-1);
     return py_status;

@@ -170,6 +170,7 @@ string KerasConverter::getPythonFileTest(const GraphModel &gm, TestCFG cfg)
 
     def_state("run_test");
     // load architecture
+    addline("print('loading architecture...')");
     if (gm.model_cfg.archi_path.find(".json") != string::npos)
     {
         with_state("codecs.open(r'" + gm.model_cfg.archi_path + "', 'r', encoding='utf-8')", "infile");
@@ -190,6 +191,7 @@ string KerasConverter::getPythonFileTest(const GraphModel &gm, TestCFG cfg)
         throw InvalidPathException("Architecture can only be json file or yaml file!");
     }
     // load weight
+    addline("print('loading weight...')");
     if (gm.model_cfg.weight_path.find(".h5") != string::npos)
     {
         // TODO: possible assertions
@@ -202,7 +204,9 @@ string KerasConverter::getPythonFileTest(const GraphModel &gm, TestCFG cfg)
     }
     // run test
     addline("y_pred = model.predict(x_test)");
+    addline("print('saving...')");
     addline("np.savetxt('" + cfg.save_dir + cfg.file_name + ".txt', y_pred, delimiter=',')");
+    addline("print('saved')");
     unindent();
 
     // main
@@ -228,6 +232,8 @@ void KerasConverter::group_import()
     import_state("codecs");
     import_state("json");
     import_state("yaml");
+    import_state("os");
+    addline("os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'");
 }
 
 void KerasConverter::add_layer(PartType parttype, map<string, string> params, string model)
@@ -252,7 +258,7 @@ string KerasConverter::parse_compile_param(TrainCFG train_cfg) const
 string KerasConverter::parse_fit_param(TrainCFG train_cfg) const
 {
     string param = "x=x_train, y=y_train, ";
-    param += "steps_per_epoch=int(np.ceil(x_train.shape[0]/" + train_cfg.batch_size + ")), ";
+    param += "steps_per_epoch=int(np.ceil(x_train.shape[0]*(1-" + train_cfg.validation_split + ")/" + train_cfg.batch_size + ")), ";
     param += "epochs=" + train_cfg.epochs + ", ";
     param += "shuffle=" + train_cfg.shuffle + ", ";
     param += "validation_split=" + train_cfg.validation_split + ", ";
@@ -266,7 +272,7 @@ string KerasConverter::parse_tb_param(TBCFG tb_cfg) const
 {
     string param = "";
     param += "log_dir='" + tb_cfg.log_dir + "', ";
-    param += "histogram_freq=" + tb_cfg.histogram_freq + ", ";
+//    param += "histogram_freq=" + tb_cfg.histogram_freq + ", ";
     param += "update_freq=" + tb_cfg.update_freq;
     return param;
 }

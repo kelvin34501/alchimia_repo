@@ -149,6 +149,10 @@ void ModelControl::trainModel()
 
     checkCFG();
 
+    if(train_cfg.save_weight_dir.back() != '/')
+    {
+        train_cfg.save_weight_dir += "/";
+    }
     launchTraining(train_cfg);
 }
 
@@ -244,7 +248,7 @@ void ModelControl::configureTest(){
         if (cfg_test_dialog.exec() == QDialog::Rejected)
             return;
         test_cfg = cfg_test_dialog.TestConfiguration();
-    }while(test_cfg.save_dir != "" && test_cfg.file_name != "");
+    }while(test_cfg.save_dir == "" || test_cfg.file_name == "");
 
     cache_test_cfg = test_cfg;
 
@@ -260,7 +264,7 @@ void ModelControl::launchTest(TestCFG test_cfg){
     QMessageBox msgBox;
     // get python file
     shared_ptr<project_object> project = pc->get_active_project();
-    ofstream outfile(test_cfg.save_dir + "/" + test_cfg.file_name + ".gen");
+    ofstream outfile(test_cfg.save_dir + test_cfg.file_name + ".gen");
     main_window.statusBar()->showMessage("Generating Python..");
     if (!outfile.is_open())
     {
@@ -278,7 +282,7 @@ void ModelControl::launchTest(TestCFG test_cfg){
     main_window_ui.actionRunTest->setEnabled(false);
 
     main_window.statusBar()->showMessage("Predicting..");
-    int res = python->runPythonAsync(QString::fromStdString(test_cfg.save_dir + "/" + test_cfg.file_name + ".gen"));
+    int res = python->runPythonAsync(QString::fromStdString(test_cfg.save_dir + test_cfg.file_name + ".gen"));
 
    if(res){
         msgBox.setText("Prediction generated.");

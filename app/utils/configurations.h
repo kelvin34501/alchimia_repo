@@ -119,8 +119,8 @@ struct TestCFG{
     string save_dir;
     string file_name;
     TestCFG(){
-        save_dir = "";
-        file_name = "";
+        save_dir = "D:/a/results";
+        file_name = "test_results";
     }
 };
 
