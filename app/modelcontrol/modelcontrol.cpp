@@ -7,6 +7,7 @@
 #include "dataconfigurationdialog.h"
 #include "tbvisuaizationdialog.h"
 #include "trainconfigurationdialog.h"
+#include "configuretestdialog.h"
 #include "popoutnotification.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -146,11 +147,12 @@ void ModelControl::trainModel()
     cout << "cache cfg" << endl;
     cache_train_cfg = train_cfg;
 
-    configureTraining(train_cfg);
+    checkCFG();
+
+    launchTraining(train_cfg);
 }
 
-void ModelControl::configureTraining(TrainCFG train_cfg)
-{
+void ModelControl::checkCFG(){
     while(!modelSet()){
         QMessageBox msgBox;
         msgBox.setText("Model has not configured yet!");
@@ -180,8 +182,6 @@ void ModelControl::configureTraining(TrainCFG train_cfg)
             return;
         }
     }
-
-    launchTraining(train_cfg);
 }
 
 void ModelControl::launchTraining(TrainCFG train_cfg)
@@ -208,7 +208,7 @@ void ModelControl::launchTraining(TrainCFG train_cfg)
 
     QtConcurrent::run(this, &ModelControl::launchTB, train_cfg.tb_cfg.log_dir);
 //    QFuture<int> future = QtConcurrent::run(python, &PythonAdapter::runPythonAsync, QString::fromStdString(train_cfg.save_weight_dir + "/" + train_cfg.model_name + "_train.gen"));
-    main_window.statusBar()->showMessage("Trianing...");
+    main_window.statusBar()->showMessage("Training...");
     int res = python->runPythonAsync(QString::fromStdString(train_cfg.save_weight_dir + "/" + train_cfg.model_name + "_train.gen"));
 
 //    if(future.result()){
@@ -231,6 +231,68 @@ void ModelControl::train_status_update(string msg)
 }
 
 #pragma endregion train
+
+#pragma region test
+
+void ModelControl::configureTest(){
+    TestCFG test_cfg;
+
+    test_cfg = cache_test_cfg;
+
+    do{
+        ConfigureTestDialog cfg_test_dialog(test_cfg, &main_window, this);
+        if (cfg_test_dialog.exec() == QDialog::Rejected)
+            return;
+        test_cfg = cfg_test_dialog.TestConfiguration();
+    }while(test_cfg.save_dir != "" && test_cfg.file_name != "");
+
+    cache_test_cfg = test_cfg;
+
+    checkCFG();
+
+    if(test_cfg.save_dir.back() != '/'){
+        test_cfg.save_dir += '/';
+    }
+    launchTest(test_cfg);
+}
+
+void ModelControl::launchTest(TestCFG test_cfg){
+    QMessageBox msgBox;
+    // get python file
+    shared_ptr<project_object> project = pc->get_active_project();
+    ofstream outfile(test_cfg.save_dir + "/" + test_cfg.file_name + ".gen");
+    main_window.statusBar()->showMessage("Generating Python..");
+    if (!outfile.is_open())
+    {
+        cout << "error saving files" << endl;
+        return;
+    }
+    else
+    {
+        outfile << project->graph_mdl->getPythonFileTest(test_cfg);
+    }
+    outfile.close();
+
+    main_window_ui.actionTrain->setEnabled(false);
+    main_window_ui.actionCompile->setEnabled(false);
+    main_window_ui.actionRunTest->setEnabled(false);
+
+    main_window.statusBar()->showMessage("Predicting..");
+    int res = python->runPythonAsync(QString::fromStdString(test_cfg.save_dir + "/" + test_cfg.file_name + ".gen"));
+
+   if(res){
+        msgBox.setText("Prediction generated.");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.exec();
+    }
+
+   main_window_ui.actionTrain->setEnabled(true);
+   main_window_ui.actionCompile->setEnabled(true);
+   main_window_ui.actionRunTest->setEnabled(true);
+   main_window.statusBar()->showMessage("Run test terminated.");
+}
+
+#pragma endregion test
 
 #pragma region cfgModel
 
@@ -296,7 +358,7 @@ void ModelControl::TBVisualization(){
 }
 
 void ModelControl::launchTB(string logdir){
-    main_window.statusBar()->showMessage("Tensorboard activated.");
+//    main_window.statusBar()->showMessage("Tensorboard activated.");
     python->killtb();
     python->activateTB(logdir.data());
 }

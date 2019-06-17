@@ -116,7 +116,12 @@ struct TrainCFG{
 };
 
 struct TestCFG{
-    
+    string save_dir;
+    string file_name;
+    TestCFG(){
+        save_dir = "";
+        file_name = "";
+    }
 };
 
 

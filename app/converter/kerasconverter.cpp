@@ -161,8 +161,56 @@ string KerasConverter::getPythonFileTest(const GraphModel &gm, TestCFG cfg)
 {
     newfile();
     group_import();
+    import_state("model_from_json", "", "keras.models");
+    import_state("model_from_yaml", "", "keras.models");
+    addline();
 
-    return "if __name__ == '__main__':\n\tprint('Default Test File')";
+    load_data(gm.data_cfg);
+    addline(2);
+
+    def_state("run_test");
+    // load architecture
+    if (gm.model_cfg.archi_path.find(".json") != string::npos)
+    {
+        with_state("codecs.open(r'" + gm.model_cfg.archi_path + "', 'r', encoding='utf-8')", "infile");
+        addline("json_str = infile.read()");
+        addline("model = model_from_json(json_str)");
+        unindent();
+    }
+    else if (gm.model_cfg.archi_path.find(".yaml") != string::npos)
+    {
+        with_state("codecs.open(r'" + gm.model_cfg.archi_path + "', 'r', encoding='utf-8')", "infile");
+        addline("yaml_str = infile.read()");
+        addline("model = model_from_yaml(yaml_str)");
+        unindent();
+    }
+    else
+    {
+        cout << "Architecture can only be json file or yaml file!" << endl;
+        throw InvalidPathException("Architecture can only be json file or yaml file!");
+    }
+    // load weight
+    if (gm.model_cfg.weight_path.find(".h5") != string::npos)
+    {
+        // TODO: possible assertions
+        addline("model.load_weights(r'" + gm.model_cfg.weight_path + "')");
+    }
+    else
+    {
+        cout << "Model weights can only be HDF5 file! " << gm.model_cfg.weight_path << endl;
+        throw InvalidPathException("Model weights can only be HDF5 file!");
+    }
+    // run test
+    addline("y_pred = model.predict(x_test)");
+    addline("np.savetxt('" + cfg.save_dir + cfg.file_name + ".txt', y_pred, delimiter=',')");
+    unindent();
+
+    // main
+    addline(2);
+    if_main_state();
+    addline("run_test()");
+
+    return pyfile;
 }
 
 #pragma endregion GetFileFuncs

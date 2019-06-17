@@ -42,7 +42,8 @@ public:
     }
     // /* setGraphModel: set or update graph model */
     // void setGraphModel(GraphModel *gm) { this->gm = gm; }
-    void configureTraining(TrainCFG train_cfg);
+//    void configureTraining(TrainCFG train_cfg);
+    void checkCFG();
     void setModelConfiguration(ModelCFG model_cfg);
     void setDataConfiguration(DataCFG data_cfg);
     bool modelSet();
@@ -67,6 +68,7 @@ private slots:
     void configureModel();
     void configureData();
     void TBVisualization();
+    void configureTest();
     void interrupt();
     void train_status_update(string msg);
 private:
@@ -75,6 +77,7 @@ private:
     void launchCompile(CompileCFG compile_cfg);
     void launchTraining(TrainCFG train_cfg);
     void launchTB(string logdir);
+    void launchTest(TestCFG test_cfg);
     PythonAdapter* python;
 //    shared_ptr<project_object> project;
     project_control *pc;
@@ -82,6 +85,7 @@ private:
     Ui::MainWindow &main_window_ui;
     friend void test(ModelControl* mc, const char* a);
     TrainCFG cache_train_cfg;
+    TestCFG cache_test_cfg;
 };
 
 #endif // MODELCONTROL_H_INCLUDED

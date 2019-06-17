@@ -45,7 +45,8 @@ SOURCES += \
     modelconfigurationdialog.cpp \
     dataconfigurationdialog.cpp \
     tbvisuaizationdialog.cpp \
-    trainconfigurationdialog.cpp
+    trainconfigurationdialog.cpp \
+    configuretestdialog.cpp
 
 HEADERS += \
     connectionitem.h \
@@ -72,7 +73,8 @@ HEADERS += \
     modelconfigurationdialog.h \
     dataconfigurationdialog.h \
     tbvisuaizationdialog.h \
-    trainconfigurationdialog.h
+    trainconfigurationdialog.h \
+    configuretestdialog.h
 
 FORMS += \
     mainwindow.ui \
@@ -82,7 +84,8 @@ FORMS += \
     modelconfigurationdialog.ui \
     dataconfigurationdialog.ui \
     tbvisuaizationdialog.ui \
-    trainconfigurationdialog.ui
+    trainconfigurationdialog.ui \
+    configuretestdialog.ui
 
 INCLUDEPATH += \
     ../../cereal/include

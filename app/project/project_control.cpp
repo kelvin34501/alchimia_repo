@@ -35,6 +35,8 @@ void project_control::post_project_creation()
             modelControl, SLOT(TBVisualization()));
     connect(main_window_ui.actionInterrupt, SIGNAL(triggered()),
             modelControl, SLOT(interrupt()));
+    connect(main_window_ui.actionRunTest, SIGNAL(triggered()),
+            modelControl, SLOT(configureTest()));
 
     // create and set up editor control (model scene)
     shared_ptr<project_object> p = (*this)[active_project_id];
