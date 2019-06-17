@@ -226,6 +226,7 @@ void ModelScene::keyPressEvent(QKeyEvent *event)
             case PartItem::Type: {
                 auto item = static_cast<PartItem *>(l.front());
                 mProject.graph_mdl->deletePart(item->id());
+                partInfoModel.clear();
                 removeItem(item);
                 delete item;
                 break;
