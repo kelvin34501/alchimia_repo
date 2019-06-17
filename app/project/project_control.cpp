@@ -102,6 +102,9 @@ void project_control::close_project()
     if (active_project_id == -1)
         return;
 
+    QMessageBox message_box;
+    message_box.setText("Are you sure to save and close current project?");
+    message_box.exec();
     save_active_project();
     // update main panel
     main_window_ui.treeView->setEnabled(false);

@@ -32,5 +32,10 @@
         <file>resources/Dropout.svg</file>
         <file>resources/Activation.svg</file>
         <file>resources/Dense.svg</file>
+        <file>resources/icon-tensorflow.svg</file>
+        <file>resources/interrupt.svg</file>
+        <file>resources/Hammer.svg</file>
+        <file>resources/configure.svg</file>
+        <file>resources/setting.svg</file>
     </qresource>
 </RCC>
